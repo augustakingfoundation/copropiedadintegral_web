@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib import messages
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
@@ -6,8 +7,10 @@ from django.db import transaction
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.template.loader import render_to_string
 
 from accounts.forms import SignUpForm
+from app.tasks import send_email
 
 
 class HomeView(TemplateView):
@@ -36,6 +39,22 @@ class SignupView(FormView):
         user = form.save()
         user.is_active = True
         user.save()
+
+        subject = 'Active su cuenta'
+
+        body = render_to_string(
+            'signup/verify_email.html', {
+                'title': subject,
+                'user': user,
+                'base_url': settings.BASE_URL,
+            },
+        )
+
+        send_email(
+            subject=subject,
+            body=body,
+            mail_to=[user.email],
+        )
 
         user = authenticate(
             username=form.cleaned_data['email'],

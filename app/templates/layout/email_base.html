@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} | Copropiedad Integral</title>
+
+<style type="text/css">
+</style>
+
+</head>
+<body>
+    <table style="max-width: 600px; width: 100%; margin: auto; padding: 0px 20px;">
+        <tr>
+            <td><h1>Copropiedad Integral</h1></td>
+        </tr>
+        <tr>
+            <td style="background-color: #FFFFFF; padding: 40px; color:#333333;">
+                {% block content %}{% endblock %}
+            </td>
+        </tr>
+
+        <tr style="text-align: center; font-size: 12px;">
+            <td style="padding: 5px 0px 20px; color: #800080;">© {% now 'Y' %} Copropiedad Integral</td>
+        </tr>
+    </table>
+</body>
+</html>

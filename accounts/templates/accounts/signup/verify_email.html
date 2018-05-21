@@ -1,0 +1,13 @@
+{% extends 'layout/base_email.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>Verificación de correo electrónico.</h1>
+
+<p>Para activar su cuenta debe visitar la siguiente URL:</p>
+
+<a href="{{ base_url }}{% url 'verify_email' user.verify_key %}">{{ base_url }}{% url 'verify_email' user.verify_key %}</a>
+
+<p><small><i>Si no se ha registrado, simplemente elimine este email.</i></small></p>
+{% endblock %}
