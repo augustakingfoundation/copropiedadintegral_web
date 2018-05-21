@@ -9,17 +9,19 @@
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      <a href="#" class="btn btn-info" id="login_form_link" data-toggle="modal" data-target="#loginModal">Iniciar sesión</a>
-      <a href="#" class="btn btn-dark" id="signup_form_link" data-toggle="modal" data-target="#loginModal">Crear cuenta</a>
+<section class="home">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm">
+        One of three columns
+      </div>
+      <div class="col-sm">
+        <a href="#" class="btn btn-info" id="login_form_link" data-toggle="modal" data-target="#loginModal">Iniciar sesión</a>
+        <a href="#" class="btn btn-dark" id="signup_form_link" data-toggle="modal" data-target="#loginModal">Crear cuenta</a>
+      </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- Login and signup modal -->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">

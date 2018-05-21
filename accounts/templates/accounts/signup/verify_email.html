@@ -1,4 +1,4 @@
-{% extends 'layout/base_email.html' %}
+{% extends 'layout/email_base.html' %}
 
 {% block title %}{{ title }}{% endblock %}
 
@@ -7,7 +7,7 @@
 
 <p>Para activar su cuenta debe visitar la siguiente URL:</p>
 
-<a href="{{ base_url }}{% url 'verify_email' user.verify_key %}">{{ base_url }}{% url 'accounts:email_verification' user.verify_key %}</a>
+<a href="{{ base_url }}{% url 'accounts:email_verification' user.verify_key %}">{{ base_url }}{% url 'accounts:email_verification' user.verify_key %}</a>
 
 <p><small><i>Si no se ha registrado, simplemente elimine este email.</i></small></p>
 {% endblock %}

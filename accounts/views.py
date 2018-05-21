@@ -37,7 +37,7 @@ class SignupView(FormView):
         subject = 'Active su cuenta'
 
         body = render_to_string(
-            'signup/verify_email.html', {
+            'accounts/signup/verify_email.html', {
                 'title': subject,
                 'user': user,
                 'base_url': settings.BASE_URL,
@@ -66,7 +66,7 @@ class SignupView(FormView):
 
 
 class EmailVerificationView(TemplateView):
-    template_name = 'registration/verify_complete.html'
+    template_name = 'accounts/signup/verify_email_confirm.html'
 
     def get(self, request, *args, **kwargs):
         hashids = Hashids(salt=settings.SECRET_KEY, min_length=50)
