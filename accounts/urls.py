@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from .views import SignupView
+from .views import LoginView
 from .views import EmailVerificationView
 
 
@@ -12,6 +13,11 @@ urlpatterns = [
         name='signup',
     ),
 
+    url(
+        r'^iniciar-sesion/$',
+        LoginView.as_view(),
+        name='login',
+    ),
     url(
         r'^verificar/(?P<verify_key>[0-9a-zA-Z]{50})/$',
         EmailVerificationView.as_view(),

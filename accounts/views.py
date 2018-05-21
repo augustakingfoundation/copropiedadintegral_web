@@ -14,6 +14,7 @@ from django.views.generic import TemplateView
 from django.http import Http404
 
 from accounts.forms import SignUpForm
+from accounts.forms import LoginForm
 from accounts.models import User
 from app.tasks import send_email
 
@@ -50,12 +51,6 @@ class SignupView(FormView):
             mail_to=[user.email],
         )
 
-        user = authenticate(
-            username=form.cleaned_data['email'],
-            password=form.cleaned_data['password2'],
-        )
-        login(self.request, user)
-
         messages.success(
             self.request,
             'Hemos enviado un correo electrónico para verificar '
@@ -63,6 +58,32 @@ class SignupView(FormView):
         )
 
         return super().form_valid(form)
+
+
+class LoginView(FormView):
+    form_class = LoginForm
+    success_url = reverse_lazy('dashboard')
+    prefix = 'login'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+
+        return super().get(request, *args, **kwargs)
+
+    @transaction.atomic
+    def form_valid(self, form):
+        user = authenticate(
+            username=form.cleaned_data['username'],
+            password=form.cleaned_data['password'],
+        )
+        login(self.request, user)
+
+        print("HOLA")
+        return redirect('dashboard')
+
+    def form_invalid(self, form):
+        print(form.errors)
 
 
 class EmailVerificationView(TemplateView):
