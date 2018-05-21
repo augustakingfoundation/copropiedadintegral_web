@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 
-{% load static %}
+{% load static widget_tweaks %}
 
 {% block title %}Inicio{% endblock title %}
 
@@ -8,103 +8,71 @@
 <link href="{% static 'css/home.css' %}" rel="stylesheet">
 {% endblock %}
 
-<!-- Home templats taken from https://codepen.io/emilcarlsson/pen/XbZprZ -->
 {% block content %}
-
-<h1>Copropiedad Integral</h1>
-
-<nav class="main-nav">
-    <ul>
-        <li><a class="signin" href="#0">Iniciar sesión</a></li>
-        <li><a class="signup" href="#0">Crear una cuenta</a></li>
-    </ul>
-</nav>
-
-<div class="user-modal">
-        <div class="user-modal-container">
-            <ul class="switcher">
-                <li><a href="#0">Iniciar sesión</a></li>
-                <li><a href="#0">Crear una cuenta</a></li>
-            </ul>
-
-            <div id="login">
-                <form class="form">
-                    <p class="fieldset">
-                        <label class="image-replace email" for="signin-email">E-mail</label>
-                        <input class="full-width has-padding has-border" id="signin-email" type="email" placeholder="E-mail">
-                        <span class="error-message">An account with this email address does not exist!</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <label class="image-replace password" for="signin-password">Password</label>
-                        <input class="full-width has-padding has-border" id="signin-password" type="password"  placeholder="Password">
-                        <a href="#0" class="hide-password">Mostrar</a>
-                        <span class="error-message">Contraseña incorrecta! Intentar de nuevo.</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <input class="full-width" type="submit" value="Login">
-                    </p>
-                </form>
-                
-                <p class="form-bottom-message"><a href="#0">¿Olvidó su contraseña?</a></p>
-                <!-- <a href="#0" class="close-form">Close</a> -->
-            </div>
-
-            <div id="signup">
-                <form class="form">
-                    <p class="fieldset">
-                        <label class="image-replace username" for="signup-username">Username</label>
-                        <input class="full-width has-padding has-border" id="signup-username" type="text" placeholder="Username">
-                        <span class="error-message">Your username can only contain numeric and alphabetic symbols!</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <label class="image-replace email" for="signup-email">E-mail</label>
-                        <input class="full-width has-padding has-border" id="signup-email" type="email" placeholder="E-mail">
-                        <span class="error-message">Enter a valid email address!</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <label class="image-replace password" for="signup-password">Password</label>
-                        <input class="full-width has-padding has-border" id="signup-password" type="password"  placeholder="Password">
-                        <a href="#0" class="hide-password">Show</a>
-                        <span class="error-message">Your password has to be at least 6 characters long!</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <input type="checkbox" id="accept-terms">
-                        <label for="accept-terms">I agree to the <a class="accept-terms" href="#0">Terms</a></label>
-                    </p>
-
-                    <p class="fieldset">
-                        <input class="full-width has-padding" type="submit" value="Create account">
-                    </p>
-                </form>
-
-                <!-- <a href="#0" class="cd-close-form">Close</a> -->
-            </div>
-
-            <div id="reset-password">
-                <p class="form-message">Lost your password? Please enter your email address.</br> You will receive a link to create a new password.</p>
-
-                <form class="form">
-                    <p class="fieldset">
-                        <label class="image-replace email" for="reset-email">E-mail</label>
-                        <input class="full-width has-padding has-border" id="reset-email" type="email" placeholder="E-mail">
-                        <span class="error-message">An account with this email does not exist!</span>
-                    </p>
-
-                    <p class="fieldset">
-                        <input class="full-width has-padding" type="submit" value="Reset password">
-                    </p>
-                </form>
-
-                <p class="form-bottom-message"><a href="#0">Back to log-in</a></p>
-            </div>
-            <a href="#0" class="close-form">Close</a>
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      One of three columns
     </div>
+    <div class="col-sm">
+      <a href="#" class="btn btn-info" id="login_form_link" data-toggle="modal" data-target="#loginModal">Iniciar sesión</a>
+      <a href="#" class="btn btn-dark" id="signup_form_link" data-toggle="modal" data-target="#loginModal">Crear cuenta</a>
+    </div>
+  </div>
+</div>
+
+<!-- Login and signup modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Iniciar sesión</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="login" aria-selected="false">Crear cuenta</a>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="home-tab">
+              
+          </div>
+
+          <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="profile-tab">
+            <form id="signupForm" method="post">
+                {% csrf_token %}
+
+                <br>
+
+                <div class="form-group">
+                    {% render_field signup_form.first_name class+="form-control" %}
+                    {{ signup_form.first_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    {% render_field signup_form.last_name class+="form-control" %}
+                    {{ signup_form.last_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    {% render_field signup_form.email class+="form-control" %}
+                    {{ signup_form.email.errors }}
+                </div>
+
+                <div  class="form-group">
+                    {% render_field signup_form.password class+="form-control" %}
+                    {{ signup_form.password.errors }}
+                </div>
+
+                <button type="submit" class="btn btn-primary">Crear cuenta</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}
 
 {% block js %}
