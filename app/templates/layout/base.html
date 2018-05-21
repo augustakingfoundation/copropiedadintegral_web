@@ -18,11 +18,20 @@
     <link href="{% static 'css/main.css' %}" rel="stylesheet" type='text/css'>
     {% block css %}{% endblock %}
   </head>
-  <body>
 
+  <body>
   <!-- Application header or nav-bar -->
 
-  {% block content %}{% endblock content %}
+  <div class="sectionMarginHeader">
+  {% if messages %}
+      <div id="messages">
+      {% for message in messages %}
+          <div class="messages">{{ message }}</div>
+      {% endfor %}
+      </div>
+  {% endif %}
+
+  {% block content %}{% endblock %}
 
     <footer>
       <!-- Application footer -->

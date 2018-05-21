@@ -61,9 +61,16 @@
                 </div>
 
                 <div  class="form-group">
-                    {% render_field signup_form.password class+="form-control" %}
-                    {{ signup_form.password.errors }}
+                    {% render_field signup_form.password1 class+="form-control" %}
+                    {{ signup_form.password1.errors }}
                 </div>
+
+                <div  class="form-group">
+                    {% render_field signup_form.password2 class+="form-control" %}
+                    {{ signup_form.password2.errors }}
+                </div>
+
+                <p>Al hacer clic en "Crear cuenta", aceptas las <a href="#">Condiciones de uso</a>, la <a href="#">Política de privacidad</a> y la <a href="#">Política de cookies</a> de CopropiedadIntgral.</p>
 
                 <button type="submit" class="btn btn-primary">Crear cuenta</button>
             </form>

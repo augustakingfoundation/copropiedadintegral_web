@@ -107,6 +107,11 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=True,
     )
 
+    is_verified = models.BooleanField(
+        default=False,
+        verbose_name='verificado',
+    )
+
     objects = UserManager()
 
     def get_full_name(self):

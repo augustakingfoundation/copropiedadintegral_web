@@ -1,32 +1,54 @@
 from django import forms
-from django.forms import Form
+from django.contrib.auth.forms import UserCreationForm
+
+from accounts.models import User
 
 
-class SignUpForm(Form):
-    """Formulario de creación de usuarios
+class SignupMixin(forms.Form):
     """
-    first_name = forms.CharField(
-        label='nombres',
-        required=True,
-        max_length=50,
-    )
+    Signup form mixim. It allows to validate user data
+    and save it in the properly format.
+    """
+    required_css_class = 'required'
+    required_fields = [
+        'email',
+        'first_name',
+        'last_name',
+    ]
 
-    last_name = forms.CharField(
-        label='apellidos',
-        required=True,
-        max_length=50,
-    )
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-    email = forms.EmailField(
-        label='correo electrónico',
-        required=True,
-        max_length=50,
-    )
+        for field in self.required_fields:
+            self.fields[field].required = True
 
-    password = forms.CharField(
-        widget=forms.PasswordInput,
-        label='contraseña',
-    )
+    def clean_email(self):
+        return self.cleaned_data['email'].strip().lower()
+
+    def clean_first_name(self):
+        return self.cleaned_data['first_name'].strip().title()
+
+    def clean_last_name(self):
+        return self.cleaned_data['last_name'].strip().title()
+
+
+class SignUpForm(
+    SignupMixin,
+    UserCreationForm,
+):
+    """
+    Signup Form definition. It inherits from
+    the default user creation form of django.
+    """
+    class Meta:
+        model = User
+        fields = (
+            'first_name',
+            'last_name',
+            'email',
+            'password1',
+            'password2',
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -35,7 +57,8 @@ class SignUpForm(Form):
             'first_name',
             'last_name',
             'email',
-            'password',
+            'password1',
+            'password2',
         ]
 
         for field in fields:
