@@ -40,7 +40,7 @@
           </div>
 
           <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="profile-tab">
-            <form id="signupForm" method="post">
+            <form id="signupForm" method="post" action="{% url 'accounts:signup' %}">
                 {% csrf_token %}
 
                 <br>

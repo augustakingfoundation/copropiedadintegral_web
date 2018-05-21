@@ -6,6 +6,9 @@ from huey.contrib.djhuey import task
 
 @task(retries=0, retry_delay=60 * 10)
 def send_email(subject, body, mail_to, reply_to=None):
+    """
+    Second level task to send all email generated in the application.
+    """
     email_message = EmailMessage(
         subject=settings.EMAIL_SUBJECT.format(subject),
         body=body,

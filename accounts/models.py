@@ -1,5 +1,7 @@
-from django.db import models
+from hashids import Hashids
 
+from django.conf import settings
+from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
@@ -120,6 +122,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.first_name if self.first_name else self.email.split('@')[0]
+
+    @property
+    def verify_key(self):
+        hashids = Hashids(salt=settings.SECRET_KEY, min_length=50)
+        return hashids.encode(self.id)
 
     class Meta:
         verbose_name = 'usuario'
