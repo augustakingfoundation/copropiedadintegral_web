@@ -3,7 +3,9 @@ Django==2.0.5
 
 # Libs
 psycopg2-binary==2.7.4
+huey==1.6.1
 
 # Apps
 django-extensions==2.0.7
 django-widget-tweaks==1.4.2
+django-redis-cache==1.7.1
