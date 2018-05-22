@@ -2,6 +2,7 @@ from django.conf.urls import url
 
 from .views import EmailVerificationView
 from .views import ResendEmailVerificationView
+from .views import ProfileFormView
 from django.views.generic import TemplateView
 
 
@@ -21,8 +22,14 @@ urlpatterns = [
     ),
 
     url(
-        r'^reenviar-correo-de-verificación/',
+        r'^reenviar-correo-de-verificación/$',
         ResendEmailVerificationView.as_view(),
         name='resend_email_verification',
+    ),
+
+    url(
+        r'^editar-perfil/',
+        ProfileFormView.as_view(),
+        name='profile_form_view',
     ),
 ]

@@ -81,23 +81,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=timezone.now,
     )
 
-    phone_number = models.CharField(
-        max_length=128,
-        verbose_name='número telefónico',
-        default='',
-        blank=True,
-        validators=[
-            MinLengthValidator(6),
-        ],
-    )
-
-    mobile_phone = models.CharField(
-        max_length=32,
-        verbose_name='número celular',
-        default='',
-        blank=True,
-    )
-
     accepted_terms = models.BooleanField(
         verbose_name='aceptar términos y condiciones',
         default=True,

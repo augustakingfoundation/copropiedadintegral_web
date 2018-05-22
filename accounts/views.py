@@ -4,6 +4,7 @@ from hashids import Hashids
 
 from django.shortcuts import redirect
 from django.views.generic import FormView
+from django.views.generic import UpdateView
 from django.views.generic import View
 from django.db import transaction
 from django.urls import reverse_lazy
@@ -13,6 +14,7 @@ from django.views.generic import TemplateView
 from django.http import Http404
 
 from accounts.forms import SignUpForm
+from accounts.forms import ProfileForm
 from accounts.models import User
 from accounts.permissions import UserPermissions
 from app.tasks import send_email
@@ -133,3 +135,29 @@ class ResendEmailVerificationView(CustomUserMixin, View):
         )
 
         return redirect('home')
+
+
+class ProfileFormView(CustomUserMixin, UpdateView):
+    model = User
+    form_class = ProfileForm
+    template_name = 'accounts/profile_form.html'
+    success_url = reverse_lazy('acounts:profile_form_view')
+
+    def test_func(self):
+        return UserPermissions.can_edit_profile(
+            user=self.request.user,
+        )
+
+    def get_object(self):
+        return self.request.user
+
+    @transaction.atomic
+    def form_valid(self, form):
+        form.save()
+
+        messages.success(
+            self.request,
+            'Sus datos han sido actualizados correctamente.',
+        )
+
+        return super().form_valid(form)

@@ -75,3 +75,55 @@ class UserPasswordResetForm(PasswordResetForm):
             is_active=True
         )
         return (u for u in active_users)
+
+
+class ProfileForm(forms.ModelForm):
+    current_password = forms.CharField(
+        widget=forms.PasswordInput,
+        label='Contraseña actual',
+    )
+    new_password = forms.CharField(
+        widget=forms.PasswordInput,
+        label='Nueva contraseña',
+        required=False,
+    )
+    password_confirm = forms.CharField(
+        widget=forms.PasswordInput,
+        label='Confirmar nueva contraseña',
+        required=False,
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'current_password',
+            'new_password',
+            'password_confirm',
+        ]
+
+    def clean(self):
+        cleaned_data = super(ProfileForm, self).clean()
+        current_password = cleaned_data.get('current_password')
+        new_password = cleaned_data.get('new_password')
+        password_confirm = cleaned_data.get('password_confirm')
+        user = getattr(self, 'instance', None)
+
+        if (
+            (current_password or new_password) and
+            not user.check_password(current_password)
+        ):
+            self.add_error(
+                'current_password',
+                'Contraseña no válida.',
+            )
+
+        if new_password != password_confirm:
+            self.add_error(
+                'password_confirm',
+                'Las contraseñas no coinciden.',
+            )
+
+        return cleaned_data

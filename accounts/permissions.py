@@ -12,3 +12,10 @@ class UserPermissions(object):
             return True
 
         return False
+
+    @classmethod
+    def can_edit_profile(self, user):
+        if user.is_active and user.is_verified:
+            return True
+
+        return False
