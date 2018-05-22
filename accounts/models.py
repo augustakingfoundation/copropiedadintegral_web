@@ -114,6 +114,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name='verificado',
     )
 
+    sent_verification_emails = models.PositiveSmallIntegerField(
+        default=0,
+    )
+
     objects = UserManager()
 
     def get_full_name(self):

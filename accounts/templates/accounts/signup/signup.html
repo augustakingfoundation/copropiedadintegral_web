@@ -1,0 +1,66 @@
+{% extends "layout/base.html" %}
+
+{% load static widget_tweaks %}
+
+{% block title %}Crear cuenta{% endblock title %}
+
+{% block content %}
+<section class="signup">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5 col-lg-5">
+      </div>
+
+      <div class="col-sm-7 col-lg-7">
+        <div class="jumbotron">
+          <h2 class="display-4">Crear cuenta</h2>
+
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac egestas lectus, nec malesuada metus.</p>
+
+          <p>¿Ya tiene una cuenta? <a href="{% url 'auth_login' %}">Iniciar sesión.</a></p>
+          <hr class="my-4">
+
+            <form id="signupForm" method="post">
+                {% csrf_token %}
+
+                {% if form.non_field_errors %}
+                  <div class="form-group">
+                      {{ form.non_field_errors }}
+                  </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {% render_field form.first_name class+="form-control" %}
+                    {{ form.first_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    {% render_field form.last_name class+="form-control" %}
+                    {{ form.last_name.errors }}
+                </div>
+
+                <div class="form-group">
+                    {% render_field form.email class+="form-control" %}
+                    {{ form.email.errors }}
+                </div>
+
+                <div  class="form-group">
+                    {% render_field form.password1 class+="form-control" %}
+                    {{ form.password1.errors }}
+                </div>
+
+                <div  class="form-group">
+                    {% render_field form.password2 class+="form-control" %}
+                    {{ form.password2.errors }}
+                </div>
+
+                <p>Al hacer clic en "Crear cuenta", aceptas las <a href="#">Condiciones de uso</a>, la <a href="#">Política de privacidad</a> y la <a href="#">Política de cookies</a> de Copropiedad Integral.</p>
+
+                <button type="submit" class="btn btn-outline-info btn-block">Crear cuenta</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

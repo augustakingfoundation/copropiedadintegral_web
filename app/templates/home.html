@@ -12,93 +12,21 @@
 <section class="home">
   <div class="container">
     <div class="row">
-      <div class="col-sm">
-        One of three columns
+      <div class="col-sm-5 col-lg-5">
       </div>
-      <div class="col-sm">
-        <a href="#" class="btn btn-info" id="login_form_link" data-toggle="modal" data-target="#loginModal">Iniciar sesión</a>
-        <a href="#" class="btn btn-dark" id="signup_form_link" data-toggle="modal" data-target="#loginModal">Crear cuenta</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Login and signup modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-body">
-        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Iniciar sesión</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="signup-tab" data-toggle="tab" href="#signup" role="tab" aria-controls="login" aria-selected="false">Crear cuenta</a>
-          </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="home-tab">
-            <form id="loginForm" method="post" action="{% url 'accounts:login' %}">
-                {% csrf_token %}
-                <br>
+      <div class="col-sm-7 col-lg-7">
+        <div class="jumbotron">
+          <h1 class="display-4">Copropiedad Integral</h1>
+          <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ac egestas lectus, nec malesuada metus.</p>
+          <hr class="my-4">
+          <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
 
-                <div class="form-group">
-                    {% render_field login_form.username class+="form-control" %}
-                    {{ login_form.username.errors }}
-                </div>
-
-                <div class="form-group">
-                    {% render_field login_form.password class+="form-control" %}
-                    {{ login_form.password.errors }}
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-            </form>
-              
-          </div>
-
-          <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="profile-tab">
-            <form id="signupForm" method="post" action="{% url 'accounts:signup' %}">
-                {% csrf_token %}
-                <br>
-
-                <div class="form-group">
-                    {% render_field signup_form.first_name class+="form-control" %}
-                    {{ signup_form.first_name.errors }}
-                </div>
-
-                <div class="form-group">
-                    {% render_field signup_form.last_name class+="form-control" %}
-                    {{ signup_form.last_name.errors }}
-                </div>
-
-                <div class="form-group">
-                    {% render_field signup_form.email class+="form-control" %}
-                    {{ signup_form.email.errors }}
-                </div>
-
-                <div  class="form-group">
-                    {% render_field signup_form.password1 class+="form-control" %}
-                    {{ signup_form.password1.errors }}
-                </div>
-
-                <div  class="form-group">
-                    {% render_field signup_form.password2 class+="form-control" %}
-                    {{ signup_form.password2.errors }}
-                </div>
-
-                <p>Al hacer clic en "Crear cuenta", aceptas las <a href="#">Condiciones de uso</a>, la <a href="#">Política de privacidad</a> y la <a href="#">Política de cookies</a> de Copropiedad Integral.</p>
-
-                <button type="submit" class="btn btn-primary btn-block">Crear cuenta</button>
-            </form>
-          </div>
+          <a href="{% url 'auth_login' %}" class="btn btn-info">Iniciar sesión</a>
+          <a href="{% url 'signup' %}" class="btn btn-dark">Crear cuenta</a>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock content %}
-
-{% block js %}
-<script src="{% static 'js/home.js' %}"></script>
-{% endblock %}

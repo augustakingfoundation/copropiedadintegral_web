@@ -1,26 +1,28 @@
 from django.conf.urls import url
 
-from .views import SignupView
-from .views import LoginView
 from .views import EmailVerificationView
+from .views import ResendEmailVerificationView
+from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    # API Userprofile
-    url(
-        r'^crear-cuenta/$',
-        SignupView.as_view(),
-        name='signup',
-    ),
-
-    url(
-        r'^iniciar-sesion/$',
-        LoginView.as_view(),
-        name='login',
-    ),
     url(
         r'^verificar/(?P<verify_key>[0-9a-zA-Z]{50})/$',
         EmailVerificationView.as_view(),
         name='email_verification',
+    ),
+
+    url(
+        r'^correo-no-verificado/$',
+        TemplateView.as_view(
+            template_name='accounts/signup/unverified_email.html',
+        ),
+        name='unverified_email',
+    ),
+
+    url(
+        r'^reenviar-correo-de-verificación/',
+        ResendEmailVerificationView.as_view(),
+        name='resend_email_verification',
     ),
 ]

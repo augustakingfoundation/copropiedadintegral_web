@@ -24,11 +24,9 @@
 
   <div class="sectionMarginHeader">
   {% if messages %}
-      <div id="messages">
-      {% for message in messages %}
-          <div class="messages">{{ message }}</div>
-      {% endfor %}
-      </div>
+    {% for message in messages %}
+        <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %}
   {% endif %}
 
   {% block content %}{% endblock %}

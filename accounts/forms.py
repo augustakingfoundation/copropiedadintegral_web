@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
 
 from accounts.models import User
 
@@ -66,11 +65,3 @@ class SignUpForm(
             label = self.fields[field].label
             self.fields[field].label = ''
             self.fields[field].widget.attrs['placeholder'] = label
-
-
-class LoginForm(AuthenticationForm):
-    """
-    Login form definition. It inherits from
-    the default authentication form of Django.
-    """
-    pass

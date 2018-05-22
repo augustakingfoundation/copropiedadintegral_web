@@ -4,23 +4,25 @@ from hashids import Hashids
 
 from django.shortcuts import redirect
 from django.views.generic import FormView
+from django.views.generic import View
 from django.db import transaction
 from django.urls import reverse_lazy
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
 from django.template.loader import render_to_string
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.http import Http404
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from accounts.forms import SignUpForm
-from accounts.forms import LoginForm
 from accounts.models import User
+from accounts.permissions import UserPermissions
 from app.tasks import send_email
+from app.mixins import CustomUserMixin
 
 
 class SignupView(FormView):
     form_class = SignUpForm
+    template_name = 'accounts/signup/signup.html'
     success_url = reverse_lazy('home')
 
     def get(self, request, *args, **kwargs):
@@ -54,36 +56,10 @@ class SignupView(FormView):
         messages.success(
             self.request,
             'Hemos enviado un correo electrónico para verificar '
-            'su dirección de correo electrónico',
+            'su dirección de correo electrónico.',
         )
 
         return super().form_valid(form)
-
-
-class LoginView(FormView):
-    form_class = LoginForm
-    success_url = reverse_lazy('dashboard')
-    prefix = 'login'
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return redirect('dashboard')
-
-        return super().get(request, *args, **kwargs)
-
-    @transaction.atomic
-    def form_valid(self, form):
-        user = authenticate(
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password'],
-        )
-        login(self.request, user)
-
-        print("HOLA")
-        return redirect('dashboard')
-
-    def form_invalid(self, form):
-        print(form.errors)
 
 
 class EmailVerificationView(TemplateView):
@@ -109,3 +85,44 @@ class EmailVerificationView(TemplateView):
         user.save()
 
         return self.render_to_response(context)
+
+
+class UnverifiedEmailView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/signup/unverified_email.html'
+
+
+class ResendEmailVerificationView(CustomUserMixin, View):
+    def test_func(self):
+        return UserPermissions.can_resend_verification_email(
+            user=self.request.user,
+        )
+
+    @transaction.atomic
+    def get(self, request, **kwargs):
+        user = request.user
+        subject = 'Active su cuenta'
+
+        body = render_to_string(
+            'accounts/signup/verify_email.html', {
+                'title': subject,
+                'user': user,
+                'base_url': settings.BASE_URL,
+            },
+        )
+
+        send_email(
+            subject=subject,
+            body=body,
+            mail_to=[user.email],
+        )
+
+        user.sent_verification_emails += 1
+        user.save()
+
+        messages.success(
+            self.request,
+            'Hemos enviado un correo electrónico para verificar '
+            'su dirección de correo electrónico.',
+        )
+
+        return redirect('home')
