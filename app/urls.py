@@ -2,10 +2,12 @@ from django.conf.urls import include
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
+from django.urls import reverse_lazy
 
 from app.views import HomeView
 from app.views import DashboardView
 from accounts.views import SignupView
+from accounts.forms import UserPasswordResetForm
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -38,6 +40,37 @@ urlpatterns = [
         name='auth_login',
     ),
 
+    url(
+        r'^recuperar-contraseña/$',
+        auth_views.PasswordResetView.as_view(
+            template_name='accounts/auth/password_reset_form.html',
+            form_class=UserPasswordResetForm,
+            html_email_template_name='accounts/auth/password_reset_email.html',
+        ),
+        name='password_reset',
+    ),
+
+    url(
+        r'^recuperar-contraseña/(?P<uidb64>[0-9A-Za-z_\-]+)/'
+        r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.PasswordResetConfirmView.as_view(
+            success_url=reverse_lazy('auth_login'),
+            post_reset_login=True,
+            template_name='accounts/auth/password_reset_confirm.html',
+            post_reset_login_backend=(
+                'django.contrib.auth.backends.AllowAllUsersModelBackend'
+            ),
+        ),
+        name='password_reset_confirm',
+    ),
+
+    url(
+        r'^recuperar-contraseña/hecho/$',
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='accounts/auth/password_reset_done.html',
+        ),
+        name='password_reset_done',
+    ),
 
     url(
         r'^cerrar-sesión/$',

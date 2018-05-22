@@ -7,6 +7,7 @@ class HomeView(TemplateView):
     template_name = 'home.html'
 
 
+# TODO: ADD permission
 class DashboardView(TemplateView):
     template_name = 'dashboard.html'
 

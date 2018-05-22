@@ -21,6 +21,9 @@ from app.mixins import CustomUserMixin
 
 
 class SignupView(FormView):
+    """
+    Signup form. User must verify his email.
+    """
     form_class = SignUpForm
     template_name = 'accounts/signup/signup.html'
     success_url = reverse_lazy('home')
@@ -63,6 +66,9 @@ class SignupView(FormView):
 
 
 class EmailVerificationView(TemplateView):
+    """
+    Email verification view.
+    """
     template_name = 'accounts/signup/verify_email_confirm.html'
 
     def get(self, request, *args, **kwargs):
@@ -87,11 +93,13 @@ class EmailVerificationView(TemplateView):
         return self.render_to_response(context)
 
 
-class UnverifiedEmailView(LoginRequiredMixin, TemplateView):
-    template_name = 'accounts/signup/unverified_email.html'
-
-
 class ResendEmailVerificationView(CustomUserMixin, View):
+    """
+    Unverified accounts can resend a verification email.
+    Users only can resend 3 verification email, after that,
+    the account is removed. This is to avoid unnecesary
+    multiple email sending.
+    """
     def test_func(self):
         return UserPermissions.can_resend_verification_email(
             user=self.request.user,

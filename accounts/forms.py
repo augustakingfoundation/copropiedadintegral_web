@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordResetForm
 
 from accounts.models import User
 
@@ -65,3 +66,12 @@ class SignUpForm(
             label = self.fields[field].label
             self.fields[field].label = ''
             self.fields[field].widget.attrs['placeholder'] = label
+
+
+class UserPasswordResetForm(PasswordResetForm):
+    def get_users(self, email):
+        active_users = User.objects.filter(
+            email__iexact=email,
+            is_active=True
+        )
+        return (u for u in active_users)
