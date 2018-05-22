@@ -1,15 +1,21 @@
 from django.views.generic import TemplateView
-
 from django.shortcuts import redirect
+
+from accounts.permissions import UserPermissions
+from app.mixins import CustomUserMixin
 
 
 class HomeView(TemplateView):
     template_name = 'home.html'
 
 
-# TODO: ADD permission
-class DashboardView(TemplateView):
+class DashboardView(CustomUserMixin, TemplateView):
     template_name = 'dashboard.html'
+
+    def test_func(self):
+        return UserPermissions.can_view_dashboard(
+            user=self.request.user,
+        )
 
     def get(self, request, *args, **kwargs):
         user = request.user

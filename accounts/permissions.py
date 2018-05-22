@@ -5,3 +5,10 @@ class UserPermissions(object):
             return True
 
         return False
+
+    @classmethod
+    def can_view_dashboard(self, user):
+        if user.is_active:
+            return True
+
+        return False
