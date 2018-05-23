@@ -1,0 +1,29 @@
+{% extends 'layout/base.html' %}
+{% load static %}
+
+{% block title %}Verificación completada{% endblock %}
+
+{% block content %}
+<section class="verifyEmailConfirm">
+    <div class="container">
+        <div class="row">
+          <div class="col-sm-5 col-lg-5">
+          </div>
+
+          <div class="col-sm-7 col-lg-7">
+            <div class="jumbotron">
+                <h2 class="display-4">Verificación de correo electrónico</h2>
+
+                <p>{{ message }}</p>
+
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'auth_login' %}" class="btn btn-info">Iniciar sesión</a>
+                {% else %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-info">Ir a la aplicación</a>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
