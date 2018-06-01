@@ -15,7 +15,10 @@ class City(models.Model):
     )
 
     def __str__(self):
-        return '{0}'.format(self.name)
+        return '{0} - {1}'.format(
+            self.name,
+            self.state,
+        )
 
     class Meta:
         ordering = ('name',)

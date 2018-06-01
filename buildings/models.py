@@ -158,6 +158,7 @@ class Building(models.Model):
 
     initial_period = models.DateField(
         blank=True,
+        null=True,
         verbose_name='periodo inicial',
     )
 
