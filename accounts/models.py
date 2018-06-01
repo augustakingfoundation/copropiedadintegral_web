@@ -81,11 +81,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=timezone.now,
     )
 
-    accepted_terms = models.BooleanField(
-        verbose_name='aceptar términos y condiciones',
-        default=True,
-    )
-
     activation_request_date = models.DateTimeField(
         verbose_name='Fecha de solicitud de activación de cuenta',
         null=True,

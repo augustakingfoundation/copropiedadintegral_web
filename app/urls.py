@@ -88,4 +88,15 @@ urlpatterns = [
             namespace='acounts'
         )
     ),
+
+    url(
+        r'^copropiedades/',
+        include(
+            (
+                'buildings.urls',
+                'buildings',
+            ),
+            namespace='buildings'
+        )
+    ),
 ]
