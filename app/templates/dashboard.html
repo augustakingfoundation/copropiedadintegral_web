@@ -24,6 +24,7 @@
                   <th scope="col">Roles</th>
                   <th scope="col">Nombre</th>
                   <th scope="col">Identificación</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
@@ -53,6 +54,9 @@
 
                   <td>{{ membership.building.name }}</td>
                   <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
+                  <td>
+                    <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">Ver copropiedad</a>
+                  </td>
                 </tr>
                 {% endfor %}
               </tbody>
