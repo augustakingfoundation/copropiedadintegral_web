@@ -98,12 +98,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    @property
     def get_full_name(self):
         full_name = '{0} {1}'.format(self.first_name, self.last_name)
         return full_name.strip()
-
-    def get_short_name(self):
-        return self.first_name if self.first_name else self.email.split('@')[0]
 
     @property
     def verify_key(self):
