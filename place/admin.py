@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from place.models import State
 from place.models import City
+from place.models import State
 
 
 @admin.register(State)

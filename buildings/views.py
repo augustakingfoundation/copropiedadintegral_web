@@ -1,15 +1,15 @@
+from django.contrib import messages
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.views.generic import DetailView
-from django.contrib import messages
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-from django.shortcuts import redirect
 
-from app.mixins import CustomUserMixin
+from .forms import BuildingForm
 from .models import Building
 from .models import BuildingMembership
-from .forms import BuildingForm
 from .permissions import BuildingPermissions
+from app.mixins import CustomUserMixin
 
 
 class BuildingFormView(CustomUserMixin, CreateView):

@@ -4,10 +4,10 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
 
-from app.views import HomeView
-from app.views import DashboardView
-from accounts.views import SignupView
 from accounts.forms import UserPasswordResetForm
+from accounts.views import SignupView
+from app.views import DashboardView
+from app.views import HomeView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

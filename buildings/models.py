@@ -1,10 +1,10 @@
-from django.db import models
-from django.core.validators import RegexValidator
 from django.core.validators import MinLengthValidator
+from django.core.validators import RegexValidator
+from django.db import models
 from django.urls import reverse
 
-from app.validators import FileSizeValidator
 from .data import BUILDING_DOCUMENT_TYPE_CHOICES
+from app.validators import FileSizeValidator
 
 
 class BuildingMembership(models.Model):

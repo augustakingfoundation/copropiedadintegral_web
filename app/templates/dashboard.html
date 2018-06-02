@@ -13,57 +13,59 @@
     <div class="jumbotron">
         <h1>Mis copropiedades</h1>
         <hr class="my-4">
-        <div>
-          <a href="{% url 'buildings:building_create' %}" class="btn btn-outline-info float-right">Crear nueva copropiedad</a>
-        </div>
 
-            {% if memberships %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">Roles</th>
-                  <th scope="col">Nombre</th>
-                  <th scope="col">Identificación</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for membership in memberships %}
-                <tr>
-                  <td>
-                    {% if membership.is_administrator %}
-                    <p>Administrador</p>
-                    {% endif %}
+        <a href="{% url 'buildings:building_create' %}" class="btn btn-outline-info float-right">Crear nueva copropiedad</a>
 
-                    {% if membership.is_administrative_assistant %}
-                    <p>Asistente administrativo</p>
-                    {% endif %}
+        <br>
+        <br>
 
-                    {% if membership.is_accountant %}
-                    <p>Contador</p>
-                    {% endif %}
+      {% if memberships %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Roles</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Identificación</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for membership in memberships %}
+          <tr>
+            <td>
+              {% if membership.is_administrator %}
+              <p>Administrador</p>
+              {% endif %}
 
-                    {% if membership.is_accounting_assistant %}
-                    <p>Asistente Contable</p>
-                    {% endif %}
+              {% if membership.is_administrative_assistant %}
+              <p>Asistente administrativo</p>
+              {% endif %}
 
-                    {% if membership.is_fiscal_reviewer %}
-                    <p>Revisor fiscal</p>
-                    {% endif %}
-                  </th>
+              {% if membership.is_accountant %}
+              <p>Contador</p>
+              {% endif %}
 
-                  <td>{{ membership.building.name }}</td>
-                  <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
-                  <td>
-                    <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">Ver copropiedad</a>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            {% else %}
-            <p>No hay copropiedades activas aún.</p>
-            {% endif %}
+              {% if membership.is_accounting_assistant %}
+              <p>Asistente Contable</p>
+              {% endif %}
+
+              {% if membership.is_fiscal_reviewer %}
+              <p>Revisor fiscal</p>
+              {% endif %}
+            </th>
+
+            <td>{{ membership.building.name }}</td>
+            <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
+            <td>
+              <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">Ver copropiedad</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>No hay copropiedades activas aún.</p>
+      {% endif %}
     </div>
   </div>
 </section>

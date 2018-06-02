@@ -1,9 +1,9 @@
-from django.views.generic import TemplateView
 from django.shortcuts import redirect
+from django.views.generic import TemplateView
 
 from accounts.permissions import UserPermissions
-from buildings.models import BuildingMembership
 from app.mixins import CustomUserMixin
+from buildings.models import BuildingMembership
 
 
 class HomeView(TemplateView):
