@@ -10,6 +10,38 @@
     <h1>{{ object.name }}</h1>
     <hr class="my-4">
 
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="administrative-tab" data-toggle="tab" href="#administrative" role="tab" aria-controls="administrative" aria-selected="true">Administración</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="accounting-tab" data-toggle="tab" href="#accounting" role="tab" aria-controls="accounting" aria-selected="false">Contabilidad</a>
+  </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="administrative" role="tabpanel" aria-labelledby="administrative-tab">
+      <br>
+      <div class="row">
+        <div class="col-sm-12 col-md-3 col-lg-3">
+          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" href="">General</a>
+            <a class="nav-link" href="">Copropietarios</a>
+            <a class="nav-link" href="">Circulares</a>
+            <a class="nav-link" href="">Encuestas</a>
+            <a class="nav-link" href="">Roles</a>
+          </div>
+        </div>
+
+        <div class="col-sm-12 col-md-9 col-lg-9">
+        </div>
+      </div>
   </div>
+
+
+  <div class="tab-pane fade" id="accounting" role="tabpanel" aria-labelledby="accounting-tab">
+      accounting
+  </div>
+</div>
 </section>
 {% endblock %}
