@@ -22,6 +22,8 @@ INSTALLED_APPS = [
 
     'app',
     'accounts',
+    'buildings',
+    'place',
 ]
 
 MIDDLEWARE = [

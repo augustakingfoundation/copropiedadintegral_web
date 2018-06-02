@@ -1,0 +1,99 @@
+{% extends "layout/base.html" %}
+
+{% load static widget_tweaks %}
+
+{% block title %}Crear copropiedad{% endblock title %}
+
+{% block content %}
+<section class="buildingForm">
+  <div class="container">
+
+    <br>
+
+    <div class="jumbotron">
+      <h1>Nueva copropiedad</h1>
+      <hr class="my-4">
+
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+          <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+              <div class="form-group">
+                  {{ form.non_field_errors }}
+              </div>
+          {% endif %}
+
+              <div class="form-group">
+                  {% render_field form.name class+="form-control" %}
+                  {{ form.name.errors }}
+              </div>
+
+              <div class="form-group">
+                  {% render_field form.document_type class+="form-control" %}
+                  {{ form.document_type.errors }}
+              </div>
+
+              <div class="form-group">
+                  {% render_field form.document_number class+="form-control" %}
+                  {{ form.document_number.errors }}
+              </div>
+
+              <hr class="my-4">
+
+              <div class="form-group">
+                  {% render_field form.city class+="form-control" %}
+                  {{ form.city.errors }}
+              </div>
+
+              <div class="form-group">
+                  {% render_field form.address class+="form-control" %}
+                  {{ form.address.errors }}
+              </div>
+
+              <hr class="my-4">
+
+              <div class="form-group">
+                  {% render_field form.mobile_phone class+="form-control" %}
+                  <p class="font-weight-light">
+                  {{ form.mobile_phone.help_text }}
+                  </p>
+                  {{ form.mobile_phone.errors }}
+              </div>
+
+              <div class="form-group">
+                  {% render_field form.phone_number class+="form-control" %}
+                  <p class="font-weight-light">
+                  {{ form.phone_number.help_text }}
+                  </p>
+                  {{ form.phone_number.errors }}
+              </div>
+
+              <div class="form-group">
+                  {% render_field form.email class+="form-control" %}
+                  <p class="font-weight-light">
+                  </p>
+                  {{ form.email.errors }}
+              </div>
+
+              <hr class="my-4">
+
+              <div class="form-group">
+                  <p>Logo:</p>
+                  {% render_field form.logo class+="form-control" %}
+                  <p class="font-weight-light">
+                  </p>
+                  {{ form.logo.errors }}
+              </div>
+
+              <hr class="my-4">
+
+              <button type="submit" class="btn btn-outline-info btn-block">Crear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

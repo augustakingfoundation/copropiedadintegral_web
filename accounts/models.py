@@ -1,11 +1,11 @@
 from hashids import Hashids
 
 from django.conf import settings
-from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.core.validators import MinLengthValidator
+from django.db import models
 from django.utils import timezone
 
 
@@ -81,11 +81,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         default=timezone.now,
     )
 
-    accepted_terms = models.BooleanField(
-        verbose_name='aceptar términos y condiciones',
-        default=True,
-    )
-
     activation_request_date = models.DateTimeField(
         verbose_name='Fecha de solicitud de activación de cuenta',
         null=True,
@@ -103,12 +98,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+    @property
     def get_full_name(self):
         full_name = '{0} {1}'.format(self.first_name, self.last_name)
         return full_name.strip()
-
-    def get_short_name(self):
-        return self.first_name if self.first_name else self.email.split('@')[0]
 
     @property
     def verify_key(self):

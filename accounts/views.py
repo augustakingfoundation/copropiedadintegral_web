@@ -2,23 +2,23 @@ from django.conf import settings
 from django.contrib import messages
 from hashids import Hashids
 
+from django.db import transaction
+from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.views.generic import FormView
+from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
-from django.db import transaction
-from django.urls import reverse_lazy
-from django.template.loader import render_to_string
-from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
-from django.http import Http404
 
-from accounts.forms import SignUpForm
 from accounts.forms import ProfileForm
+from accounts.forms import SignUpForm
 from accounts.models import User
 from accounts.permissions import UserPermissions
-from app.tasks import send_email
 from app.mixins import CustomUserMixin
+from app.tasks import send_email
 
 
 class SignupView(FormView):

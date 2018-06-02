@@ -1,0 +1,15 @@
+{% extends "layout/base.html" %}
+
+{% load static %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+{% block content %}
+<section class="buildingDetail">
+  <div class="container">
+    <h1>{{ object.name }}</h1>
+    <hr class="my-4">
+
+  </div>
+</section>
+{% endblock %}

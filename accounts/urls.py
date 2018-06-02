@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
 from .views import EmailVerificationView
-from .views import ResendEmailVerificationView
 from .views import ProfileFormView
+from .views import ResendEmailVerificationView
 from django.views.generic import TemplateView
 
 
