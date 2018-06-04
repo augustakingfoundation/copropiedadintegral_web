@@ -1,3 +1,5 @@
+from django.db.models import Q
+
 from .models import BuildingMembership
 
 
@@ -16,6 +18,20 @@ class BuildingPermissions(object):
             user__is_active=True,
             user__is_verified=True,
             building=building,
+            is_active=True,
+        ):
+            return True
+        return False
+
+    @classmethod
+    def can_edit_building(self, user, building):
+        if BuildingMembership.objects.filter(
+            Q(is_administrator=True) |
+            Q(is_administrative_assistant=True),
+            user=user,
+            building=building,
+            user__is_active=True,
+            user__is_verified=True,
             is_active=True,
         ):
             return True

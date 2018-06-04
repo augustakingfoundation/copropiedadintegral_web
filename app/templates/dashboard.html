@@ -20,6 +20,7 @@
         <br>
 
       {% if memberships %}
+      <div class="table-responsive">
       <table class="table">
         <thead>
           <tr>
@@ -63,6 +64,7 @@
           {% endfor %}
         </tbody>
       </table>
+      </div>
       {% else %}
       <p>No hay copropiedades activas aún.</p>
       {% endif %}
