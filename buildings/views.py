@@ -5,11 +5,13 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
+from django.views.generic import ListView
 from django.urls import reverse
 
 from .forms import BuildingForm
 from .models import Building
 from .models import BuildingMembership
+from .models import Unit
 from .permissions import BuildingPermissions
 from app.mixins import CustomUserMixin
 
@@ -48,12 +50,10 @@ class BuildingDetailView(CustomUserMixin, DetailView):
     template_name = 'buildings/administrative/building_detail.html'
 
     def get_object(self, queryset=None):
-        building = get_object_or_404(
+        return get_object_or_404(
             Building,
             pk=self.kwargs['pk'],
         )
-
-        return building
 
     def test_func(self):
         return BuildingPermissions.can_view_building_detail(
@@ -63,11 +63,12 @@ class BuildingDetailView(CustomUserMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         context['can_edit_building'] = BuildingPermissions.can_edit_building(
             user=self.request.user,
             building=self.get_object(),
         )
+
+        context['active_general'] = True
 
         return context
 
@@ -106,3 +107,38 @@ class BuildingUpdateView(CustomUserMixin, UpdateView):
         )
 
         return super().form_valid(form)
+
+
+class UnitsListView(CustomUserMixin, ListView):
+    model = Unit
+    template_name = 'buildings/administrative/units_list.html'
+    context_object_name = 'units_list'
+
+    def test_func(self):
+        return BuildingPermissions.can_view_units_list(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        building = get_object_or_404(
+            Building,
+            pk=self.kwargs['pk'],
+        )
+
+        return building
+
+    def get_queryset(self):
+        return Unit.objects.filter(building=self.get_object())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object()
+        context['active_units'] = True
+
+        context['can_add_unit'] = BuildingPermissions.can_add_unit(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+        return context

@@ -3,6 +3,7 @@ from django.conf.urls import url
 from .views import BuildingFormView
 from .views import BuildingDetailView
 from .views import BuildingUpdateView
+from .views import UnitsListView
 
 
 urlpatterns = [
@@ -22,5 +23,11 @@ urlpatterns = [
         r'^(?P<pk>\d+)/$',
         BuildingDetailView.as_view(),
         name='building_detail',
+    ),
+
+    url(
+        r'^(?P<pk>\d+)/unidades/$',
+        UnitsListView.as_view(),
+        name='units_list',
     ),
 ]

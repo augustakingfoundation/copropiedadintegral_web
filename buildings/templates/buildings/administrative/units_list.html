@@ -1,0 +1,15 @@
+{% extends "buildings/building_base.html" %}
+
+{% block title %}{{ building }} - Unidades{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+
+  {% if can_add_unit %}
+  <div class="clearfix">
+    <a href="" class="btn btn-outline-info float-right">Crear unidad</a>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

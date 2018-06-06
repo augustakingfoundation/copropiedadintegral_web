@@ -36,3 +36,29 @@ class BuildingPermissions(object):
         ):
             return True
         return False
+
+    @classmethod
+    def can_view_units_list(self, user, building):
+        if BuildingMembership.objects.filter(
+            user=user,
+            building=building,
+            user__is_active=True,
+            user__is_verified=True,
+            is_active=True,
+        ):
+            return True
+        return False
+
+    @classmethod
+    def can_add_unit(self, user, building):
+        if BuildingMembership.objects.filter(
+            Q(is_administrator=True) |
+            Q(is_administrative_assistant=True),
+            user=user,
+            building=building,
+            user__is_active=True,
+            user__is_verified=True,
+            is_active=True,
+        ):
+            return True
+        return False
