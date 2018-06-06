@@ -6,7 +6,7 @@
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>Registrar unidad</h1>
+  <h1>{% if unit_update %}Actualizar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
   <hr class="my-4">
 
   <form method="post">

@@ -206,5 +206,55 @@ class UnitDetailView(CustomUserMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['active_units'] = True
         context['building'] = self.get_object().building
+        context['can_edit_unit'] = BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().building,
+        )
+
+        return context
+
+
+class UnitUpdateView(CustomUserMixin, UpdateView):
+    model = Unit
+    form_class = UnitForm
+    template_name = 'buildings/administrative/unit_form.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().building,
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Unit,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['u_pk'],
+        )
+
+    def get_success_url(self):
+        return reverse(
+            'buildings:unit_detail', args=[
+                self.kwargs['b_pk'],
+                self.kwargs['u_pk'],
+            ]
+        )
+
+    @transaction.atomic
+    def form_valid(self, form):
+        form.save()
+
+        messages.success(
+            self.request,
+            'Unidad actualizada correctamente.',
+        )
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_units'] = True
+        context['building'] = self.get_object().building
+        context['unit_update'] = True
 
         return context

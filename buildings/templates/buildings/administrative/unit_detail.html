@@ -9,6 +9,12 @@
   <h1>Unidad: {{ object }} </h1>
   <hr class="my-4">
 
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:unit_update' building.id object.id %}" class="btn btn-outline-info float-right">Editar unidad</a>
+  </div>
+  {% endif %}
+
   <dl class="row">
     <dt class="col-sm-3">Bloque o interior</dt>
     <dd class="col-sm-9">{{ object.block|default:"N/D" }}</dd>

@@ -6,6 +6,7 @@ from .views import BuildingUpdateView
 from .views import UnitsListView
 from .views import UnitFormView
 from .views import UnitDetailView
+from .views import UnitUpdateView
 
 
 urlpatterns = [
@@ -43,5 +44,11 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/$',
         UnitDetailView.as_view(),
         name='unit_detail',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/actualizar/$',
+        UnitUpdateView.as_view(),
+        name='unit_update',
     ),
 ]
