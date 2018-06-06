@@ -1,0 +1,77 @@
+{% extends "buildings/building_base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}{{ building }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h1>Unidad: {{ object }} </h1>
+  <hr class="my-4">
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:unit_update' building.id object.id %}" class="btn btn-outline-info float-right">Editar unidad</a>
+  </div>
+  {% endif %}
+
+  <dl class="row">
+    <dt class="col-sm-3">Bloque o interior</dt>
+    <dd class="col-sm-9">{{ object.block|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Unidad</dt>
+    <dd class="col-sm-9">{{ object.unit }}</dd>
+
+    <dt class="col-sm-3">Área (mts)</dt>
+    <dd class="col-sm-9">{{ object.area|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">matrícula inmobiliaria</dt>
+    <dd class="col-sm-9">{{ object.real_estate_registration|default:"N/D" }}</dd>
+
+  </dl>
+
+  <h3>Datos del propietario</h3>
+
+  <dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">{{ object.owner_name }}</dd>
+    
+    <dt class="col-sm-3">Tipo de documento:</dt>
+    <dd class="col-sm-9">{{ object.owner_document_type|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Número de documento:</dt>
+    <dd class="col-sm-9">{{ object.owner_document_number|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Número celular:</dt>
+    <dd class="col-sm-9">{{ object.owner_mobile_phone|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Número telefónico:</dt>
+    <dd class="col-sm-9">{{ object.owner_phone_number|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Correo electrónico</dt>
+    <dd class="col-sm-9">{{ object.owner_email|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Dirección de correspondencia</dt>
+    <dd class="col-sm-9">{{ object.correspondence_address|default:"N/D" }}</dd>
+  </dl>
+
+    <h3>Datos del arrendatario</h3>
+  <dl class="row">
+    <dt class="col-sm-3">Nombre</dt>
+    <dd class="col-sm-9">{{ object.leaseholder_name|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Número celular</dt>
+    <dd class="col-sm-9">{{ object.leaseholder_mobile_phone|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Número telefónico</dt>
+    <dd class="col-sm-9">{{ object.leaseholder_phone_number|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Correo electrónico</dt>
+    <dd class="col-sm-9">{{ object.leaseholder_email|default:"N/D" }}</dd>
+
+    <hr class="my-4">
+    <dt class="col-sm-3">Observaciones</dt>
+    <dd class="col-sm-9">{{ object.observations|default:"N/D" }}</dd>
+  </dl>
+</div>
+{% endblock %}

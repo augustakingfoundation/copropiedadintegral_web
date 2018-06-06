@@ -1,0 +1,113 @@
+{% extends "buildings/building_base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}{{ building }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h1>{% if unit_update %}Actualizar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
+  <hr class="my-4">
+
+  <form method="post">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.block class+="form-control" %}
+          <p class="font-weight-light">{{ form.block.help_text }}</p>
+          {{ form.block.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.unit class+="form-control" %}
+          <p class="font-weight-light">{{ form.unit.help_text }}</p>
+          {{ form.unit.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.area class+="form-control" %}
+          {{ form.area.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.real_estate_registration class+="form-control" %}
+          {{ form.real_estate_registration.errors }}
+      </div>
+
+      <hr class="my-4">
+
+      <h3>Datos del propietario</h3>
+
+      <div class="form-group">
+          {% render_field form.owner_name class+="form-control" %}
+          {{ form.owner_name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.owner_document_type class+="form-control" %}
+          {{ form.owner_document_type.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.owner_document_number class+="form-control" %}
+          {{ form.owner_document_number.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.owner_mobile_phone class+="form-control" %}
+          <p class="font-weight-light">{{ form.owner_mobile_phone.help_text }}</p>
+          {{ form.owner_mobile_phone.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.owner_phone_number class+="form-control" %}
+          <p class="font-weight-light">{{ form.owner_phone_number.help_text }}</p>
+          {{ form.owner_phone_number.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.owner_email class+="form-control" %}
+          {{ form.owner_email.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.correspondence_address class+="form-control" %}
+          <p class="font-weight-light">{{ form.correspondence_address.help_text }}</p>
+          {{ form.correspondence_address.errors }}
+      </div>
+
+      <hr class="my-4">
+      <h3>Datos del arrendatario</h3>
+
+      <div class="form-group">
+          {% render_field form.leaseholder_name class+="form-control" %}
+          {{ form.leaseholder_name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.leaseholder_mobile_phone class+="form-control" %}
+          <p class="font-weight-light">{{ form.leaseholder_mobile_phone.help_text }}</p>
+          {{ form.leaseholder_mobile_phone.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.leaseholder_phone_number class+="form-control" %}
+          <p class="font-weight-light">{{ form.leaseholder_phone_number.help_text }}</p>
+          {{ form.leaseholder_phone_number.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.leaseholder_email class+="form-control" %}
+          {{ form.leaseholder_email.errors }}
+      </div>
+      <hr class="my-4">
+
+      <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
+  </form>
+</div>
+{% endblock %}

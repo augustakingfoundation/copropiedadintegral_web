@@ -24,7 +24,7 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Roles</th>
+            <th scope="col">Mis roles</th>
             <th scope="col">Nombre</th>
             <th scope="col">Identificación</th>
             <th scope="col"></th>
@@ -53,7 +53,7 @@
               {% if membership.is_fiscal_reviewer %}
               <p>Revisor fiscal</p>
               {% endif %}
-            </th>
+            </td>
 
             <td>{{ membership.building.name }}</td>
             <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
