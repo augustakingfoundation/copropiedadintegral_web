@@ -170,6 +170,7 @@ class UnitFormView(CustomUserMixin, CreateView):
     def form_valid(self, form):
         unit = form.save(commit=False)
         unit.building = self.get_object()
+        unit.save()
 
         messages.success(
             self.request,
@@ -177,3 +178,28 @@ class UnitFormView(CustomUserMixin, CreateView):
         )
 
         return redirect(unit.get_absolute_url())
+
+
+class UnitDetailView(CustomUserMixin, DetailView):
+    model = Building
+    template_name = 'buildings/administrative/unit_detail.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Unit,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['u_pk'],
+        )
+
+    def test_func(self):
+        return BuildingPermissions.can_view_unit_detail(
+            user=self.request.user,
+            unit=self.get_object(),
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_unit'] = True
+        context['building'] = self.get_object().building
+
+        return context

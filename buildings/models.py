@@ -215,7 +215,7 @@ class Unit(models.Model):
         decimal_places=2,
         null=True,
         blank=True,
-        verbose_name='area (Mts)',
+        verbose_name='área (Mts)',
     )
 
     real_estate_registration = models.CharField(
@@ -375,6 +375,11 @@ class Unit(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
+
+    def get_absolute_url(self):
+        return reverse(
+            'buildings:unit_detail', args=[self.building.id, self.id]
+        )
 
     def __str__(self):
         if self.block:
