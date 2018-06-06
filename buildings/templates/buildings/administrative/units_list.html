@@ -9,7 +9,39 @@
   <div class="clearfix">
     <a href="{% url 'buildings:unit_form' building.id %}" class="btn btn-outline-info float-right">Crear unidad</a>
   </div>
+
+  <br>
   {% endif %}
 
+  {% if units_list %}
+  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Bloque o interior</th>
+        <th scope="col">Unidad</th>
+        <th scope="col">Propietario</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for unit in units_list %}
+      <tr>
+        <td>{{ unit.block|default:"N/D" }}</td>
+        <td>{{ unit.unit }}</td>
+        <td>{{ unit.owner_name }}</td>
+        <td>
+          {% if can_view_unit_detail %}
+          <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">Ver información</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p>No hay unidades registradas aún.</p>
+  {% endif %}
 </div>
 {% endblock %}

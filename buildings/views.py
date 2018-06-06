@@ -140,6 +140,11 @@ class UnitsListView(CustomUserMixin, ListView):
             building=self.get_object(),
         )
 
+        context['can_view_unit_detail'] = BuildingPermissions.can_view_unit_detail(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
         return context
 
 
@@ -194,12 +199,12 @@ class UnitDetailView(CustomUserMixin, DetailView):
     def test_func(self):
         return BuildingPermissions.can_view_unit_detail(
             user=self.request.user,
-            unit=self.get_object(),
+            building=self.get_object().building,
         )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['active_unit'] = True
+        context['active_units'] = True
         context['building'] = self.get_object().building
 
         return context
