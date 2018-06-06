@@ -5,6 +5,7 @@ from django import forms
 from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .data import BUILDING_DOCUMENT_TYPE_CC
 from .models import Building
+from .models import Unit
 
 
 class BuildingForm(forms.ModelForm):
@@ -66,3 +67,53 @@ class BuildingForm(forms.ModelForm):
                 'document_number',
                 'El documento ingresado solo debe contener números',
             )
+
+
+class UnitForm(forms.ModelForm):
+    class Meta:
+        model = Unit
+        fields = (
+            'block',
+            'unit',
+            'area',
+            'real_estate_registration',
+            'owner_name',
+            'owner_document_type',
+            'owner_document_number',
+            'owner_mobile_phone',
+            'owner_phone_number',
+            'owner_email',
+            'correspondence_address',
+            'leaseholder_name',
+            'leaseholder_mobile_phone',
+            'leaseholder_phone_number',
+            'leaseholder_email',
+            'observations',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'block',
+            'unit',
+            'area',
+            'real_estate_registration',
+            'owner_name',
+            'owner_document_type',
+            'owner_document_number',
+            'owner_mobile_phone',
+            'owner_phone_number',
+            'owner_email',
+            'correspondence_address',
+            'leaseholder_name',
+            'leaseholder_mobile_phone',
+            'leaseholder_phone_number',
+            'leaseholder_email',
+            'observations',
+        ]
+
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label

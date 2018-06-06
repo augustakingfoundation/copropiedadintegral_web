@@ -4,6 +4,7 @@ from .views import BuildingFormView
 from .views import BuildingDetailView
 from .views import BuildingUpdateView
 from .views import UnitsListView
+from .views import UnitFormView
 
 
 urlpatterns = [
@@ -29,5 +30,11 @@ urlpatterns = [
         r'^(?P<pk>\d+)/unidades/$',
         UnitsListView.as_view(),
         name='units_list',
+    ),
+
+    url(
+        r'^(?P<pk>\d+)/unidades/crear/$',
+        UnitFormView.as_view(),
+        name='unit_form',
     ),
 ]

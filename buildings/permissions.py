@@ -50,7 +50,7 @@ class BuildingPermissions(object):
         return False
 
     @classmethod
-    def can_add_unit(self, user, building):
+    def can_create_unit(self, user, building):
         if BuildingMembership.objects.filter(
             Q(is_administrator=True) |
             Q(is_administrative_assistant=True),

@@ -9,6 +9,7 @@ from django.views.generic import ListView
 from django.urls import reverse
 
 from .forms import BuildingForm
+from .forms import UnitForm
 from .models import Building
 from .models import BuildingMembership
 from .models import Unit
@@ -121,12 +122,10 @@ class UnitsListView(CustomUserMixin, ListView):
         )
 
     def get_object(self, queryset=None):
-        building = get_object_or_404(
+        return get_object_or_404(
             Building,
             pk=self.kwargs['pk'],
         )
-
-        return building
 
     def get_queryset(self):
         return Unit.objects.filter(building=self.get_object())
@@ -136,9 +135,45 @@ class UnitsListView(CustomUserMixin, ListView):
         context['building'] = self.get_object()
         context['active_units'] = True
 
-        context['can_add_unit'] = BuildingPermissions.can_add_unit(
+        context['can_create_unit'] = BuildingPermissions.can_create_unit(
             user=self.request.user,
             building=self.get_object(),
         )
 
         return context
+
+
+class UnitFormView(CustomUserMixin, CreateView):
+    model = Unit
+    form_class = UnitForm
+    template_name = 'buildings/administrative/unit_form.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_create_unit(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Building,
+            pk=self.kwargs['pk'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object()
+        context['active_units'] = True
+        return context
+
+    @transaction.atomic
+    def form_valid(self, form):
+        unit = form.save(commit=False)
+        unit.building = self.get_object()
+
+        messages.success(
+            self.request,
+            'Unidad creada exitosamente.'
+        )
+
+        return redirect(unit.get_absolute_url())
