@@ -1,11 +1,13 @@
 import re
 
 from django import forms
+from django.forms import modelformset_factory
 
 from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .data import BUILDING_DOCUMENT_TYPE_CC
 from .models import Building
 from .models import Unit
+from .models import Owner
 
 
 class BuildingForm(forms.ModelForm):
@@ -69,6 +71,51 @@ class BuildingForm(forms.ModelForm):
             )
 
 
+class OwnerForm(forms.ModelForm):
+    class Meta:
+        model = Owner
+        fields = (
+            'name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'mobile_phone',
+            'phone_number',
+            'correspondence_address',
+            'email',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'mobile_phone',
+            'phone_number',
+            'correspondence_address',
+            'email',
+        ]
+
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label
+
+
+OwnerFormSet = modelformset_factory(
+    Owner,
+    form=OwnerForm,
+    extra=0,
+    max_num=5,
+    min_num=1,
+    validate_min=True,
+    can_delete=True,
+)
+
+
 class UnitForm(forms.ModelForm):
     class Meta:
         model = Unit
@@ -77,13 +124,7 @@ class UnitForm(forms.ModelForm):
             'unit',
             'area',
             'real_estate_registration',
-            'owner_name',
-            'owner_document_type',
-            'owner_document_number',
-            'owner_mobile_phone',
-            'owner_phone_number',
-            'owner_email',
-            'correspondence_address',
+            'coefficient',
             'leaseholder_name',
             'leaseholder_mobile_phone',
             'leaseholder_phone_number',
@@ -99,13 +140,7 @@ class UnitForm(forms.ModelForm):
             'unit',
             'area',
             'real_estate_registration',
-            'owner_name',
-            'owner_document_type',
-            'owner_document_number',
-            'owner_mobile_phone',
-            'owner_phone_number',
-            'owner_email',
-            'correspondence_address',
+            'coefficient',
             'leaseholder_name',
             'leaseholder_mobile_phone',
             'leaseholder_phone_number',
@@ -117,3 +152,13 @@ class UnitForm(forms.ModelForm):
             label = self.fields[field].label
             self.fields[field].label = ''
             self.fields[field].widget.attrs['placeholder'] = label
+
+    def clean_coefficient(self):
+        value = self.cleaned_data['coefficient']
+
+        if value:
+            if value < 0 or value > 100:
+                raise forms.ValidationError('El coeficiente debe ser un valor \
+                    entre 0 y 100')
+
+        return value

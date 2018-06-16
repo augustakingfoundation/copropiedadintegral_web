@@ -1,13 +1,13 @@
 {% extends "buildings/building_base.html" %}
 
-{% load widget_tweaks %}
+{% load static widget_tweaks formset_tags %}
 
 {% block title %}{{ building }}{% endblock %}
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>{% if unit_update %}Actualizar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
-  <hr class="my-4">
+  <h1>{% if unit_update %}Editar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
+  <hr>
 
   <form method="post">
   {% csrf_token %}
@@ -30,6 +30,12 @@
       </div>
 
       <div class="form-group">
+          {% render_field form.coefficient class+="form-control" %}
+          <p class="font-weight-light">{{ form.coefficient.help_text }}</p>
+          {{ form.coefficient.errors }}
+      </div>
+
+      <div class="form-group">
           {% render_field form.area class+="form-control" %}
           {{ form.area.errors }}
       </div>
@@ -39,49 +45,145 @@
           {{ form.real_estate_registration.errors }}
       </div>
 
-      <hr class="my-4">
-
+      <hr>
+      {% if object.owner_set.count > 1 %}
+      <h3>Datos de los propietarios</h3>
+      {% else %}
       <h3>Datos del propietario</h3>
+      {% endif %}
 
-      <div class="form-group">
-          {% render_field form.owner_name class+="form-control" %}
-          {{ form.owner_name.errors }}
+      <p>Tiene la posibilidad de registrar varios propietarios por unidad. El primer propietario que registre será el propietario principal.</p>
+
+      <div id="formset" data-formset-prefix="{{ formset.prefix }}">
+          {% if formset.non_form_errors %}
+          <div class="alert alert-warning" role="alert">{{ formset.non_form_errors }}</div>
+          {% endif %}
+
+          {{ formset.management_form }}
+          <div data-formset-body>
+          {% for owner_form in formset %}
+              {% if object %}
+              <p class="h4">Propietario {{ forloop.counter }}</p>
+              {% endif %}
+              {% render_field owner_form.id %}
+              <div data-formset-form>
+                  <div class="form-group">
+                      {% render_field owner_form.name class+="form-control" %}
+                      {{ owner_form.name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.last_name class+="form-control" %}
+                      {{ owner_form.last_name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.document_type class+="form-control" %}
+                      {{ owner_form.document_type.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.document_number class+="form-control" %}
+                      {{ owner_form.document_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.mobile_phone class+="form-control" %}
+                      <p class="font-weight-light">{{ owner_form.mobile_phone.help_text }}</p>
+                      {{ owner_form.mobile_phone.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.phone_number class+="form-control" %}
+                      <p class="font-weight-light">{{ owner_form.phone_number.help_text }}</p>
+                      {{ owner_form.phone_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.correspondence_address class+="form-control" %}
+                      <p class="font-weight-light">{{ owner_form.correspondence_address.help_text }}</p>
+                      {{ owner_form.correspondence_address.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.email class+="form-control" %}
+                      {{ owner_form.email.errors }}
+                  </div>
+
+                  {% if forloop.counter != 1 %}
+                  <div class="form-group">
+                      <label>Eliminar</label>
+                      {% render_field owner_form.DELETE class+="form-control" %}
+                  </div>
+                  {% endif %}
+                  <hr>
+              </div>
+          {% endfor %}
+          </div>
+
+          <script type="form-template" data-formset-empty-form>
+          {% escapescript %}
+              <p class="h4">Otro propietario</p>
+              <div data-formset-form>
+                  <div class="form-group">
+                      {% render_field formset.empty_form.name class+="form-control" %}
+                      {{ formset.empty_form.name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.last_name class+="form-control" %}
+                      {{ formset.empty_form.last_name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.document_type class+="form-control" %}
+                      {{ formset.empty_form.document_type.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.document_number class+="form-control" %}
+                      {{ formset.empty_form.document_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.mobile_phone class+="form-control" %}
+                      <p class="font-weight-light">{{ formset.empty_form.mobile_phone.help_text }}</p>
+                      {{ formset.empty_form.mobile_phone.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.phone_number class+="form-control" %}
+                      <p class="font-weight-light">{{ formset.empty_form.phone_number.help_text }}</p>
+                      {{ formset.empty_form.phone_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.correspondence_address class+="form-control" %}
+                      <p class="font-weight-light">{{ formset.empty_form.correspondence_address.help_text }}</p>
+                      {{ formset.empty_form.correspondence_address.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.email class+="form-control" %}
+                      {{ formset.empty_form.email.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      <label>Eliminar</label>
+                      {% render_field formset.empty_form.DELETE class+="form-control" %}
+                  </div>
+                  <hr>
+              </div>
+          {% endescapescript %}
+          </script>
+
+          <div>
+              <button class="btn btn-outline-success" type="button" data-formset-add>Agregar propietario</button>
+          </div>
       </div>
 
-      <div class="form-group">
-          {% render_field form.owner_document_type class+="form-control" %}
-          {{ form.owner_document_type.errors }}
-      </div>
 
-      <div class="form-group">
-          {% render_field form.owner_document_number class+="form-control" %}
-          {{ form.owner_document_number.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_mobile_phone class+="form-control" %}
-          <p class="font-weight-light">{{ form.owner_mobile_phone.help_text }}</p>
-          {{ form.owner_mobile_phone.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_phone_number class+="form-control" %}
-          <p class="font-weight-light">{{ form.owner_phone_number.help_text }}</p>
-          {{ form.owner_phone_number.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_email class+="form-control" %}
-          {{ form.owner_email.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.correspondence_address class+="form-control" %}
-          <p class="font-weight-light">{{ form.correspondence_address.help_text }}</p>
-          {{ form.correspondence_address.errors }}
-      </div>
-
-      <hr class="my-4">
+      <hr>
       <h3>Datos del arrendatario</h3>
 
       <div class="form-group">
@@ -105,9 +207,21 @@
           {% render_field form.leaseholder_email class+="form-control" %}
           {{ form.leaseholder_email.errors }}
       </div>
-      <hr class="my-4">
+      <hr>
 
       <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
   </form>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+<script>
+$(function() {
+    $('#formset').formset({
+        animateForms: true
+    });
+});
+</script>
 {% endblock %}

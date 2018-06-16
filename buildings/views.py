@@ -3,6 +3,7 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.views.generic import CreateView
+from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 from django.views.generic import ListView
@@ -10,9 +11,11 @@ from django.urls import reverse
 
 from .forms import BuildingForm
 from .forms import UnitForm
+from .forms import OwnerFormSet
 from .models import Building
 from .models import BuildingMembership
 from .models import Unit
+from .models import Owner
 from .permissions import BuildingPermissions
 from app.mixins import CustomUserMixin
 
@@ -134,7 +137,6 @@ class UnitsListView(CustomUserMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['building'] = self.get_object()
         context['active_units'] = True
-
         context['can_create_unit'] = BuildingPermissions.can_create_unit(
             user=self.request.user,
             building=self.get_object(),
@@ -148,9 +150,7 @@ class UnitsListView(CustomUserMixin, ListView):
         return context
 
 
-class UnitFormView(CustomUserMixin, CreateView):
-    model = Unit
-    form_class = UnitForm
+class UnitFormView(CustomUserMixin, TemplateView):
     template_name = 'buildings/administrative/unit_form.html'
 
     def test_func(self):
@@ -165,17 +165,45 @@ class UnitFormView(CustomUserMixin, CreateView):
             pk=self.kwargs['pk'],
         )
 
+    def get(self, *args, **kwargs):
+        form = UnitForm()
+        formset = OwnerFormSet(queryset=Owner.objects.none())
+
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset)
+        )
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['building'] = self.get_object()
         context['active_units'] = True
         return context
 
+    def post(self, *args, **kwargs):
+        form = UnitForm(self.request.POST)
+        formset = OwnerFormSet(
+            self.request.POST,
+            queryset=Owner.objects.none(),
+        )
+
+        if not form.is_valid() or not formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
+
+        return self.process_data(form, formset)
+
     @transaction.atomic
-    def form_valid(self, form):
+    def process_data(self, form, formset):
         unit = form.save(commit=False)
         unit.building = self.get_object()
         unit.save()
+
+        for owner_form in formset:
+            if owner_form.is_valid():
+                owner = owner_form.save(commit=False)
+                owner.unit = unit
+                owner.save()
 
         messages.success(
             self.request,
@@ -183,6 +211,88 @@ class UnitFormView(CustomUserMixin, CreateView):
         )
 
         return redirect(unit.get_absolute_url())
+
+
+class UnitUpdateView(CustomUserMixin, TemplateView):
+    template_name = 'buildings/administrative/unit_form.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().building,
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Unit,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['u_pk'],
+        )
+
+    def get(self, *args, **kwargs):
+        unit = self.get_object()
+
+        form = UnitForm(instance=unit)
+        formset = OwnerFormSet(
+            queryset=Owner.objects.filter(unit=unit),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                formset=formset,
+                object=self.get_object(),
+            )
+        )
+
+    def post(self, *args, **kwargs):
+        unit = self.get_object()
+
+        form = UnitForm(
+            self.request.POST,
+            instance=unit,
+        )
+        formset = OwnerFormSet(
+            self.request.POST,
+            queryset=Owner.objects.filter(unit=unit),
+        )
+
+        if not form.is_valid() or not formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
+
+        return self.process_data(form, formset)
+
+    @transaction.atomic
+    def process_data(self, form, formset):
+        unit = form.save()
+
+        for owner_form in formset:
+            if owner_form.is_valid():
+                owner = owner_form.save(commit=False)
+                owner.unit = unit
+                owner.save()
+
+                delete = owner_form.cleaned_data['DELETE']
+
+                if delete:
+                    owner.delete()
+
+        messages.success(
+            self.request,
+            'Unidad actualizada correctamente.',
+        )
+
+        return redirect(unit.get_absolute_url())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['active_units'] = True
+        context['building'] = self.get_object().building
+        context['unit_update'] = True
+
+        return context
 
 
 class UnitDetailView(CustomUserMixin, DetailView):
@@ -210,51 +320,5 @@ class UnitDetailView(CustomUserMixin, DetailView):
             user=self.request.user,
             building=self.get_object().building,
         )
-
-        return context
-
-
-class UnitUpdateView(CustomUserMixin, UpdateView):
-    model = Unit
-    form_class = UnitForm
-    template_name = 'buildings/administrative/unit_form.html'
-
-    def test_func(self):
-        return BuildingPermissions.can_edit_unit(
-            user=self.request.user,
-            building=self.get_object().building,
-        )
-
-    def get_object(self, queryset=None):
-        return get_object_or_404(
-            Unit,
-            building_id=self.kwargs['b_pk'],
-            pk=self.kwargs['u_pk'],
-        )
-
-    def get_success_url(self):
-        return reverse(
-            'buildings:unit_detail', args=[
-                self.kwargs['b_pk'],
-                self.kwargs['u_pk'],
-            ]
-        )
-
-    @transaction.atomic
-    def form_valid(self, form):
-        form.save()
-
-        messages.success(
-            self.request,
-            'Unidad actualizada correctamente.',
-        )
-
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['active_units'] = True
-        context['building'] = self.get_object().building
-        context['unit_update'] = True
 
         return context

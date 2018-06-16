@@ -207,7 +207,7 @@ class Unit(models.Model):
     unit = models.CharField(
         max_length=50,
         verbose_name='unidad',
-        help_text='apartamento, casa u oficina',
+        help_text='Apartamento, casa u oficina',
     )
 
     area = models.DecimalField(
@@ -225,83 +225,13 @@ class Unit(models.Model):
         verbose_name='matrícula inmobiliaria',
     )
 
-    owner_name = models.CharField(
-        max_length=100,
-        verbose_name='nombre del propietario',
-    )
-
-    owner_document_type = models.PositiveSmallIntegerField(
+    coefficient = models.DecimalField(
+        max_digits=8,
+        decimal_places=5,
         null=True,
         blank=True,
-        choices=DOCUMENT_TYPE_CHOICES,
-        verbose_name='tipo de documento del propietario',
-    )
-
-    owner_document_number = models.CharField(
-        max_length=32,
-        null=True,
-        blank=True,
-        verbose_name='número de documento del propietario',
-    )
-
-    owner_mobile_phone = models.CharField(
-        max_length=32,
-        verbose_name='número celular del propietario',
-        default='',
-        blank=True,
-        help_text='Si desea ingresar más de un número celular,'
-                ' estos deben ir separados por coma (,).',
-        validators=[
-            RegexValidator(
-                '^[0-9 ,]*$',
-                message='El dato no es válido, sólo debe ingresar números.'
-                        ' Si desea ingresar más de un número celular, estos '
-                        'deben estar separados por coma (,).'
-            ),
-            MinLengthValidator(10),
-        ],
-        error_messages={
-            'min_length':
-                'Ingrese al menos %(limit_value)d caracteres,'
-                ' (actualmente tiene %(show_value)d).'
-        }
-    )
-
-    owner_phone_number = models.CharField(
-        max_length=32,
-        verbose_name='número telefónico del propietario',
-        help_text='Si desea ingresar más de un número telefónico,'
-                  ' estos deben ir separados por coma (,).',
-        blank=True,
-        validators=[
-            RegexValidator(
-                '^[0-9 ,]*$',
-                message='El dato no es válido, sólo se permiten números.'
-                        ' Si desea ingresar más de un número telefónico,'
-                        ' estos deben estar separados por coma (,).'
-            ),
-            MinLengthValidator(6),
-        ],
-        error_messages={
-            'min_length':
-                'El campo "Número telefónico" debe tener al menos '
-                '%(limit_value)d dígitos (actualmente tiene %(show_value)d).'
-        }
-    )
-
-    owner_email = models.EmailField(
-        null=True,
-        blank=True,
-        verbose_name='correo electrónico del propietario',
-    )
-
-    correspondence_address = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True,
-        verbose_name='dirección de correspondencia',
-        help_text='dirección alternativa para enviar correspondencia'
-                  ' al propietario de la unidad',
+        verbose_name='Coeficiente',
+        help_text='Este valor debe ser un porcentaje entre 0 y 100',
     )
 
     leaseholder_name = models.CharField(
@@ -394,3 +324,107 @@ class Unit(models.Model):
         verbose_name = 'unidad'
         verbose_name_plural = 'unidades'
         ordering = ('block', 'unit')
+
+
+class Owner(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name='nombre',
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name='apellidos',
+    )
+
+    document_type = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        choices=DOCUMENT_TYPE_CHOICES,
+        verbose_name='tipo de documento',
+    )
+
+    document_number = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+        verbose_name='número de documento',
+    )
+
+    mobile_phone = models.CharField(
+        max_length=32,
+        verbose_name='número celular',
+        default='',
+        blank=True,
+        help_text='Si desea ingresar más de un número celular,'
+                ' estos deben ir separados por coma (,).',
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message='El dato no es válido, sólo debe ingresar números.'
+                        ' Si desea ingresar más de un número celular, estos '
+                        'deben estar separados por coma (,).'
+            ),
+            MinLengthValidator(10),
+        ],
+        error_messages={
+            'min_length':
+                'Ingrese al menos %(limit_value)d caracteres,'
+                ' (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    phone_number = models.CharField(
+        max_length=32,
+        verbose_name='número telefónico',
+        help_text='Si desea ingresar más de un número telefónico,'
+                  ' estos deben ir separados por coma (,).',
+        blank=True,
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message='El dato no es válido, sólo se permiten números.'
+                        ' Si desea ingresar más de un número telefónico,'
+                        ' estos deben estar separados por coma (,).'
+            ),
+            MinLengthValidator(6),
+        ],
+        error_messages={
+            'min_length':
+                'El campo "Número telefónico" debe tener al menos '
+                '%(limit_value)d dígitos (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    correspondence_address = models.CharField(
+        max_length=100,
+        null=True,
+        blank=True,
+        verbose_name='dirección de correspondencia',
+        help_text='Dirección alternativa para enviar correspondencia'
+                  ' al propietario de la unidad',
+    )
+
+    email = models.EmailField(
+        null=True,
+        blank=True,
+        verbose_name='correo electrónico',
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name='unidad',
+    )
+
+    def __str__(self):
+        return '{0} {1} - {2}'.format(
+            self.name,
+            self.last_name,
+            self.unit,
+        )
+
+    class Meta:
+        verbose_name = 'propietario'
+        verbose_name_plural = 'propietarios'
+        ordering = ('last_name',)
