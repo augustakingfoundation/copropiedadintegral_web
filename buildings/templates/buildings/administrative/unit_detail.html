@@ -7,7 +7,7 @@
 {% block building_section %}
 <div class="jumbotron">
   <h1>Unidad: {{ object }} </h1>
-  <hr class="my-4">
+  <hr>
 
   {% if can_edit_unit %}
   <div class="clearfix">
@@ -29,7 +29,7 @@
     <dd class="col-sm-9">{{ object.real_estate_registration|default:"N/D" }}</dd>
   </dl>
 
-  <hr class="my-4">
+  <hr>
   {% if object.owner_set.count > 1 %}
   <h3>Datos de los propietarios</h3>
   {% else %}
@@ -59,7 +59,7 @@
     <dt class="col-sm-3">Dirección de correspondencia</dt>
     <dd class="col-sm-9">{{ owner.correspondence_address|default:"N/D" }}</dd>
   </dl>
-  <hr class="my-4">
+  <hr>
   {% endfor %}
 
     <h3>Datos del arrendatario</h3>
@@ -76,7 +76,7 @@
     <dt class="col-sm-3">Correo electrónico</dt>
     <dd class="col-sm-9">{{ object.leaseholder_email|default:"N/D" }}</dd>
 
-    <hr class="my-4">
+    <hr>
     <dt class="col-sm-3">Observaciones</dt>
     <dd class="col-sm-9">{{ object.observations|default:"N/D" }}</dd>
   </dl>

@@ -7,7 +7,7 @@
 {% block building_section %}
 <div class="jumbotron">
   <h1>{% if unit_update %}Actualizar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
-  <hr class="my-4">
+  <hr>
 
   <form method="post">
   {% csrf_token %}
@@ -45,7 +45,7 @@
           {{ form.real_estate_registration.errors }}
       </div>
 
-      <hr class="my-4">
+      <hr>
       <h3>Datos del propietario</h3>
 
       <div id="formset" data-formset-prefix="{{ formset.prefix }}">
@@ -96,7 +96,7 @@
                       {{ owner_form.email.errors }}
                   </div>
 
-                  <hr class="my-4">
+                  <hr>
               </div>
           {% endfor %}
           </div>
@@ -153,18 +153,18 @@
                       {{ formset.empty_form.DELETE.errors }}
                   </div>
 
-                  <hr class="my-4">
+                  <hr>
               </div>
           {% endescapescript %}
           </script>
 
           <div>
-              <button class="btn btn-success" type="button" data-formset-add>Agregar propietario</button>
+              <button class="btn btn-outline-success" type="button" data-formset-add>Agregar propietario</button>
           </div>
       </div>
 
 
-      <hr class="my-4">
+      <hr>
       <h3>Datos del arrendatario</h3>
 
       <div class="form-group">
@@ -188,7 +188,7 @@
           {% render_field form.leaseholder_email class+="form-control" %}
           {{ form.leaseholder_email.errors }}
       </div>
-      <hr class="my-4">
+      <hr>
 
       <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
   </form>

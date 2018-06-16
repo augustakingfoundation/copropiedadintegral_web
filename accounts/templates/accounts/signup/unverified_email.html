@@ -16,7 +16,7 @@
           <h1 class="display-4">Copropiedad Integral</h1>
           <p class="lead">Su correo <strong>{{ user.email }}</strong> no ha sido verificado.</p>
 
-          <hr class="my-4">
+          <hr>
           {% if user.sent_verification_emails >= 3  %}
           <div class="alert alert-warning" role="alert">Hemos enviado suficientes correos de confirmación a su correo electrónico registrado.</div>
           {% else %}
