@@ -8,9 +8,9 @@ This application has been created to provide condominiums managers with the nece
 
 Our goal is to create an application to manage condominiums administration and accounting in a single tool.
 
-We have a defined roadmap that can be found in our [public trello board!](https://trello.com/b/wexKheIO/copropiedad-integral).
+We have a defined roadmap that can be found in our [public trello board](https://trello.com/b/wexKheIO/copropiedad-integral).
 
-Join us on [Discord!](https://discordapp.com/channels/402510099957940224/410645961153445888).
+Join us on [Discord](https://discordapp.com/channels/402510099957940224/410645961153445888).
 
 ***
 ***
