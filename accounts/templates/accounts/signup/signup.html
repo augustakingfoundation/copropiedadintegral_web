@@ -54,7 +54,11 @@
                     {{ form.password2.errors }}
                 </div>
 
+                {% comment %}
                 <p>Al hacer clic en "Crear cuenta", aceptas las <a href="#">Condiciones de uso</a>, la <a href="#">Política de privacidad</a> y la <a href="#">Política de cookies</a> de Copropiedad Integral.</p>
+                {% endcomment %}
+
+                <div class="alert alert-warning" role="alert">Este proyecto se encuentra en fase de desarrollo. Si decide registrarse, no será notificado sobre los cambios implementados en la plataforma. Sus datos no serán usados para fines diferentes a garantizar el correcto funcionamiento de la aplicación, y serán almacenados de forma segura y nunca compartidos ni publicados.</div>
 
                 <button type="submit" class="btn btn-outline-info btn-block">Crear cuenta</button>
             </form>
