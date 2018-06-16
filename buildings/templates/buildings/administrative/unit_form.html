@@ -6,7 +6,7 @@
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>{% if unit_update %}Actualizar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
+  <h1>{% if unit_update %}Editar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
   <hr>
 
   <form method="post">
@@ -46,12 +46,26 @@
       </div>
 
       <hr>
+      {% if object.owner_set.count > 1 %}
+      <h3>Datos de los propietarios</h3>
+      {% else %}
       <h3>Datos del propietario</h3>
+      {% endif %}
+
+      <p>Tiene la posibilidad de registrar varios propietarios por unidad. El primer propietario que registre sería el propietario principal.</p>
 
       <div id="formset" data-formset-prefix="{{ formset.prefix }}">
+          {% if formset.non_form_errors %}
+          <div class="alert alert-warning" role="alert">{{ formset.non_form_errors }}</div>
+          {% endif %}
+
           {{ formset.management_form }}
           <div data-formset-body>
           {% for owner_form in formset %}
+              {% if object %}
+              <p class="h4">Propietario {{ forloop.counter }}</p>
+              {% endif %}
+              {% render_field owner_form.id %}
               <div data-formset-form>
                   <div class="form-group">
                       {% render_field owner_form.name class+="form-control" %}
@@ -96,6 +110,12 @@
                       {{ owner_form.email.errors }}
                   </div>
 
+                  {% if forloop.counter != 1 %}
+                  <div class="form-group">
+                      <label>Eliminar</label>
+                      {% render_field owner_form.DELETE class+="form-control" %}
+                  </div>
+                  {% endif %}
                   <hr>
               </div>
           {% endfor %}
@@ -103,6 +123,7 @@
 
           <script type="form-template" data-formset-empty-form>
           {% escapescript %}
+              <p class="h4">Otro propietario</p>
               <div data-formset-form>
                   <div class="form-group">
                       {% render_field formset.empty_form.name class+="form-control" %}
@@ -150,9 +171,7 @@
                   <div class="form-group">
                       <label>Eliminar</label>
                       {% render_field formset.empty_form.DELETE class+="form-control" %}
-                      {{ formset.empty_form.DELETE.errors }}
                   </div>
-
                   <hr>
               </div>
           {% endescapescript %}

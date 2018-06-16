@@ -42,7 +42,7 @@
     <dd class="col-sm-9">{{ owner.name }} {{ owner.last_name }}</dd>
     
     <dt class="col-sm-3">Tipo de documento:</dt>
-    <dd class="col-sm-9">{{ owner.document_type|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.get_document_type_display|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Número de documento:</dt>
     <dd class="col-sm-9">{{ owner.document_number|default:"N/D" }}</dd>
