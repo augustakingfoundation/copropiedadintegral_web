@@ -421,7 +421,7 @@ class Owner(models.Model):
         return '{0} {1} - {2}'.format(
             self.name,
             self.last_name,
-            self.building,
+            self.unit,
         )
 
     class Meta:

@@ -179,11 +179,31 @@ class UnitFormView(CustomUserMixin, TemplateView):
         context['active_units'] = True
         return context
 
+    def post(self, *args, **kwargs):
+        form = UnitForm(self.request.POST)
+        formset = OwnerFormSet(
+            self.request.POST,
+            queryset=Owner.objects.none(),
+        )
+
+        if not form.is_valid() or not formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
+
+        return self.process_data(form, formset)
+
     @transaction.atomic
-    def form_valid(self, form):
+    def process_data(self, form, formset):
         unit = form.save(commit=False)
         unit.building = self.get_object()
         unit.save()
+
+        for owner_form in formset:
+            if owner_form.is_valid():
+                owner = owner_form.save(commit=False)
+                owner.unit = unit
+                owner.save()
 
         messages.success(
             self.request,

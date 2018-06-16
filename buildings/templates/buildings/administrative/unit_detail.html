@@ -27,33 +27,40 @@
 
     <dt class="col-sm-3">matrícula inmobiliaria</dt>
     <dd class="col-sm-9">{{ object.real_estate_registration|default:"N/D" }}</dd>
-
   </dl>
 
+  <hr class="my-4">
+  {% if object.owner_set.count > 1 %}
+  <h3>Datos de los propietarios</h3>
+  {% else %}
   <h3>Datos del propietario</h3>
+  {% endif %}
 
+  {% for owner in object.owner_set.all %}
   <dl class="row">
     <dt class="col-sm-3">Nombre</dt>
-    <dd class="col-sm-9">{{ object.owner_name }}</dd>
+    <dd class="col-sm-9">{{ owner.name }} {{ owner.last_name }}</dd>
     
     <dt class="col-sm-3">Tipo de documento:</dt>
-    <dd class="col-sm-9">{{ object.owner_document_type|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.document_type|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Número de documento:</dt>
-    <dd class="col-sm-9">{{ object.owner_document_number|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.document_number|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Número celular:</dt>
-    <dd class="col-sm-9">{{ object.owner_mobile_phone|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.mobile_phone|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Número telefónico:</dt>
-    <dd class="col-sm-9">{{ object.owner_phone_number|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.phone_number|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Correo electrónico</dt>
-    <dd class="col-sm-9">{{ object.owner_email|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.email|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Dirección de correspondencia</dt>
-    <dd class="col-sm-9">{{ object.correspondence_address|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ owner.correspondence_address|default:"N/D" }}</dd>
   </dl>
+  <hr class="my-4">
+  {% endfor %}
 
     <h3>Datos del arrendatario</h3>
   <dl class="row">

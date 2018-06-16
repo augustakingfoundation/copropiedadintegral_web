@@ -156,8 +156,9 @@ class UnitForm(forms.ModelForm):
     def clean_coefficient(self):
         value = self.cleaned_data['coefficient']
 
-        if value < 0 or value > 100:
-            raise forms.ValidationError('El coeficiente debe ser un valor \
-                entre 0 y 100')
+        if value:
+            if value < 0 or value > 100:
+                raise forms.ValidationError('El coeficiente debe ser un valor \
+                    entre 0 y 100')
 
         return value
