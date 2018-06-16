@@ -77,6 +77,7 @@ class UnitForm(forms.ModelForm):
             'unit',
             'area',
             'real_estate_registration',
+            'coefficient',
             'owner_name',
             'owner_document_type',
             'owner_document_number',
@@ -99,6 +100,7 @@ class UnitForm(forms.ModelForm):
             'unit',
             'area',
             'real_estate_registration',
+            'coefficient',
             'owner_name',
             'owner_document_type',
             'owner_document_number',
@@ -117,3 +119,12 @@ class UnitForm(forms.ModelForm):
             label = self.fields[field].label
             self.fields[field].label = ''
             self.fields[field].widget.attrs['placeholder'] = label
+
+    def clean_coefficient(self):
+        value = self.cleaned_data['coefficient']
+
+        if value < 0 or value > 100:
+            raise forms.ValidationError('El coeficiente debe ser un valor \
+                entre 0 y 100')
+
+        return value

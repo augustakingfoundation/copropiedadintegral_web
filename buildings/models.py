@@ -207,7 +207,7 @@ class Unit(models.Model):
     unit = models.CharField(
         max_length=50,
         verbose_name='unidad',
-        help_text='apartamento, casa u oficina',
+        help_text='Apartamento, casa u oficina',
     )
 
     area = models.DecimalField(
@@ -223,6 +223,15 @@ class Unit(models.Model):
         null=True,
         blank=True,
         verbose_name='matrícula inmobiliaria',
+    )
+
+    coefficient = models.DecimalField(
+        max_digits=8,
+        decimal_places=5,
+        null=True,
+        blank=True,
+        verbose_name='Coeficiente',
+        help_text='Este valor debe ser un porcentaje entre 0 y 100',
     )
 
     owner_name = models.CharField(
@@ -300,7 +309,7 @@ class Unit(models.Model):
         null=True,
         blank=True,
         verbose_name='dirección de correspondencia',
-        help_text='dirección alternativa para enviar correspondencia'
+        help_text='Dirección alternativa para enviar correspondencia'
                   ' al propietario de la unidad',
     )
 

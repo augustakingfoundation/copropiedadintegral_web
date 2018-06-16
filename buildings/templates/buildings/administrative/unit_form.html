@@ -35,6 +35,12 @@
       </div>
 
       <div class="form-group">
+          {% render_field form.coefficient class+="form-control" %}
+          <p class="font-weight-light">{{ form.coefficient.help_text }}</p>
+          {{ form.coefficient.errors }}
+      </div>
+
+      <div class="form-group">
           {% render_field form.real_estate_registration class+="form-control" %}
           {{ form.real_estate_registration.errors }}
       </div>

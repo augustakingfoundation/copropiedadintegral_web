@@ -134,7 +134,6 @@ class UnitsListView(CustomUserMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['building'] = self.get_object()
         context['active_units'] = True
-
         context['can_create_unit'] = BuildingPermissions.can_create_unit(
             user=self.request.user,
             building=self.get_object(),
