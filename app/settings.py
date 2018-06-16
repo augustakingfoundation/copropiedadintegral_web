@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'widget_tweaks',
     'huey.contrib.djhuey',
+    'djangoformsetjs',
 
     'app',
     'accounts',

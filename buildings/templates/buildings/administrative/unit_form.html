@@ -1,6 +1,6 @@
 {% extends "buildings/building_base.html" %}
 
-{% load widget_tweaks %}
+{% load static widget_tweaks formset_tags %}
 
 {% block title %}{{ building }}{% endblock %}
 
@@ -30,14 +30,14 @@
       </div>
 
       <div class="form-group">
-          {% render_field form.area class+="form-control" %}
-          {{ form.area.errors }}
-      </div>
-
-      <div class="form-group">
           {% render_field form.coefficient class+="form-control" %}
           <p class="font-weight-light">{{ form.coefficient.help_text }}</p>
           {{ form.coefficient.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.area class+="form-control" %}
+          {{ form.area.errors }}
       </div>
 
       <div class="form-group">
@@ -46,46 +46,123 @@
       </div>
 
       <hr class="my-4">
-
       <h3>Datos del propietario</h3>
 
-      <div class="form-group">
-          {% render_field form.owner_name class+="form-control" %}
-          {{ form.owner_name.errors }}
+      <div id="formset" data-formset-prefix="{{ formset.prefix }}">
+          {{ formset.management_form }}
+          <div data-formset-body>
+          {% for owner_form in formset %}
+              <div data-formset-form>
+                  <div class="form-group">
+                      {% render_field owner_form.name class+="form-control" %}
+                      {{ owner_form.name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.last_name class+="form-control" %}
+                      {{ owner_form.last_name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.document_type class+="form-control" %}
+                      {{ owner_form.document_type.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.document_number class+="form-control" %}
+                      {{ owner_form.document_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.mobile_phone class+="form-control" %}
+                      <p class="font-weight-light">{{ owner_form.mobile_phone.help_text }}</p>
+                      {{ owner_form.mobile_phone.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.phone_number class+="form-control" %}
+                      <p class="font-weight-light">{{ owner_form.phone_number.help_text }}</p>
+                      {{ owner_form.phone_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.correspondence_address class+="form-control" %}
+                      <p class="font-weight-light">{{ owner_form.correspondence_address.help_text }}</p>
+                      {{ owner_form.correspondence_address.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field owner_form.email class+="form-control" %}
+                      {{ owner_form.email.errors }}
+                  </div>
+
+                  <hr class="my-4">
+              </div>
+          {% endfor %}
+          </div>
+
+          <script type="form-template" data-formset-empty-form>
+          {% escapescript %}
+              <div data-formset-form>
+                  <div class="form-group">
+                      {% render_field formset.empty_form.name class+="form-control" %}
+                      {{ formset.empty_form.name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.last_name class+="form-control" %}
+                      {{ formset.empty_form.last_name.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.document_type class+="form-control" %}
+                      {{ formset.empty_form.document_type.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.document_number class+="form-control" %}
+                      {{ formset.empty_form.document_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.mobile_phone class+="form-control" %}
+                      <p class="font-weight-light">{{ formset.empty_form.mobile_phone.help_text }}</p>
+                      {{ formset.empty_form.mobile_phone.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.phone_number class+="form-control" %}
+                      <p class="font-weight-light">{{ formset.empty_form.phone_number.help_text }}</p>
+                      {{ formset.empty_form.phone_number.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.correspondence_address class+="form-control" %}
+                      <p class="font-weight-light">{{ formset.empty_form.correspondence_address.help_text }}</p>
+                      {{ formset.empty_form.correspondence_address.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      {% render_field formset.empty_form.email class+="form-control" %}
+                      {{ formset.empty_form.email.errors }}
+                  </div>
+
+                  <div class="form-group">
+                      <label>Eliminar</label>
+                      {% render_field formset.empty_form.DELETE class+="form-control" %}
+                      {{ formset.empty_form.DELETE.errors }}
+                  </div>
+
+                  <hr class="my-4">
+              </div>
+          {% endescapescript %}
+          </script>
+
+          <div>
+              <button class="btn btn-success" type="button" data-formset-add>Agregar propietario</button>
+          </div>
       </div>
 
-      <div class="form-group">
-          {% render_field form.owner_document_type class+="form-control" %}
-          {{ form.owner_document_type.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_document_number class+="form-control" %}
-          {{ form.owner_document_number.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_mobile_phone class+="form-control" %}
-          <p class="font-weight-light">{{ form.owner_mobile_phone.help_text }}</p>
-          {{ form.owner_mobile_phone.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_phone_number class+="form-control" %}
-          <p class="font-weight-light">{{ form.owner_phone_number.help_text }}</p>
-          {{ form.owner_phone_number.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.owner_email class+="form-control" %}
-          {{ form.owner_email.errors }}
-      </div>
-
-      <div class="form-group">
-          {% render_field form.correspondence_address class+="form-control" %}
-          <p class="font-weight-light">{{ form.correspondence_address.help_text }}</p>
-          {{ form.correspondence_address.errors }}
-      </div>
 
       <hr class="my-4">
       <h3>Datos del arrendatario</h3>
@@ -116,4 +193,16 @@
       <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
   </form>
 </div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+<script>
+$(function() {
+    $('#formset').formset({
+        animateForms: true
+    });
+});
+</script>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.views.generic import CreateView
+from django.views.generic import TemplateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
 from django.views.generic import ListView
@@ -10,9 +11,11 @@ from django.urls import reverse
 
 from .forms import BuildingForm
 from .forms import UnitForm
+from .forms import OwnerFormSet
 from .models import Building
 from .models import BuildingMembership
 from .models import Unit
+from .models import Owner
 from .permissions import BuildingPermissions
 from app.mixins import CustomUserMixin
 
@@ -147,9 +150,7 @@ class UnitsListView(CustomUserMixin, ListView):
         return context
 
 
-class UnitFormView(CustomUserMixin, CreateView):
-    model = Unit
-    form_class = UnitForm
+class UnitFormView(CustomUserMixin, TemplateView):
     template_name = 'buildings/administrative/unit_form.html'
 
     def test_func(self):
@@ -162,6 +163,14 @@ class UnitFormView(CustomUserMixin, CreateView):
         return get_object_or_404(
             Building,
             pk=self.kwargs['pk'],
+        )
+
+    def get(self, *args, **kwargs):
+        form = UnitForm()
+        formset = OwnerFormSet(queryset=Owner.objects.none())
+
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset)
         )
 
     def get_context_data(self, **kwargs):
