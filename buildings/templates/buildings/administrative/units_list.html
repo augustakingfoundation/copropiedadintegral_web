@@ -20,7 +20,6 @@
       <tr>
         <th scope="col">Bloque o interior</th>
         <th scope="col">Unidad</th>
-        <th scope="col">Propietario</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -29,7 +28,6 @@
       <tr>
         <td>{{ unit.block|default:"N/D" }}</td>
         <td>{{ unit.unit }}</td>
-        <td>{{ unit.owner_name }}</td>
         <td>
           {% if can_view_unit_detail %}
           <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">Ver información</a>
