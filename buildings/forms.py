@@ -125,10 +125,6 @@ class UnitForm(forms.ModelForm):
             'area',
             'real_estate_registration',
             'coefficient',
-            'leaseholder_name',
-            'leaseholder_mobile_phone',
-            'leaseholder_phone_number',
-            'leaseholder_email',
             'observations',
         )
 
@@ -141,10 +137,6 @@ class UnitForm(forms.ModelForm):
             'area',
             'real_estate_registration',
             'coefficient',
-            'leaseholder_name',
-            'leaseholder_mobile_phone',
-            'leaseholder_phone_number',
-            'leaseholder_email',
             'observations',
         ]
 

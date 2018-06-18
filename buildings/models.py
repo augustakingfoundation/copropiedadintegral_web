@@ -234,64 +234,6 @@ class Unit(models.Model):
         help_text='Este valor debe ser un porcentaje entre 0 y 100',
     )
 
-    leaseholder_name = models.CharField(
-        max_length=100,
-        null=True,
-        blank=True,
-        verbose_name='nombre del arrendatario',
-    )
-
-    leaseholder_mobile_phone = models.CharField(
-        max_length=32,
-        verbose_name='número celular del arrendatario',
-        default='',
-        blank=True,
-        help_text='Si desea ingresar más de un número celular,'
-                ' estos deben ir separados por coma (,).',
-        validators=[
-            RegexValidator(
-                '^[0-9 ,]*$',
-                message='El dato no es válido, sólo debe ingresar números.'
-                        ' Si desea ingresar más de un número celular, estos '
-                        'deben estar separados por coma (,).'
-            ),
-            MinLengthValidator(10),
-        ],
-        error_messages={
-            'min_length':
-                'Ingrese al menos %(limit_value)d caracteres,'
-                ' (actualmente tiene %(show_value)d).'
-        }
-    )
-
-    leaseholder_phone_number = models.CharField(
-        max_length=32,
-        verbose_name='número telefónico del arrendatario',
-        help_text='Si desea ingresar más de un número telefónico,'
-                  ' estos deben ir separados por coma (,).',
-        blank=True,
-        validators=[
-            RegexValidator(
-                '^[0-9 ,]*$',
-                message='El dato no es válido, sólo se permiten números.'
-                        ' Si desea ingresar más de un número telefónico,'
-                        ' estos deben estar separados por coma (,).'
-            ),
-            MinLengthValidator(6),
-        ],
-        error_messages={
-            'min_length':
-                'El campo "Número telefónico" debe tener al menos '
-                '%(limit_value)d dígitos (actualmente tiene %(show_value)d).'
-        }
-    )
-
-    leaseholder_email = models.EmailField(
-        null=True,
-        blank=True,
-        verbose_name='correo electrónico del arrendatario',
-    )
-
     observations = models.TextField(
         blank=True,
         verbose_name='observaciones',
@@ -427,4 +369,99 @@ class Owner(models.Model):
     class Meta:
         verbose_name = 'propietario'
         verbose_name_plural = 'propietarios'
+        ordering = ('last_name',)
+
+
+class Leaseholder(models.Model):
+    name = models.CharField(
+        max_length=100,
+        verbose_name='nombre',
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name='apellidos',
+    )
+
+    document_type = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        choices=DOCUMENT_TYPE_CHOICES,
+        verbose_name='tipo de documento',
+    )
+
+    document_number = models.CharField(
+        max_length=32,
+        null=True,
+        blank=True,
+        verbose_name='número de documento',
+    )
+
+    mobile_phone = models.CharField(
+        max_length=32,
+        verbose_name='número celular',
+        default='',
+        blank=True,
+        help_text='Si desea ingresar más de un número celular,'
+                ' estos deben ir separados por coma (,).',
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message='El dato no es válido, sólo debe ingresar números.'
+                        ' Si desea ingresar más de un número celular, estos '
+                        'deben estar separados por coma (,).'
+            ),
+            MinLengthValidator(10),
+        ],
+        error_messages={
+            'min_length':
+                'Ingrese al menos %(limit_value)d caracteres,'
+                ' (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    phone_number = models.CharField(
+        max_length=32,
+        verbose_name='número telefónico',
+        help_text='Si desea ingresar más de un número telefónico,'
+                  ' estos deben ir separados por coma (,).',
+        blank=True,
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message='El dato no es válido, sólo se permiten números.'
+                        ' Si desea ingresar más de un número telefónico,'
+                        ' estos deben estar separados por coma (,).'
+            ),
+            MinLengthValidator(6),
+        ],
+        error_messages={
+            'min_length':
+                'El campo "Número telefónico" debe tener al menos '
+                '%(limit_value)d dígitos (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    email = models.EmailField(
+        null=True,
+        blank=True,
+        verbose_name='correo electrónico',
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name='unidad',
+    )
+
+    def __str__(self):
+        return '{0} {1} - {2}'.format(
+            self.name,
+            self.last_name,
+            self.unit,
+        )
+
+    class Meta:
+        verbose_name = 'arrendatario'
+        verbose_name_plural = 'arrendatarios'
         ordering = ('last_name',)
