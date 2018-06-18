@@ -8,6 +8,7 @@ from .data import BUILDING_DOCUMENT_TYPE_CC
 from .models import Building
 from .models import Unit
 from .models import Owner
+from .models import Leaseholder
 
 
 class BuildingForm(forms.ModelForm):
@@ -112,6 +113,49 @@ OwnerFormSet = modelformset_factory(
     max_num=5,
     min_num=1,
     validate_min=True,
+    can_delete=True,
+)
+
+
+class LeaseholderForm(forms.ModelForm):
+    class Meta:
+        model = Owner
+        fields = (
+            'name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'mobile_phone',
+            'phone_number',
+            'email',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'mobile_phone',
+            'phone_number',
+            'email',
+        ]
+
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label
+
+
+LeaseholderFormSet = modelformset_factory(
+    Leaseholder,
+    form=LeaseholderForm,
+    extra=0,
+    max_num=2,
+    min_num=1,
+    validate_min=False,
     can_delete=True,
 )
 
