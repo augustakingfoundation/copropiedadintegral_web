@@ -173,8 +173,6 @@ class Building(models.Model):
 
     created_by = models.ForeignKey(
         'accounts.User',
-        blank=True,
-        null=True,
         on_delete=models.CASCADE,
         verbose_name=_('creado por'),
     )
