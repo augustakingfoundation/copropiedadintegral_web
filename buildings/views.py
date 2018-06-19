@@ -35,7 +35,9 @@ class BuildingFormView(CustomUserMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        building = form.save()
+        building = form.save(commit=False)
+        building.created_by = self.request.user
+        building.save()
 
         BuildingMembership.objects.create(
             user=self.request.user,
