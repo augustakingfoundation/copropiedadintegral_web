@@ -60,8 +60,8 @@ class SignupView(FormView):
 
         messages.success(
             self.request,
-            _("""Gracias por registrarse.Hemos enviado un
-            correo electrónico para verificar su cuenta."""),
+            _('Gracias por registrarse.Hemos enviado un '
+              'correo electrónico para verificar su cuenta.'),
         )
 
         return super().form_valid(form)
@@ -131,8 +131,8 @@ class ResendEmailVerificationView(CustomUserMixin, View):
 
         messages.success(
             self.request,
-            _("""Gracias por registrarse.Hemos enviado un
-            'correo electrónico para verificar su cuenta."""),
+            _('Gracias por registrarse.Hemos enviado un '
+              'correo electrónico para verificar su cuenta.'),
         )
 
         return redirect('home')
