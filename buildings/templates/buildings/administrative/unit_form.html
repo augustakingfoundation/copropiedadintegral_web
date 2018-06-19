@@ -113,7 +113,7 @@
                   {% if forloop.counter != 1 %}
                   <div class="form-group">
                       <label>Eliminar</label>
-                      {% render_field owner_form.DELETE class+="form-control" %}
+                      {% render_field owner_form.DELETE %}
                   </div>
                   {% endif %}
                   <hr>
@@ -194,7 +194,7 @@
           <div data-formset-body>
           {% for leaseholder_form in leaseholder_formset %}
               {% if object %}
-              <p class="h4">Propietario {{ forloop.counter }}</p>
+              <p class="h4">Arrendatario {{ forloop.counter }}</p>
               {% endif %}
               {% render_field leaseholder_form.id %}
               <div data-formset-form>

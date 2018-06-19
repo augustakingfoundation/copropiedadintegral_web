@@ -62,23 +62,33 @@
   <hr>
   {% endfor %}
 
-    <h3>Datos del arrendatario</h3>
+  {% if object.leaseholder_set.count > 1 %}
+  <h3>Datos de los arrendatarios</h3>
+  {% else %}
+  <h3>Datos del arrendatario</h3>
+  {% endif %}
+
+  {% for leaseholder in object.leaseholder_set.all %}
   <dl class="row">
     <dt class="col-sm-3">Nombre</dt>
-    <dd class="col-sm-9">{{ object.leaseholder_name|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ leaseholder.name }} {{ leaseholder.last_name }}</dd>
+    
+    <dt class="col-sm-3">Tipo de documento:</dt>
+    <dd class="col-sm-9">{{ leaseholder.get_document_type_display|default:"N/D" }}</dd>
 
-    <dt class="col-sm-3">Número celular</dt>
-    <dd class="col-sm-9">{{ object.leaseholder_mobile_phone|default:"N/D" }}</dd>
+    <dt class="col-sm-3">Número de documento:</dt>
+    <dd class="col-sm-9">{{ leaseholder.document_number|default:"N/D" }}</dd>
 
-    <dt class="col-sm-3">Número telefónico</dt>
-    <dd class="col-sm-9">{{ object.leaseholder_phone_number|default:"N/D" }}</dd>
+    <dt class="col-sm-3">Número celular:</dt>
+    <dd class="col-sm-9">{{ leaseholder.mobile_phone|default:"N/D" }}</dd>
+
+    <dt class="col-sm-3">Número telefónico:</dt>
+    <dd class="col-sm-9">{{ leaseholder.phone_number|default:"N/D" }}</dd>
 
     <dt class="col-sm-3">Correo electrónico</dt>
-    <dd class="col-sm-9">{{ object.leaseholder_email|default:"N/D" }}</dd>
-
-    <hr>
-    <dt class="col-sm-3">Observaciones</dt>
-    <dd class="col-sm-9">{{ object.observations|default:"N/D" }}</dd>
+    <dd class="col-sm-9">{{ leaseholder.email|default:"N/D" }}</dd>
   </dl>
+  <hr>
+  {% endfor %}
 </div>
 {% endblock %}
