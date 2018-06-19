@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-19 14:22-0500\n"
+"POT-Creation-Date: 2018-06-19 17:47-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,12 +52,12 @@ msgstr "An email address is required"
 msgid "nombres"
 msgstr "name"
 
-#: accounts/models.py:56 buildings/models.py:282 buildings/models.py:387
+#: accounts/models.py:56 buildings/models.py:288 buildings/models.py:393
 msgid "apellidos"
 msgstr "last mane"
 
-#: accounts/models.py:65 buildings/models.py:113 buildings/models.py:357
-#: buildings/models.py:452
+#: accounts/models.py:65 buildings/models.py:113 buildings/models.py:363
+#: buildings/models.py:458
 msgid "correo electrónico"
 msgstr "email"
 
@@ -128,9 +128,7 @@ msgstr "Password recovery"
 msgid ""
 "Hemos enviado un correo electrónico con instrucciones para recuperar su "
 "contraseña."
-msgstr ""
-"We have sent an email with instructions to recover your "
-"password"
+msgstr "We have sent an email with instructions to recover your password"
 
 #: accounts/templates/accounts/auth/password_reset_email.html:3
 msgid "Cordial saludo"
@@ -141,8 +139,8 @@ msgid ""
 "Enviamos este correo electrónico porque usted ha solicitado recuperar su "
 "contraseña. Por favor, siga el siguiente link:"
 msgstr ""
-"We send this email because you have requested to recover your password, please "
-"follow the following link:"
+"We send this email because you have requested to recover your password, "
+"please follow the following link:"
 
 #: accounts/templates/accounts/auth/password_reset_email.html:9
 msgid "Su dirección de correo electrónico registrada es:"
@@ -160,11 +158,13 @@ msgstr "Edit personal information"
 #: accounts/templates/accounts/profile_form.html:47
 msgid ""
 "Para editar su información personal debe confirmar su actual contraseña."
-msgstr "To edit your personal information you must confirm your current password."
+msgstr ""
+"To edit your personal information you must confirm your current password."
 
 #: accounts/templates/accounts/profile_form.html:59
 msgid "Solo debe diligenciar estos campos si desea cambiar su contraseña."
-msgstr "You only have to fill in these fields if you want to change your password."
+msgstr ""
+"You only have to fill in these fields if you want to change your password."
 
 #: accounts/templates/accounts/signup/signup.html:5
 #: accounts/templates/accounts/signup/signup.html:16
@@ -189,10 +189,11 @@ msgid ""
 "funcionamiento de la aplicación, y serán almacenados de forma segura y nunca "
 "compartidos ni publicados."
 msgstr ""
-"This project is in the development phase. If you decide to register, you will not be "
-"notified about the changes implemented in the platform. Your data will not be used for "
-"different purposes to ensure the proper functioning of the application, and will be stored "
-"securely and never shared or published."
+"This project is in the development phase. If you decide to register, you "
+"will not be notified about the changes implemented in the platform. Your "
+"data will not be used for different purposes to ensure the proper "
+"functioning of the application, and will be stored securely and never shared "
+"or published."
 
 #: accounts/templates/accounts/signup/unverified_email.html:5
 msgid "Correo no verificado"
@@ -210,9 +211,7 @@ msgstr "has not been verified."
 msgid ""
 "Hemos enviado suficientes correos de confirmación a su correo electrónico "
 "registrado."
-msgstr ""
-"We have sent enough confirmation emails to your email "
-"registered."
+msgstr "We have sent enough confirmation emails to your email registered."
 
 #: accounts/templates/accounts/signup/unverified_email.html:23
 msgid "Reenviar correo de verificación"
@@ -252,8 +251,7 @@ msgid ""
 "Gracias por registrarse.Hemos enviado un correo electrónico para verificar "
 "su cuenta."
 msgstr ""
-"Thank you for registering. We have sent an email to verify "
-"your account."
+"Thank you for registering. We have sent an email to verify your account."
 
 #: accounts/views.py:81
 msgid "Verificación no valida."
@@ -285,7 +283,7 @@ msgstr "my coproperties"
 
 #: app/templates/dashboard.html:17
 msgid "Crear nueva copropiedad"
-msgstr "Create new co-ownership"
+msgstr "Create new condo"
 
 #: app/templates/dashboard.html:27
 msgid "Mis roles"
@@ -323,7 +321,7 @@ msgstr "Fiscal Auditor"
 
 #: app/templates/dashboard.html:61
 msgid "Ver copropiedad"
-msgstr "View co-ownership"
+msgstr "View condo"
 
 #: app/templates/dashboard.html:69
 msgid "No hay copropiedades activas aún."
@@ -344,18 +342,18 @@ msgid ""
 "diferentes a garantizar el correcto funcionamiento de la aplicación, y serán "
 "almacenados de forma segura y nunca compartidos ni publicados."
 msgstr ""
-"Therefore, if you decide to register, you will not be notified about the changes "
-"implemented in the platform. Your data will not be used for different purposes to ensure "
-"the proper functioning of the application, and will be stored securely and never shared "
-"or published."
+"Therefore, if you decide to register, you will not be notified about the "
+"changes implemented in the platform. Your data will not be used for "
+"different purposes to ensure the proper functioning of the application, and "
+"will be stored securely and never shared or published."
 
 #: app/templates/home.html:21
 msgid ""
 "Este es un proyecto Open Source, porque pensamos que el conocimiento se debe "
 "compartir, y en comunidad creamos mejores herramientas."
 msgstr ""
-"This is an Open Source project, because we think that knowledge should be shared, "
-"and in community we create better tools."
+"This is an Open Source project, because we think that knowledge should be "
+"shared, and in community we create better tools."
 
 #: app/templates/home.html:22
 msgid ""
@@ -363,8 +361,9 @@ msgid ""
 "crear herramientas que contribuyan al crecimiento del emprendimiento y la "
 "economía global."
 msgstr ""
-"The use of this Software is and will always be free, because our mission is to create "
-"tools that contribute to the growth of entrepreneurship and the global economy."
+"The use of this Software is and will always be free, because our mission is "
+"to create tools that contribute to the growth of entrepreneurship and the "
+"global economy."
 
 #: app/templates/home.html:29
 msgid ""
@@ -377,17 +376,15 @@ msgid ""
 "copropiedades las herramientas necesarias para gestionar la administración y "
 "la comunicación con los copropietarios de una manera simple y segura."
 msgstr ""
-"This application has been created to provide coproperties managers with the necessary "
-"tools to manage administration and communication with co-owners in a simple and "
-"safe way."
+"This application has been created to provide coproperties managers with the "
+"necessary tools to manage administration and communication with co-owners in "
+"a simple and safe way."
 
 #: app/templates/home.html:42
 msgid ""
 "Proyecto en fase de desarrollo. Pongase en contacto con nosotros por medio "
 "de nuestro canal de"
-msgstr ""
-"Project in the development phase. Get in touch with us through "
-"our"
+msgstr "Project in the development phase. Get in touch with us through our"
 
 #: app/templates/layout/base.html:49
 msgid "Cerrar sesión"
@@ -423,9 +420,9 @@ msgstr "The entered document should only contain numbers"
 msgid "El coeficiente debe ser un valor entre 0 y 100"
 msgstr "The coefficient must be a value between 0 and 100"
 
-#: buildings/models.py:22 buildings/models.py:190 buildings/models.py:199
+#: buildings/models.py:22 buildings/models.py:196 buildings/models.py:205
 msgid "copropiedad"
-msgstr "coproperty"
+msgstr "condo"
 
 #: buildings/models.py:26
 msgid "administrador"
@@ -459,12 +456,12 @@ msgstr "membership"
 msgid "membresías"
 msgstr "memberships"
 
-#: buildings/models.py:77 buildings/models.py:277 buildings/models.py:382
+#: buildings/models.py:77 buildings/models.py:283 buildings/models.py:388
 #: place/models.py:9 place/models.py:34
 msgid "nombre"
 msgstr "name"
 
-#: buildings/models.py:82 buildings/models.py:289 buildings/models.py:394
+#: buildings/models.py:82 buildings/models.py:295 buildings/models.py:400
 msgid "tipo de documento"
 msgstr "document type"
 
@@ -481,11 +478,11 @@ msgstr "city"
 msgid "dirección"
 msgstr "address"
 
-#: buildings/models.py:118 buildings/models.py:301 buildings/models.py:406
+#: buildings/models.py:118 buildings/models.py:307 buildings/models.py:412
 msgid "número celular"
 msgstr "mobile phone"
 
-#: buildings/models.py:121 buildings/models.py:304 buildings/models.py:409
+#: buildings/models.py:121 buildings/models.py:310 buildings/models.py:415
 msgid ""
 "Si desea ingresar más de un número celular, estos deben ir separados por "
 "coma (,)."
@@ -493,116 +490,120 @@ msgstr ""
 "If you want to enter more than one cell number, they must be separated by "
 "comma (,)."
 
-#: buildings/models.py:127 buildings/models.py:150 buildings/models.py:310
-#: buildings/models.py:332 buildings/models.py:414 buildings/models.py:436
+#: buildings/models.py:127 buildings/models.py:150 buildings/models.py:316
+#: buildings/models.py:338 buildings/models.py:420 buildings/models.py:442
 msgid ""
 "El dato no es válido, sólo debe ingresar números. Si desea ingresar más de "
 "un número celular, estos deben estar separados por coma (,)."
 msgstr ""
-"The data is not valid, you only have to enter numbers. If you want to enter more than "
-"a mobile phone number, these must be separated by a comma (,)."
+"The data is not valid, you only have to enter numbers. If you want to enter "
+"more than a mobile phone number, these must be separated by a comma (,)."
 
-#: buildings/models.py:142 buildings/models.py:325 buildings/models.py:429
+#: buildings/models.py:142 buildings/models.py:331 buildings/models.py:435
 msgid "número telefónico"
 msgstr "phone number"
 
-#: buildings/models.py:143 buildings/models.py:430
+#: buildings/models.py:143 buildings/models.py:436
 msgid ""
 "Si desea ingresar más de un número telefónico,estos deben ir separados por "
 "coma (,)."
 msgstr ""
-"If you wish to enter more than one telephone number, they must be separated by "
-"comma (,)."
+"If you wish to enter more than one telephone number, they must be separated "
+"by comma (,)."
 
 #: buildings/models.py:166
 msgid "periodo inicial"
 msgstr "initial period"
 
-#: buildings/models.py:171 buildings/models.py:247
+#: buildings/models.py:171 buildings/models.py:253
 msgid "registro de actividad"
 msgstr "activity register"
 
-#: buildings/models.py:191
+#: buildings/models.py:177
+msgid "creado por"
+msgstr ""
+
+#: buildings/models.py:197
 msgid "copropiedades"
 msgstr "coproperties"
 
-#: buildings/models.py:206
+#: buildings/models.py:212
 msgid "bloque"
 msgstr "block"
 
-#: buildings/models.py:207
+#: buildings/models.py:213
 #: buildings/templates/buildings/administrative/unit_detail.html:19
 #: buildings/templates/buildings/administrative/units_list.html:23
 msgid "Bloque o interior"
 msgstr "block"
 
-#: buildings/models.py:213
+#: buildings/models.py:219
 msgid "Apartamento, casa u oficina"
 msgstr "Apartment, house or office"
 
-#: buildings/models.py:221
+#: buildings/models.py:227
 msgid "área (Mts)"
 msgstr "area (Mts)"
 
-#: buildings/models.py:228
+#: buildings/models.py:234
 #: buildings/templates/buildings/administrative/unit_detail.html:28
 msgid "matrícula inmobiliaria"
 msgstr "real estate registration"
 
-#: buildings/models.py:236
+#: buildings/models.py:242
 msgid "Coeficiente"
 msgstr "Coefficient"
 
-#: buildings/models.py:237
+#: buildings/models.py:243
 msgid "Este valor debe ser un porcentaje entre 0 y 100"
 msgstr "This value must be a percentage between 0 and 100"
 
-#: buildings/models.py:242
+#: buildings/models.py:248
 msgid "observaciones"
 msgstr "observations"
 
-#: buildings/models.py:269 buildings/models.py:363 buildings/models.py:458
+#: buildings/models.py:275 buildings/models.py:369 buildings/models.py:464
 msgid "unidad"
 msgstr "unit"
 
-#: buildings/models.py:270
+#: buildings/models.py:276
 msgid "unidades"
 msgstr "units"
 
-#: buildings/models.py:296 buildings/models.py:401
+#: buildings/models.py:302 buildings/models.py:407
 msgid "número de documento"
 msgstr "document number"
 
-#: buildings/models.py:326
+#: buildings/models.py:332
 msgid ""
 "Si desea ingresar más de un número telefónico, estos deben ir separados por "
 "coma (,)."
 msgstr ""
-"If you wish to enter more than one telephone number, these must be separated by "
-"comma (,)."
+"If you wish to enter more than one telephone number, these must be separated "
+"by comma (,)."
 
-#: buildings/models.py:349
+#: buildings/models.py:355
 msgid "dirección de correspondencia"
 msgstr "Correspondence Address"
 
-#: buildings/models.py:350
+#: buildings/models.py:356
 msgid ""
 "Dirección alternativa para enviar correspondencia al propietario de la unidad"
 msgstr "Alternative address to send correspondence to the unit owner"
 
-#: buildings/models.py:374
+#: buildings/models.py:380
 msgid "propietario"
 msgstr "owner"
 
-#: buildings/models.py:375
+#: buildings/models.py:381
 msgid "propietarios"
 msgstr "owners"
 
-#: buildings/models.py:469
+#: buildings/models.py:475
 msgid "arrendatario"
 msgstr "leaseholder"
 
-#: buildings/models.py:470
+#: buildings/models.py:476
 msgid "arrendatarios"
 msgstr "leaseholders"
 
@@ -694,8 +695,8 @@ msgid ""
 "Tiene la posibilidad de registrar varios propietarios por unidad. El primer "
 "propietario que registre será el propietario principal."
 msgstr ""
-"You have the possibility to register several owners per unit. The first registered owner "
-"will be the principal owner."
+"You have the possibility to register several owners per unit. The first "
+"registered owner will be the principal owner."
 
 #: buildings/templates/buildings/administrative/unit_form.html:66
 msgid "Propietario"
@@ -766,25 +767,25 @@ msgstr "Roles"
 
 #: buildings/templates/buildings/building_form.html:5
 msgid "Crear copropiedad"
-msgstr "Create coproperty"
+msgstr "Create condo"
 
 #: buildings/templates/buildings/building_form.html:17
 msgid "Nueva copropiedad"
-msgstr "New coproperty"
+msgstr "New condo"
 
-#: buildings/views.py:49
+#: buildings/views.py:51
 msgid "Copropiedad creada exitosamente."
-msgstr "Coproperty created successfully."
+msgstr "Condo created successfully."
 
-#: buildings/views.py:113
+#: buildings/views.py:115
 msgid "Copropiedad actualizada correctamente."
-msgstr "Coproperty updated correctly."
+msgstr "Condo updated correctly."
 
-#: buildings/views.py:246
+#: buildings/views.py:248
 msgid "Unidad creada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views.py:351
+#: buildings/views.py:353
 msgid "Unidad actualizada correctamente."
 msgstr "Unit updated correctly."
 
