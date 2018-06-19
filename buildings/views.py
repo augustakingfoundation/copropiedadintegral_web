@@ -8,6 +8,7 @@ from django.views.generic import DetailView
 from django.views.generic import UpdateView
 from django.views.generic import ListView
 from django.urls import reverse
+from django.utils.translation import ugettext as _
 
 from .forms import BuildingForm
 from .forms import UnitForm
@@ -45,7 +46,7 @@ class BuildingFormView(CustomUserMixin, CreateView):
 
         messages.success(
             self.request,
-            'Copropiedad creada exitosamente.'
+            _('Copropiedad creada exitosamente.')
         )
 
         return redirect(building.get_absolute_url())
@@ -109,7 +110,7 @@ class BuildingUpdateView(CustomUserMixin, UpdateView):
 
         messages.success(
             self.request,
-            'Copropiedad actualizada correctamente.',
+            _('Copropiedad actualizada correctamente.'),
         )
 
         return super().form_valid(form)
@@ -242,7 +243,7 @@ class UnitFormView(CustomUserMixin, TemplateView):
 
         messages.success(
             self.request,
-            'Unidad creada exitosamente.'
+            _('Unidad creada exitosamente.')
         )
 
         return redirect(unit.get_absolute_url())
@@ -347,7 +348,7 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
 
         messages.success(
             self.request,
-            'Unidad actualizada correctamente.',
+            _('Unidad actualizada correctamente.'),
         )
 
         return redirect(unit.get_absolute_url())

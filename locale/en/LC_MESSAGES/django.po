@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-18 23:39-0500\n"
+"POT-Creation-Date: 2018-06-19 11:20-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,10 +18,759 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: accounts/data.py:11
+msgid "Pasaporte"
+msgstr ""
+
+#: accounts/forms.py:84
+msgid "Contraseña actual"
+msgstr ""
+
+#: accounts/forms.py:88
+#: accounts/templates/accounts/auth/password_reset_confirm.html:26
+msgid "Nueva contraseña"
+msgstr ""
+
+#: accounts/forms.py:93
+#: accounts/templates/accounts/auth/password_reset_confirm.html:31
+msgid "Confirmar nueva contraseña"
+msgstr ""
+
+#: accounts/forms.py:121
+msgid "Contraseña no válida."
+msgstr ""
+
+#: accounts/forms.py:127
+msgid "Las contraseñas no coinciden."
+msgstr ""
+
+#: accounts/models.py:17
+msgid "Una dirección de correo electrónico es requerida."
+msgstr ""
+
+#: accounts/models.py:47
+msgid "nombres"
+msgstr ""
+
+#: accounts/models.py:56 buildings/models.py:282 buildings/models.py:387
+msgid "apellidos"
+msgstr ""
+
+#: accounts/models.py:65 buildings/models.py:113 buildings/models.py:357
+#: buildings/models.py:452
+msgid "correo electrónico"
+msgstr ""
+
+#: accounts/models.py:76
+msgid "Activo"
+msgstr ""
+
+#: accounts/models.py:81
+msgid "Fecha de creación"
+msgstr ""
+
+#: accounts/models.py:86
+msgid "Fecha de solicitud de activación de cuenta"
+msgstr ""
+
+#: accounts/models.py:93
+msgid "verificado"
+msgstr ""
+
+#: accounts/models.py:113 buildings/models.py:16
+msgid "usuario"
+msgstr ""
+
+#: accounts/models.py:114
+msgid "usuarios"
+msgstr ""
+
+#: accounts/templates/accounts/auth/login.html:5
+#: accounts/templates/accounts/auth/login.html:16
+#: accounts/templates/accounts/auth/login.html:44
+#: accounts/templates/accounts/signup/verify_email_confirm.html:20
+#: app/templates/home.html:36
+msgid "Iniciar sesión"
+msgstr ""
+
+#: accounts/templates/accounts/auth/login.html:20
+msgid "¿No tiene aún una cuenta?"
+msgstr ""
+
+#: accounts/templates/accounts/auth/login.html:20
+msgid "Crear cuenta."
+msgstr ""
+
+#: accounts/templates/accounts/auth/login.html:42
+msgid "¿Olvidó su contraseña?"
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_confirm.html:13
+#: accounts/templates/accounts/auth/password_reset_done.html:16
+#: accounts/templates/accounts/auth/password_reset_form.html:4
+#: accounts/templates/accounts/auth/password_reset_form.html:15
+#: accounts/templates/accounts/auth/password_reset_form.html:33
+msgid "Recuperar contraseña"
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_confirm.html:36
+#: accounts/templates/accounts/profile_form.html:72
+#: buildings/templates/buildings/administrative/unit_form.html:303
+#: buildings/templates/buildings/building_form.html:96
+msgid "Guardar"
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_done.html:5
+msgid "Recuperación de contraseña"
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_done.html:18
+msgid ""
+"Hemos enviado un correo electrónico con instrucciones para recuperar su "
+"contraseña."
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_email.html:3
+msgid "Cordial saludo"
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_email.html:5
+msgid ""
+"Enviamos este correo electrónico porque usted ha solicitado recuperar su "
+"contraseña. Por favor, siga el siguiente link:"
+msgstr ""
+
+#: accounts/templates/accounts/auth/password_reset_email.html:9
+msgid "Su dirección de correo electrónico registrada es:"
+msgstr ""
+
+#: accounts/templates/accounts/profile_form.html:5
+#: app/templates/layout/base.html:47
+msgid "Editar perfil"
+msgstr ""
+
+#: accounts/templates/accounts/profile_form.html:14
+msgid "Editar información personal"
+msgstr ""
+
+#: accounts/templates/accounts/profile_form.html:47
+msgid ""
+"Para editar su información personal debe confirmar su actual contraseña."
+msgstr ""
+
+#: accounts/templates/accounts/profile_form.html:59
+msgid "Solo debe diligenciar estos campos si desea cambiar su contraseña."
+msgstr ""
+
+#: accounts/templates/accounts/signup/signup.html:5
+#: accounts/templates/accounts/signup/signup.html:16
+#: accounts/templates/accounts/signup/signup.html:64
+#: app/templates/home.html:37
+msgid "Crear cuenta"
+msgstr ""
+
+#: accounts/templates/accounts/signup/signup.html:20
+msgid "¿Ya tiene una cuenta?"
+msgstr ""
+
+#: accounts/templates/accounts/signup/signup.html:20
+msgid "Iniciar sesión."
+msgstr ""
+
+#: accounts/templates/accounts/signup/signup.html:62
+msgid ""
+"Este proyecto se encuentra en fase de desarrollo. Si decide registrarse, no "
+"será notificado sobre los cambios implementados en la plataforma. Sus datos "
+"no serán usados para fines diferentes a garantizar el correcto "
+"funcionamiento de la aplicación, y serán almacenados de forma segura y nunca "
+"compartidos ni publicados."
+msgstr ""
+
+#: accounts/templates/accounts/signup/unverified_email.html:5
+msgid "Correo no verificado"
+msgstr ""
+
+#: accounts/templates/accounts/signup/unverified_email.html:16
+msgid "Copropiedad Integral"
+msgstr ""
+
+#: accounts/templates/accounts/signup/unverified_email.html:17
+msgid "Su correo"
+msgstr ""
+
+#: accounts/templates/accounts/signup/unverified_email.html:17
+msgid "no ha sido verificado."
+msgstr ""
+
+#: accounts/templates/accounts/signup/unverified_email.html:21
+msgid ""
+"Hemos enviado suficientes correos de confirmación a su correo electrónico "
+"registrado."
+msgstr ""
+
+#: accounts/templates/accounts/signup/unverified_email.html:23
+msgid "Reenviar correo de verificación"
+msgstr ""
+
+#: accounts/templates/accounts/signup/verify_email.html:8
+msgid "Verificación de correo electrónico."
+msgstr ""
+
+#: accounts/templates/accounts/signup/verify_email.html:10
+msgid "Para activar su cuenta debe visitar la siguiente URL:"
+msgstr ""
+
+#: accounts/templates/accounts/signup/verify_email.html:14
+msgid "Si no se ha registrado, simplemente elimine este email."
+msgstr ""
+
+#: accounts/templates/accounts/signup/verify_email_confirm.html:4
+msgid "Verificación completada"
+msgstr ""
+
+#: accounts/templates/accounts/signup/verify_email_confirm.html:15
+msgid "Verificación de correo electrónico"
+msgstr ""
+
+#: accounts/templates/accounts/signup/verify_email_confirm.html:22
+#: app/templates/home.html:34
+msgid "Ir a la aplicación"
+msgstr ""
+
+#: accounts/views.py:45 accounts/views.py:113
+msgid "Active su cuenta"
+msgstr ""
+
+#: accounts/views.py:63
+msgid ""
+"Gracias por registrarse.Hemos enviado un\n"
+"            correo electrónico para verificar su cuenta."
+msgstr ""
+
+#: accounts/views.py:81
+msgid "Verificación no valida."
+msgstr ""
+
+#: accounts/views.py:86
+msgid "Su dirección de correo electrónico ha sido verificada."
+msgstr ""
+
+#: accounts/views.py:89
+msgid "Su cuenta ya ha sido verificada previamente."
+msgstr ""
+
+#: accounts/views.py:134
+msgid ""
+"Gracias por registrarse.Hemos enviado un\n"
+"            'correo electrónico para verificar su cuenta."
+msgstr ""
+
+#: accounts/views.py:161
+msgid "Sus datos han sido actualizados correctamente."
+msgstr ""
+
 #: app/settings.py:106
 msgid "English"
 msgstr ""
 
 #: app/settings.py:107
 msgid "Spanish"
+msgstr ""
+
+#: app/templates/dashboard.html:14
+msgid "Mis copropiedades"
+msgstr ""
+
+#: app/templates/dashboard.html:17
+msgid "Crear nueva copropiedad"
+msgstr ""
+
+#: app/templates/dashboard.html:27
+msgid "Mis roles"
+msgstr ""
+
+#: app/templates/dashboard.html:28
+#: buildings/templates/buildings/administrative/building_detail.html:17
+#: buildings/templates/buildings/administrative/unit_detail.html:41
+msgid "Nombre"
+msgstr ""
+
+#: app/templates/dashboard.html:29
+msgid "Identificación"
+msgstr ""
+
+#: app/templates/dashboard.html:38
+msgid "Administrador"
+msgstr ""
+
+#: app/templates/dashboard.html:42
+msgid "Asistente administrativo"
+msgstr ""
+
+#: app/templates/dashboard.html:46
+msgid "Contador"
+msgstr ""
+
+#: app/templates/dashboard.html:50
+msgid "Asistente Contable"
+msgstr ""
+
+#: app/templates/dashboard.html:54
+msgid "Revisor fiscal"
+msgstr ""
+
+#: app/templates/dashboard.html:61
+msgid "Ver copropiedad"
+msgstr ""
+
+#: app/templates/dashboard.html:69
+msgid "No hay copropiedades activas aún."
+msgstr ""
+
+#: app/templates/home.html:5
+msgid "Inicio"
+msgstr ""
+
+#: app/templates/home.html:16
+msgid "Esta aplicación se encuentra en fase de desarrollo..."
+msgstr ""
+
+#: app/templates/home.html:18
+msgid ""
+"Por lo tanto, si decide registrarse, no será notificado sobre los cambios "
+"implementados en la plataforma. Sus datos no serán usados para fines "
+"diferentes a garantizar el correcto funcionamiento de la aplicación, y serán "
+"almacenados de forma segura y nunca compartidos ni publicados."
+msgstr ""
+
+#: app/templates/home.html:21
+msgid ""
+"Este es un proyecto Open Source, porque pensamos que el conocimiento se debe "
+"compartir, y en comunidad creamos mejores herramientas."
+msgstr ""
+
+#: app/templates/home.html:22
+msgid ""
+"El uso de este Software es y será siempre gratuito, porque nuestra misión es "
+"crear herramientas que contribuyan al crecimiento del emprendimiento y la "
+"economía global."
+msgstr ""
+
+#: app/templates/home.html:29
+msgid ""
+"Una aplicación creada para gestionar la administración de las copropiedades."
+msgstr ""
+
+#: app/templates/home.html:31
+msgid ""
+"Esta aplicación ha sido creada para proporcionar a los administradores de "
+"copropiedades las herramientas necesarias para gestionar la administración y "
+"la comunicación con los copropietarios de una manera simple y segura."
+msgstr ""
+
+#: app/templates/home.html:42
+msgid ""
+"Proyecto en fase de desarrollo. Pongase en contacto con nosotros por medio "
+"de nuestro canal de"
+msgstr ""
+
+#: app/templates/layout/base.html:49
+msgid "Cerrar sesión"
+msgstr ""
+
+#: app/validators.py:9
+msgid "El archivo debe ser máximo de 4MB"
+msgstr ""
+
+#: buildings/data.py:9
+#: buildings/templates/buildings/administrative/building_detail.html:20
+msgid "Tipo de documento"
+msgstr ""
+
+#: buildings/data.py:12
+msgid "Otro"
+msgstr ""
+
+#: buildings/forms.py:33
+#: buildings/templates/buildings/administrative/building_detail.html:26
+msgid "Ciudad"
+msgstr ""
+
+#: buildings/forms.py:63
+msgid "El NIT ingresado no es válido. Ej: 12345678-1"
+msgstr ""
+
+#: buildings/forms.py:72
+msgid "El documento ingresado solo debe contener números"
+msgstr ""
+
+#: buildings/forms.py:199
+msgid "El coeficiente debe ser un valor entre 0 y 100"
+msgstr ""
+
+#: buildings/models.py:22 buildings/models.py:190 buildings/models.py:199
+msgid "copropiedad"
+msgstr ""
+
+#: buildings/models.py:26
+msgid "administrador"
+msgstr ""
+
+#: buildings/models.py:31
+msgid "asistente administrativo"
+msgstr ""
+
+#: buildings/models.py:36
+msgid "contador"
+msgstr ""
+
+#: buildings/models.py:41
+msgid "asistente contable"
+msgstr ""
+
+#: buildings/models.py:46
+msgid "revisor fiscal"
+msgstr ""
+
+#: buildings/models.py:51
+msgid "membresía activa"
+msgstr ""
+
+#: buildings/models.py:66
+msgid "membresía"
+msgstr ""
+
+#: buildings/models.py:67
+msgid "membresías"
+msgstr ""
+
+#: buildings/models.py:77 buildings/models.py:277 buildings/models.py:382
+#: place/models.py:9 place/models.py:34
+msgid "nombre"
+msgstr ""
+
+#: buildings/models.py:82 buildings/models.py:289 buildings/models.py:394
+msgid "tipo de documento"
+msgstr ""
+
+#: buildings/models.py:88
+#: buildings/templates/buildings/administrative/building_detail.html:23
+msgid "documento/Nit"
+msgstr ""
+
+#: buildings/models.py:100 place/models.py:27
+msgid "ciudad"
+msgstr ""
+
+#: buildings/models.py:107
+msgid "dirección"
+msgstr ""
+
+#: buildings/models.py:118 buildings/models.py:301 buildings/models.py:406
+msgid "número celular"
+msgstr ""
+
+#: buildings/models.py:121 buildings/models.py:304 buildings/models.py:409
+msgid ""
+"Si desea ingresar más de un número celular, estos deben ir separados por "
+"coma (,)."
+msgstr ""
+
+#: buildings/models.py:127 buildings/models.py:150 buildings/models.py:310
+#: buildings/models.py:332 buildings/models.py:414 buildings/models.py:436
+msgid ""
+"El dato no es válido, sólo debe ingresar números. Si desea ingresar más de "
+"un número celular, estos deben estar separados por coma (,)."
+msgstr ""
+
+#: buildings/models.py:142 buildings/models.py:325 buildings/models.py:429
+msgid "número telefónico"
+msgstr ""
+
+#: buildings/models.py:143 buildings/models.py:430
+msgid ""
+"Si desea ingresar más de un número telefónico,estos deben ir separados por "
+"coma (,)."
+msgstr ""
+
+#: buildings/models.py:166
+msgid "periodo inicial"
+msgstr ""
+
+#: buildings/models.py:171 buildings/models.py:247
+msgid "registro de actividad"
+msgstr ""
+
+#: buildings/models.py:191
+msgid "copropiedades"
+msgstr ""
+
+#: buildings/models.py:206
+msgid "bloque"
+msgstr ""
+
+#: buildings/models.py:207
+#: buildings/templates/buildings/administrative/unit_detail.html:19
+#: buildings/templates/buildings/administrative/units_list.html:23
+msgid "Bloque o interior"
+msgstr ""
+
+#: buildings/models.py:213
+msgid "Apartamento, casa u oficina"
+msgstr ""
+
+#: buildings/models.py:221
+msgid "área (Mts)"
+msgstr ""
+
+#: buildings/models.py:228
+#: buildings/templates/buildings/administrative/unit_detail.html:28
+msgid "matrícula inmobiliaria"
+msgstr ""
+
+#: buildings/models.py:236
+msgid "Coeficiente"
+msgstr ""
+
+#: buildings/models.py:237
+msgid "Este valor debe ser un porcentaje entre 0 y 100"
+msgstr ""
+
+#: buildings/models.py:242
+msgid "observaciones"
+msgstr ""
+
+#: buildings/models.py:269 buildings/models.py:363 buildings/models.py:458
+msgid "unidad"
+msgstr ""
+
+#: buildings/models.py:270
+msgid "unidades"
+msgstr ""
+
+#: buildings/models.py:296 buildings/models.py:401
+msgid "número de documento"
+msgstr ""
+
+#: buildings/models.py:326
+msgid ""
+"Si desea ingresar más de un número telefónico, estos deben ir separados por "
+"coma (,)."
+msgstr ""
+
+#: buildings/models.py:349
+msgid "dirección de correspondencia"
+msgstr ""
+
+#: buildings/models.py:350
+msgid ""
+"Dirección alternativa para enviar correspondencia al propietario de la unidad"
+msgstr ""
+
+#: buildings/models.py:374
+msgid "propietario"
+msgstr ""
+
+#: buildings/models.py:375
+msgid "propietarios"
+msgstr ""
+
+#: buildings/models.py:469
+msgid "arrendatario"
+msgstr ""
+
+#: buildings/models.py:470
+msgid "arrendatarios"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/building_detail.html:29
+msgid "Dirección"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/building_detail.html:32
+#: buildings/templates/buildings/administrative/unit_detail.html:56
+#: buildings/templates/buildings/administrative/unit_detail.html:88
+msgid "Correo electrónico"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/building_detail.html:35
+msgid "Número celular"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/building_detail.html:38
+msgid "Número telefónico"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:14
+#: buildings/templates/buildings/administrative/unit_form.html:9
+msgid "Editar unidad"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:22
+#: buildings/templates/buildings/administrative/units_list.html:24
+msgid "Unidad"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:25
+msgid "Área (mts)"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:34
+#: buildings/templates/buildings/administrative/unit_form.html:50
+msgid "Datos de los propietarios"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:36
+#: buildings/templates/buildings/administrative/unit_form.html:52
+msgid "Datos del propietario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:44
+#: buildings/templates/buildings/administrative/unit_detail.html:76
+msgid "Tipo de documento:"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:47
+#: buildings/templates/buildings/administrative/unit_detail.html:79
+msgid "Número de documento:"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:50
+#: buildings/templates/buildings/administrative/unit_detail.html:82
+msgid "Número celular:"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:53
+#: buildings/templates/buildings/administrative/unit_detail.html:85
+msgid "Número telefónico:"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:59
+msgid "Dirección de correspondencia"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:66
+msgid "Datos de los arrendatarios"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:68
+#: buildings/templates/buildings/administrative/unit_form.html:186
+msgid "Datos del arrendatario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_detail.html:73
+msgid "Nombre:"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:9
+msgid "Registrar unidad"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:55
+msgid ""
+"Tiene la posibilidad de registrar varios propietarios por unidad. El primer "
+"propietario que registre será el propietario principal."
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:66
+msgid "Propietario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:115
+#: buildings/templates/buildings/administrative/unit_form.html:239
+#: buildings/templates/buildings/administrative/unit_form.html:289
+msgid "Eliminar"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:126
+msgid "Otro propietario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:181
+msgid "Agregar propietario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:197
+msgid "Arrendatario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:249
+msgid "Otro arrendatario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/unit_form.html:298
+msgid "Agregar arrendatario"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/units_list.html:5
+#: buildings/templates/buildings/building_base.html:30
+msgid "Unidades"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/units_list.html:12
+msgid "Crear unidad"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/units_list.html:35
+msgid "Ver información"
+msgstr ""
+
+#: buildings/templates/buildings/administrative/units_list.html:44
+msgid "No hay unidades registradas aún."
+msgstr ""
+
+#: buildings/templates/buildings/building_base.html:13
+msgid "Administración"
+msgstr ""
+
+#: buildings/templates/buildings/building_base.html:29
+msgid "General"
+msgstr ""
+
+#: buildings/templates/buildings/building_base.html:31
+msgid "Circulares"
+msgstr ""
+
+#: buildings/templates/buildings/building_base.html:32
+msgid "Encuestas"
+msgstr ""
+
+#: buildings/templates/buildings/building_base.html:33
+msgid "Roles"
+msgstr ""
+
+#: buildings/templates/buildings/building_form.html:5
+msgid "Crear copropiedad"
+msgstr ""
+
+#: buildings/templates/buildings/building_form.html:17
+msgid "Nueva copropiedad"
+msgstr ""
+
+#: buildings/views.py:49
+msgid "Copropiedad creada exitosamente."
+msgstr ""
+
+#: buildings/views.py:113
+msgid "Copropiedad actualizada correctamente."
+msgstr ""
+
+#: buildings/views.py:246
+msgid "Unidad creada exitosamente."
+msgstr ""
+
+#: buildings/views.py:351
+msgid "Unidad actualizada correctamente."
+msgstr ""
+
+#: place/models.py:16 place/models.py:42
+msgid "departamento"
+msgstr ""
+
+#: place/models.py:28
+msgid "ciudades"
+msgstr ""
+
+#: place/models.py:43
+msgid "departamentos"
 msgstr ""

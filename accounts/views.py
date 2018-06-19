@@ -12,6 +12,7 @@ from django.views.generic import FormView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
+from django.utils.translation import ugettext as _
 
 from accounts.forms import ProfileForm
 from accounts.forms import SignUpForm
@@ -41,7 +42,7 @@ class SignupView(FormView):
         user.is_active = True
         user.save()
 
-        subject = 'Active su cuenta'
+        subject = _('Active su cuenta')
 
         body = render_to_string(
             'accounts/signup/verify_email.html', {
@@ -59,8 +60,8 @@ class SignupView(FormView):
 
         messages.success(
             self.request,
-            'Gracias por registrarse.Hemos enviado un '
-            'correo electrónico para verificar su cuenta.',
+            _("""Gracias por registrarse.Hemos enviado un
+            correo electrónico para verificar su cuenta."""),
         )
 
         return super().form_valid(form)
@@ -77,15 +78,15 @@ class EmailVerificationView(TemplateView):
 
         user_id = hashids.decode(kwargs['verify_key'])
         if not user_id:
-            raise Http404('Verificación no valida.')
+            raise Http404(_('Verificación no valida.'))
 
         user = get_object_or_404(User, id=user_id[0])
 
         context = self.get_context_data(**kwargs)
-        context['message'] = 'Su dirección de correo electrónico ha sido verificada.'
+        context['message'] = _('Su dirección de correo electrónico ha sido verificada.')
 
         if user.is_verified:
-            context['message'] = 'Su cuenta ya ha sido verificada previamente.'
+            context['message'] = _('Su cuenta ya ha sido verificada previamente.')
             return self.render_to_response(context)
 
         user.is_verified = True
@@ -109,7 +110,7 @@ class ResendEmailVerificationView(CustomUserMixin, View):
     @transaction.atomic
     def get(self, request, **kwargs):
         user = request.user
-        subject = 'Active su cuenta'
+        subject = _('Active su cuenta')
 
         body = render_to_string(
             'accounts/signup/verify_email.html', {
@@ -130,8 +131,8 @@ class ResendEmailVerificationView(CustomUserMixin, View):
 
         messages.success(
             self.request,
-            'Gracias por registrarse.Hemos enviado un '
-            'correo electrónico para verificar su cuenta.',
+            _("""Gracias por registrarse.Hemos enviado un
+            'correo electrónico para verificar su cuenta."""),
         )
 
         return redirect('home')
@@ -157,7 +158,7 @@ class ProfileFormView(CustomUserMixin, UpdateView):
 
         messages.success(
             self.request,
-            'Sus datos han sido actualizados correctamente.',
+            _('Sus datos han sido actualizados correctamente.'),
         )
 
         return super().form_valid(form)

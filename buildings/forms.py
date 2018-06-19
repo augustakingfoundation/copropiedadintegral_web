@@ -2,6 +2,7 @@ import re
 
 from django import forms
 from django.forms import modelformset_factory
+from django.utils.translation import ugettext as _
 
 from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .data import BUILDING_DOCUMENT_TYPE_CC
@@ -29,7 +30,7 @@ class BuildingForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['city'].empty_label = 'Ciudad'
+        self.fields['city'].empty_label = _('Ciudad')
 
         fields = [
             'name',
@@ -59,7 +60,7 @@ class BuildingForm(forms.ModelForm):
         ):
             self.add_error(
                 'document_number',
-                'El NIT ingresado no es válido. Ej: 12345678-1',
+                _('El NIT ingresado no es válido. Ej: 12345678-1'),
             )
 
         elif (
@@ -68,7 +69,7 @@ class BuildingForm(forms.ModelForm):
         ):
             self.add_error(
                 'document_number',
-                'El documento ingresado solo debe contener números',
+                _('El documento ingresado solo debe contener números'),
             )
 
 
@@ -194,7 +195,9 @@ class UnitForm(forms.ModelForm):
 
         if value:
             if value < 0 or value > 100:
-                raise forms.ValidationError('El coeficiente debe ser un valor \
-                    entre 0 y 100')
+                raise forms.ValidationError(
+                    _('El coeficiente debe ser un valor '
+                      'entre 0 y 100')
+                )
 
         return value

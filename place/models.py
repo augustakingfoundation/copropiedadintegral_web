@@ -1,17 +1,19 @@
 from django.db import models
 
+from django.utils.translation import ugettext as _
+
 
 class City(models.Model):
     name = models.CharField(
         max_length=100,
-        verbose_name='nombre',
+        verbose_name=_('nombre'),
     )
 
     state = models.ForeignKey(
         'place.State',
         null=True,
         on_delete=models.CASCADE,
-        verbose_name='departamento',
+        verbose_name=_('departamento'),
     )
 
     def __str__(self):
@@ -22,14 +24,14 @@ class City(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'ciudad'
-        verbose_name_plural = 'ciudades'
+        verbose_name = _('ciudad')
+        verbose_name_plural = _('ciudades')
 
 
 class State(models.Model):
     name = models.CharField(
         max_length=100,
-        verbose_name='nombre',
+        verbose_name=_('nombre'),
     )
 
     def __str__(self):
@@ -37,5 +39,5 @@ class State(models.Model):
 
     class Meta:
         ordering = ('name',)
-        verbose_name = 'departamento'
-        verbose_name_plural = 'departamentos'
+        verbose_name = _('departamento')
+        verbose_name_plural = _('departamentos')
