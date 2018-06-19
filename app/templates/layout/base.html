@@ -44,9 +44,9 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'accounts:profile_form_view' %}">Editar perfil</a>
+              <a class="dropdown-item" href="{% url 'accounts:profile_form_view' %}">{% trans "Editar perfil" %}</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Cerrar sesión" %}</a>
             </div>
           </li>
         </ul>

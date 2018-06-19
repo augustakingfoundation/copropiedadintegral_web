@@ -1,8 +1,8 @@
 {% extends "layout/base.html" %}
 
-{% load static widget_tweaks %}
+{% load static widget_tweaks i18n %}
 
-{% block title %}Crear copropiedad{% endblock title %}
+{% block title %}{% trans "Crear copropiedad" %}{% endblock title %}
 
 {% block content %}
 <section class="buildingForm">
@@ -11,7 +11,11 @@
     <br>
 
     <div class="jumbotron">
-      <h1>Nueva copropiedad</h1>
+      {% if object %}
+      <h1>{{ object }}</h1>
+      {% else %}
+      <h1>{% trans "Nueva copropiedad" %}</h1>
+      {% endif %}
       <hr>
 
       <div class="row">
@@ -89,7 +93,7 @@
 
               <hr>
 
-              <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
+              <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
           </form>
         </div>
       </div>

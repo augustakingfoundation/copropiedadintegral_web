@@ -1,13 +1,15 @@
 {% extends 'layout/email_base.html' %}
 
+{% load i18n %}
+
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<h1>Verificación de correo electrónico.</h1>
+<h1>{% trans "Verificación de correo electrónico." %}</h1>
 
-<p>Para activar su cuenta debe visitar la siguiente URL:</p>
+<p>{% trans "Para activar su cuenta debe visitar la siguiente URL:" %}</p>
 
 <a href="{{ base_url }}{% url 'accounts:email_verification' user.verify_key %}">{{ base_url }}{% url 'accounts:email_verification' user.verify_key %}</a>
 
-<p><small><i>Si no se ha registrado, simplemente elimine este email.</i></small></p>
+<p><small><i>{% trans "Si no se ha registrado, simplemente elimine este email." %}</i></small></p>
 {% endblock %}

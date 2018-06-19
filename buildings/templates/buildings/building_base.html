@@ -1,5 +1,7 @@
 {% extends "layout/base.html" %}
 
+{% load i18n %}
+
 {% block content %}
 <section class="buildingBase">
   <div class="container">
@@ -8,12 +10,12 @@
 
     <ul class="nav nav-pills nav-fill">
     <li class="nav-item">
-      <a class="nav-link active" href="{{ building.get_absolute_url }}">Administración</a>
+      <a class="nav-link active" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
     </li>
 
     {% comment %}
     <li class="nav-item">
-      <a class="nav-link" href="#">Contabilidad</a>
+      <a class="nav-link" href="#">{% trans "Contabilidad" %}</a>
     </li>
     {% endcomment %}
   </ul>
@@ -23,11 +25,11 @@
   <div class="row">
     <div class="col-sm-12 col-md-2 col-lg-2">
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link {% if active_general %}active{% endif %}" href="{{ building.get_absolute_url }}">General</a>
-        <a class="nav-link {% if active_units %}active{% endif %}" href="{% url 'buildings:units_list' building.id %}">Unidades</a>
-        <a class="nav-link" href="">Circulares</a>
-        <a class="nav-link" href="">Encuestas</a>
-        <a class="nav-link" href="">Roles</a>
+        <a class="nav-link {% if active_general %}active{% endif %}" href="{{ building.get_absolute_url }}">{% trans "General" %}</a>
+        <a class="nav-link {% if active_units %}active{% endif %}" href="{% url 'buildings:units_list' building.id %}">{% trans "Unidades" %}</a>
+        <a class="nav-link" href="">{% trans "Circulares" %}</a>
+        <a class="nav-link" href="">{% trans "Encuestas" %}</a>
+        <a class="nav-link" href="">{% trans "Roles" %}</a>
       </div>
     </div>
 

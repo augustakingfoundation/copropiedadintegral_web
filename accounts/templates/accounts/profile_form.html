@@ -1,8 +1,8 @@
 {% extends "layout/base.html" %}
 
-{% load widget_tweaks %}
+{% load widget_tweaks i18n %}
 
-{% block title %}Editar perfil{% endblock title %}
+{% block title %}{% trans "Editar perfil" %}{% endblock title %}
 
 {% block content %}
 <section class="profileForm">
@@ -11,7 +11,7 @@
     <br>
 
     <div class="jumbotron">
-        <h1>Editar información personal</h1>
+        <h1>{% trans "Editar información personal" %}</h1>
         <hr>
 
         <div class="row">
@@ -44,9 +44,7 @@
                 <hr>
 
                 <div class="form-group">
-
-
-                    <p class="font-italic">Para editar su información personal debe confirmar su actual contraseña.</p>
+                    <p class="font-italic">{% trans "Para editar su información personal debe confirmar su actual contraseña." %}</p>
 
                     <p>{{ form.current_password.label_tag }}</p>
                     {% render_field form.current_password class+="form-control" %}
@@ -58,7 +56,7 @@
                 <div class="form-group">
 
 
-                    <p class="font-italic">Solo debe diligenciar estos campos si desea cambiar su contraseña.</p>
+                    <p class="font-italic">{% trans "Solo debe diligenciar estos campos si desea cambiar su contraseña." %}</p>
 
                     <p>{{ form.new_password.label_tag }}</p>
                     {% render_field form.new_password class+="form-control" %}
@@ -71,7 +69,7 @@
 
                 <hr>
 
-                <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
+                <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
             </form>
           </div>
         </div>

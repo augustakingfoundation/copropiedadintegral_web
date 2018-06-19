@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 
-{% load static %}
+{% load static i18n %}
 
 {% block title %}Dashboard{% endblock title %}
 
@@ -11,10 +11,10 @@
     <br>
 
     <div class="jumbotron">
-        <h1>Mis copropiedades</h1>
+        <h1>{% trans "Mis copropiedades" %}</h1>
         <hr>
 
-        <a href="{% url 'buildings:building_create' %}" class="btn btn-outline-info float-right">Crear nueva copropiedad</a>
+        <a href="{% url 'buildings:building_create' %}" class="btn btn-outline-info float-right">{% trans "Crear nueva copropiedad" %}</a>
 
         <br>
         <br>
@@ -24,9 +24,9 @@
       <table class="table">
         <thead>
           <tr>
-            <th scope="col">Mis roles</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Identificación</th>
+            <th scope="col">{% trans "Mis roles" %}</th>
+            <th scope="col">{% trans "Nombre" %}</th>
+            <th scope="col">{% trans "Identificación" %}</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -35,30 +35,30 @@
           <tr>
             <td>
               {% if membership.is_administrator %}
-              <p>Administrador</p>
+              <p>{% trans "Administrador" %}</p>
               {% endif %}
 
               {% if membership.is_administrative_assistant %}
-              <p>Asistente administrativo</p>
+              <p>{% trans "Asistente administrativo" %}</p>
               {% endif %}
 
               {% if membership.is_accountant %}
-              <p>Contador</p>
+              <p>{% trans "Contador" %}</p>
               {% endif %}
 
               {% if membership.is_accounting_assistant %}
-              <p>Asistente Contable</p>
+              <p>{% trans "Asistente Contable" %}</p>
               {% endif %}
 
               {% if membership.is_fiscal_reviewer %}
-              <p>Revisor fiscal</p>
+              <p>{% trans "Revisor fiscal" %}</p>
               {% endif %}
             </td>
 
             <td>{{ membership.building.name }}</td>
             <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
             <td>
-              <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">Ver copropiedad</a>
+              <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">{% trans "Ver copropiedad" %}</a>
             </td>
           </tr>
           {% endfor %}
@@ -66,7 +66,7 @@
       </table>
       </div>
       {% else %}
-      <p>No hay copropiedades activas aún.</p>
+      <p>{% trans "No hay copropiedades activas aún." %}</p>
       {% endif %}
     </div>
   </div>

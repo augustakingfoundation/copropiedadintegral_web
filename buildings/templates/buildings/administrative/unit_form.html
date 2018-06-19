@@ -1,12 +1,12 @@
 {% extends "buildings/building_base.html" %}
 
-{% load static widget_tweaks formset_tags %}
+{% load static widget_tweaks formset_tags i18n %}
 
 {% block title %}{{ building }}{% endblock %}
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>{% if unit_update %}Editar unidad {{ object }}{% else %}Registrar unidad{% endif %}</h1>
+  <h1>{% if unit_update %}{% trans "Editar unidad" %} {{ object }}{% else %}{% trans "Registrar unidad" %}{% endif %}</h1>
   <hr>
 
   <form method="post">
@@ -47,12 +47,12 @@
 
       <hr>
       {% if object.owner_set.count > 1 %}
-      <h3>Datos de los propietarios</h3>
+      <h3>{% trans "Datos de los propietarios" %}</h3>
       {% else %}
-      <h3>Datos del propietario</h3>
+      <h3>{% trans "Datos del propietario" %}</h3>
       {% endif %}
 
-      <p>Tiene la posibilidad de registrar varios propietarios por unidad. El primer propietario que registre será el propietario principal.</p>
+      <p>{% trans "Tiene la posibilidad de registrar varios propietarios por unidad. El primer propietario que registre será el propietario principal." %}</p>
 
       <div id="owner_formset" data-formset-prefix="{{ owner_formset.prefix }}">
           {% if owner_formset.non_form_errors %}
@@ -63,7 +63,7 @@
           <div data-formset-body>
           {% for owner_form in owner_formset %}
               {% if object %}
-              <p class="h4">Propietario {{ forloop.counter }}</p>
+              <p class="h4">{% trans "Propietario" %} {{ forloop.counter }}</p>
               {% endif %}
               {% render_field owner_form.id %}
               <div data-formset-form>
@@ -112,7 +112,7 @@
 
                   {% if forloop.counter != 1 %}
                   <div class="form-group">
-                      <label>Eliminar</label>
+                      <label>{% trans "Eliminar" %}</label>
                       {% render_field owner_form.DELETE %}
                   </div>
                   {% endif %}
@@ -123,7 +123,7 @@
 
           <script type="form-template" data-formset-empty-form>
           {% escapescript %}
-              <p class="h4">Otro propietario</p>
+              <p class="h4">{% trans "Otro propietario" %}</p>
               <div data-formset-form>
                   <div class="form-group">
                       {% render_field owner_formset.empty_form.name class+="form-control" %}
@@ -178,12 +178,12 @@
           </script>
 
           <div>
-              <button class="btn btn-outline-success" type="button" data-formset-add>Agregar propietario</button>
+              <button class="btn btn-outline-success" type="button" data-formset-add>{% trans "Agregar propietario" %}</button>
           </div>
       </div>
 
       <hr>
-      <h3>Datos del arrendatario</h3>
+      <h3>{% trans "Datos del arrendatario" %}</h3>
 
       <div id="leaseholder_formset" data-formset-prefix="{{ leaseholder_formset.prefix }}">
           {% if leaseholder_formset.non_form_errors %}
@@ -194,7 +194,7 @@
           <div data-formset-body>
           {% for leaseholder_form in leaseholder_formset %}
               {% if object %}
-              <p class="h4">Arrendatario {{ forloop.counter }}</p>
+              <p class="h4">{% trans "Arrendatario" %} {{ forloop.counter }}</p>
               {% endif %}
               {% render_field leaseholder_form.id %}
               <div data-formset-form>
@@ -236,7 +236,7 @@
                   </div>
 
                   <div class="form-group">
-                      <label>Eliminar</label>
+                      <label>{% trans "Eliminar" %}</label>
                       {% render_field leaseholder_form.DELETE %}
                   </div>
                   <hr>
@@ -246,7 +246,7 @@
 
           <script type="form-template" data-formset-empty-form>
           {% escapescript %}
-              <p class="h4">Otro arrendatario</p>
+              <p class="h4">{% trans "Otro arrendatario" %}</p>
               <div data-formset-form>
                   <div class="form-group">
                       {% render_field leaseholder_formset.empty_form.name class+="form-control" %}
@@ -286,7 +286,7 @@
                   </div>
 
                   <div class="form-group">
-                      <label>Eliminar</label>
+                      <label>{% trans "Eliminar" %}</label>
                       {% render_field leaseholder_formset.empty_form.DELETE %}
                   </div>
                   <hr>
@@ -295,12 +295,12 @@
           </script>
 
           <div>
-              <button class="btn btn-outline-success" type="button" data-formset-add>Agregar arrendatario</button>
+              <button class="btn btn-outline-success" type="button" data-formset-add>{% trans "Agregar arrendatario" %}</button>
           </div>
       </div>
       <hr>
 
-      <button type="submit" class="btn btn-outline-info btn-block">Guardar</button>
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
   </form>
 </div>
 {% endblock %}
