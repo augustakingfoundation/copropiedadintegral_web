@@ -1,8 +1,8 @@
 {% extends "layout/base.html" %}
 
-{% load static widget_tweaks %}
+{% load static widget_tweaks i18n %}
 
-{% block title %}Inicio{% endblock title %}
+{% block title %}{% trans "Inicio" %}{% endblock title %}
 
 {% block css %}
 <link href="{% static 'css/home.css' %}" rel="stylesheet">
@@ -13,33 +13,33 @@
   <div class="container">
     <div class="row">
       <div class="col-sm-5 col-lg-5">
-        <h3>Esta aplicación se encuentra en fase de desarrollo...</h3>
+        <h3>{% trans "Esta aplicación se encuentra en fase de desarrollo..." %}</h3>
 
-        <div class="alert alert-warning" role="alert">Por lo tanto, si decide registrarse, no será notificado sobre los cambios implementados en la plataforma. Sus datos no serán usados para fines diferentes a garantizar el correcto funcionamiento de la aplicación, y serán almacenados de forma segura y nunca compartidos ni publicados.</div>
+        <div class="alert alert-warning" role="alert">{% trans "Por lo tanto, si decide registrarse, no será notificado sobre los cambios implementados en la plataforma. Sus datos no serán usados para fines diferentes a garantizar el correcto funcionamiento de la aplicación, y serán almacenados de forma segura y nunca compartidos ni publicados." %}</div>
 
         <ol>
-          <li>Este es un proyecto Open Source, porque pensamos que el conocimiento se debe compartir, y en comunidad creamos mejores herramientas.</li>
-          <li>El uso de este Software es y será siempre gratuito, porque nuestra misión es crear herramientas que contribuyan al crecimiento del emprendimiento y la economía global.</li>
+          <li>{% trans "Este es un proyecto Open Source, porque pensamos que el conocimiento se debe compartir, y en comunidad creamos mejores herramientas." %}</li>
+          <li>{% trans "El uso de este Software es y será siempre gratuito, porque nuestra misión es crear herramientas que contribuyan al crecimiento del emprendimiento y la economía global." %}</li>
         </ol>
       </div>
 
       <div class="col-sm-7 col-lg-7">
         <div class="jumbotron">
           <h1 class="display-4">Copropiedad Integral</h1>
-          <p class="lead">Una aplicación creada para gestionar la administración de las copropiedades.</p>
+          <p class="lead">{% trans "Una aplicación creada para gestionar la administración de las copropiedades." %}</p>
           <hr>
-          <p>Esta aplicación ha sido creada para proporcionar a los administradores de copropiedades las herramientas necesarias para gestionar la administración y la comunicación con los copropietarios de una manera simple y segura.</p>
+          <p>{% trans "Esta aplicación ha sido creada para proporcionar a los administradores de copropiedades las herramientas necesarias para gestionar la administración y la comunicación con los copropietarios de una manera simple y segura." %}</p>
 
           {% if user.is_authenticated %}
-          <a href="{% url 'dashboard' %}" class="btn btn-info">Ir a la aplicación</a>
+          <a href="{% url 'dashboard' %}" class="btn btn-info">{% trans "Ir a la aplicación" %}</a>
           {% else %}
-          <a href="{% url 'auth_login' %}" class="btn btn-info">Iniciar sesión</a>
-          <a href="{% url 'signup' %}" class="btn btn-dark">Crear cuenta</a>
+          <a href="{% url 'auth_login' %}" class="btn btn-info">{% trans "Iniciar sesión" %}</a>
+          <a href="{% url 'signup' %}" class="btn btn-dark">{% trans "Crear cuenta" %}</a>
           {% endif %}
         </div>
       </div>
     </div>
-    <div class="alert alert-info" role="alert">Proyecto en fase de desarrollo. Pongase en contacto con nosotros por medio de nuestro canal de <a href="https://discordapp.com/channels/402510099957940224/410645961153445888" target="_blank">Discord</a>.</div>
+    <div class="alert alert-info" role="alert">{% trans "Proyecto en fase de desarrollo. Pongase en contacto con nosotros por medio de nuestro canal de" %} <a href="https://discordapp.com/channels/402510099957940224/410645961153445888" target="_blank">Discord</a>.</div>
   </div>
 </section>
 {% endblock content %}

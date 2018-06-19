@@ -1,13 +1,15 @@
 {% extends "buildings/building_base.html" %}
 
-{% block title %}{{ building }} - Unidades{% endblock %}
+{% load i18n %}
+
+{% block title %}{{ building }} - {% trans "Unidades" %}{% endblock %}
 
 {% block building_section %}
 <div class="jumbotron">
 
   {% if can_create_unit %}
   <div class="clearfix">
-    <a href="{% url 'buildings:unit_form' building.id %}" class="btn btn-outline-info float-right">Crear unidad</a>
+    <a href="{% url 'buildings:unit_form' building.id %}" class="btn btn-outline-info float-right">{% trans "Crear unidad" %}</a>
   </div>
 
   <br>
@@ -18,9 +20,8 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Bloque o interior</th>
-        <th scope="col">Unidad</th>
-        <th scope="col">Propietario</th>
+        <th scope="col">{% trans "Bloque o interior" %}</th>
+        <th scope="col">{% trans "Unidad" %}</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -29,10 +30,9 @@
       <tr>
         <td>{{ unit.block|default:"N/D" }}</td>
         <td>{{ unit.unit }}</td>
-        <td>{{ unit.owner_name }}</td>
         <td>
           {% if can_view_unit_detail %}
-          <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">Ver información</a>
+          <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">{% trans "Ver información" %}</a>
           {% endif %}
         </td>
       </tr>
@@ -41,7 +41,7 @@
   </table>
   </div>
   {% else %}
-  <p>No hay unidades registradas aún.</p>
+  <p>{% trans "No hay unidades registradas aún." %}</p>
   {% endif %}
 </div>
 {% endblock %}

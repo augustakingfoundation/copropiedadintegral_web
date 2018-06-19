@@ -8,14 +8,17 @@ from django.views.generic import DetailView
 from django.views.generic import UpdateView
 from django.views.generic import ListView
 from django.urls import reverse
+from django.utils.translation import ugettext as _
 
 from .forms import BuildingForm
 from .forms import UnitForm
 from .forms import OwnerFormSet
+from .forms import LeaseholderFormSet
 from .models import Building
 from .models import BuildingMembership
 from .models import Unit
 from .models import Owner
+from .models import Leaseholder
 from .permissions import BuildingPermissions
 from app.mixins import CustomUserMixin
 
@@ -43,7 +46,7 @@ class BuildingFormView(CustomUserMixin, CreateView):
 
         messages.success(
             self.request,
-            'Copropiedad creada exitosamente.'
+            _('Copropiedad creada exitosamente.')
         )
 
         return redirect(building.get_absolute_url())
@@ -107,7 +110,7 @@ class BuildingUpdateView(CustomUserMixin, UpdateView):
 
         messages.success(
             self.request,
-            'Copropiedad actualizada correctamente.',
+            _('Copropiedad actualizada correctamente.'),
         )
 
         return super().form_valid(form)
@@ -167,10 +170,22 @@ class UnitFormView(CustomUserMixin, TemplateView):
 
     def get(self, *args, **kwargs):
         form = UnitForm()
-        formset = OwnerFormSet(queryset=Owner.objects.none())
+        owner_formset = OwnerFormSet(
+            prefix='owner',
+            queryset=Owner.objects.none(),
+        )
+
+        leaseholder_formset = LeaseholderFormSet(
+            prefix='leaseholder',
+            queryset=Leaseholder.objects.none(),
+        )
 
         return self.render_to_response(
-            self.get_context_data(form=form, formset=formset)
+            self.get_context_data(
+                form=form,
+                owner_formset=owner_formset,
+                leaseholder_formset=leaseholder_formset,
+            )
         )
 
     def get_context_data(self, **kwargs):
@@ -181,33 +196,54 @@ class UnitFormView(CustomUserMixin, TemplateView):
 
     def post(self, *args, **kwargs):
         form = UnitForm(self.request.POST)
-        formset = OwnerFormSet(
+        owner_formset = OwnerFormSet(
             self.request.POST,
+            prefix='owner',
             queryset=Owner.objects.none(),
         )
 
-        if not form.is_valid() or not formset.is_valid():
+        leaseholder_formset = LeaseholderFormSet(
+            self.request.POST,
+            prefix='leaseholder',
+            queryset=Leaseholder.objects.none(),
+        )
+
+        if (
+            not form.is_valid() or
+            not owner_formset.is_valid() or
+            not leaseholder_formset.is_valid()
+        ):
             return self.render_to_response(
-                self.get_context_data(form=form, formset=formset)
+                self.get_context_data(
+                    form=form,
+                    owner_formset=owner_formset,
+                    leaseholder_formset=leaseholder_formset,
+                )
             )
 
-        return self.process_data(form, formset)
+        return self.process_data(form, owner_formset, leaseholder_formset)
 
     @transaction.atomic
-    def process_data(self, form, formset):
+    def process_data(self, form, owner_formset, leaseholder_formset):
         unit = form.save(commit=False)
         unit.building = self.get_object()
         unit.save()
 
-        for owner_form in formset:
+        for owner_form in owner_formset:
             if owner_form.is_valid():
                 owner = owner_form.save(commit=False)
                 owner.unit = unit
                 owner.save()
 
+        for leaseholder_form in leaseholder_formset:
+            if leaseholder_form.is_valid():
+                leaseholder = leaseholder_form.save(commit=False)
+                leaseholder.unit = unit
+                leaseholder.save()
+
         messages.success(
             self.request,
-            'Unidad creada exitosamente.'
+            _('Unidad creada exitosamente.')
         )
 
         return redirect(unit.get_absolute_url())
@@ -233,14 +269,20 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
         unit = self.get_object()
 
         form = UnitForm(instance=unit)
-        formset = OwnerFormSet(
+        owner_formset = OwnerFormSet(
+            prefix='owner',
             queryset=Owner.objects.filter(unit=unit),
+        )
+        leaseholder_formset = LeaseholderFormSet(
+            prefix='leaseholder',
+            queryset=Leaseholder.objects.filter(unit=unit),
         )
 
         return self.render_to_response(
             self.get_context_data(
                 form=form,
-                formset=formset,
+                owner_formset=owner_formset,
+                leaseholder_formset=leaseholder_formset,
                 object=self.get_object(),
             )
         )
@@ -252,23 +294,37 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
             self.request.POST,
             instance=unit,
         )
-        formset = OwnerFormSet(
+        owner_formset = OwnerFormSet(
             self.request.POST,
+            prefix='owner',
             queryset=Owner.objects.filter(unit=unit),
         )
+        leaseholder_formset = LeaseholderFormSet(
+            self.request.POST,
+            prefix='leaseholder',
+            queryset=Leaseholder.objects.filter(unit=unit),
+        )
 
-        if not form.is_valid() or not formset.is_valid():
+        if (
+            not form.is_valid() or
+            not owner_formset.is_valid() or
+            not leaseholder_formset.is_valid()
+        ):
             return self.render_to_response(
-                self.get_context_data(form=form, formset=formset)
+                self.get_context_data(
+                    form=form,
+                    owner_formset=owner_formset,
+                    leaseholder_formset=leaseholder_formset,
+                )
             )
 
-        return self.process_data(form, formset)
+        return self.process_data(form, owner_formset, leaseholder_formset)
 
     @transaction.atomic
-    def process_data(self, form, formset):
+    def process_data(self, form, owner_formset, leaseholder_formset):
         unit = form.save()
 
-        for owner_form in formset:
+        for owner_form in owner_formset:
             if owner_form.is_valid():
                 owner = owner_form.save(commit=False)
                 owner.unit = unit
@@ -279,9 +335,20 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
                 if delete:
                     owner.delete()
 
+        for leaseholder_form in leaseholder_formset:
+            if leaseholder_form.is_valid():
+                leaseholder = leaseholder_form.save(commit=False)
+                leaseholder.unit = unit
+                leaseholder.save()
+
+                delete = leaseholder_form.cleaned_data['DELETE']
+
+                if delete:
+                    leaseholder.delete()
+
         messages.success(
             self.request,
-            'Unidad actualizada correctamente.',
+            _('Unidad actualizada correctamente.'),
         )
 
         return redirect(unit.get_absolute_url())

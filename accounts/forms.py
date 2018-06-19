@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import UserCreationForm
+from django.utils.translation import ugettext as _
 
 from accounts.models import User
 
@@ -80,16 +81,16 @@ class UserPasswordResetForm(PasswordResetForm):
 class ProfileForm(forms.ModelForm):
     current_password = forms.CharField(
         widget=forms.PasswordInput,
-        label='Contraseña actual',
+        label=_('Contraseña actual'),
     )
     new_password = forms.CharField(
         widget=forms.PasswordInput,
-        label='Nueva contraseña',
+        label=_('Nueva contraseña'),
         required=False,
     )
     password_confirm = forms.CharField(
         widget=forms.PasswordInput,
-        label='Confirmar nueva contraseña',
+        label=_('Confirmar nueva contraseña'),
         required=False,
     )
 
@@ -117,13 +118,13 @@ class ProfileForm(forms.ModelForm):
         ):
             self.add_error(
                 'current_password',
-                'Contraseña no válida.',
+                _('Contraseña no válida.'),
             )
 
         if new_password != password_confirm:
             self.add_error(
                 'password_confirm',
-                'Las contraseñas no coinciden.',
+                _('Las contraseñas no coinciden.'),
             )
 
         return cleaned_data

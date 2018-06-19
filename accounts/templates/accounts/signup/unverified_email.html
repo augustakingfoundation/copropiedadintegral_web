@@ -1,8 +1,8 @@
 {% extends "layout/base.html" %}
 
-{% load static widget_tweaks %}
+{% load static widget_tweaks i18n %}
 
-{% block title %}Correo no verificado{% endblock title %}
+{% block title %}{% trans "Correo no verificado" %}{% endblock title %}
 
 {% block content %}
 <section class="unverifiedEmail">
@@ -14,13 +14,13 @@
       <div class="col-sm-7 col-lg-7">
         <div class="jumbotron">
           <h1 class="display-4">Copropiedad Integral</h1>
-          <p class="lead">Su correo <strong>{{ user.email }}</strong> no ha sido verificado.</p>
+          <p class="lead">{% trans "Su correo" %} <strong>{{ user.email }}</strong> {% trans "no ha sido verificado." %}</p>
 
           <hr>
           {% if user.sent_verification_emails >= 3  %}
-          <div class="alert alert-warning" role="alert">Hemos enviado suficientes correos de confirmación a su correo electrónico registrado.</div>
+          <div class="alert alert-warning" role="alert">{% trans "Hemos enviado suficientes correos de confirmación a su correo electrónico registrado." %}</div>
           {% else %}
-          <a href="{% url 'accounts:resend_email_verification' %}" class="btn btn-info btn-block">Reenviar correo de verificación</a>
+          <a href="{% url 'accounts:resend_email_verification' %}" class="btn btn-info btn-block">{% trans "Reenviar correo de verificación" %}</a>
           {% endif %}
         </div>
       </div>

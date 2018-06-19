@@ -1,8 +1,8 @@
 {% extends "layout/base.html" %}
 
-{% load static widget_tweaks %}
+{% load static widget_tweaks i18n %}
 
-{% block title %}Iniciar sesión{% endblock title %}
+{% block title %}{% trans "Iniciar sesión" %}{% endblock title %}
 
 {% block content %}
 <section class="login">
@@ -13,11 +13,11 @@
 
       <div class="col-sm-7 col-lg-7">
         <div class="jumbotron">
-          <h2 class="display-4">Iniciar sesión</h2>
+          <h2 class="display-4">{% trans "Iniciar sesión" %}</h2>
 
           <p class="lead"></p>
 
-          <p>¿No tiene aún una cuenta? <a href="{% url 'signup' %}">Crear cuenta.</a></p>
+          <p>{% trans "¿No tiene aún una cuenta?" %} <a href="{% url 'signup' %}">{% trans "Crear cuenta." %}</a></p>
           <hr>
 
             <form id="loginForm" method="post">
@@ -39,9 +39,9 @@
                     {{ form.password.errors }}
                 </div>
 
-                <a href="{% url 'password_reset' %}" class="float-right">¿Olvidó su contraseña?</a>
+                <a href="{% url 'password_reset' %}" class="float-right">{% trans "¿Olvidó su contraseña?" %}</a>
 
-                <button type="submit" class="btn btn-outline-info btn-block">Iniciar sesión</button>
+                <button type="submit" class="btn btn-outline-info btn-block">{% trans "Iniciar sesión" %}</button>
             </form>
         </div>
       </div>

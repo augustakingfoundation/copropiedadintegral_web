@@ -1,5 +1,5 @@
 <!doctype html>
-{% load static %}
+{% load static i18n %}
 
 <html lang="en">
   <head>
@@ -44,9 +44,9 @@
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{% url 'dashboard' %}">Dashboard</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'accounts:profile_form_view' %}">Editar perfil</a>
+              <a class="dropdown-item" href="{% url 'accounts:profile_form_view' %}">{% trans "Editar perfil" %}</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">{% trans "Cerrar sesión" %}</a>
             </div>
           </li>
         </ul>
@@ -66,6 +66,21 @@
 
     <footer>
       <!-- Application footer -->
+      {% get_current_language as LANGUAGE_CODE %}
+      {% get_available_languages as languages %}
+
+      {% for lang_code, lang_name in languages %}
+          {% if LANGUAGE_CODE != lang_code %}
+          {% language lang_code %}
+          <a href="{% url 'home' %}">
+              {% if  lang_name == 'Spanish' %}
+                  Español
+              {% else %}
+              English
+              {% endif %}</a>
+          {% endlanguage %}
+          {% endif %}
+      {% endfor %}
     </footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
