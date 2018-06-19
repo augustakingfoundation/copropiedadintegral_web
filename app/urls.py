@@ -3,6 +3,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
+from django.conf.urls.i18n import i18n_patterns
 
 from accounts.forms import UserPasswordResetForm
 from accounts.views import SignupView
@@ -11,7 +12,9 @@ from app.views import HomeView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+]
 
+urlpatterns += i18n_patterns(
     url(
         r'^$',
         HomeView.as_view(),
@@ -99,4 +102,4 @@ urlpatterns = [
             namespace='buildings'
         )
     ),
-]
+)
