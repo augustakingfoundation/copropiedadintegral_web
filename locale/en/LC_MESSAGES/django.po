@@ -141,7 +141,7 @@ msgid ""
 "Enviamos este correo electrónico porque usted ha solicitado recuperar su "
 "contraseña. Por favor, siga el siguiente link:"
 msgstr ""
-"We send this email because you have requested to recover your "password, please "
+"We send this email because you have requested to recover your password, please "
 "follow the following link:"
 
 #: accounts/templates/accounts/auth/password_reset_email.html:9
