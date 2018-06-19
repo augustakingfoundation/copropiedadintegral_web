@@ -11,5 +11,7 @@ WORKDIR /code
 RUN easy_install -U pip
 RUN pip install -U pip setuptools
 
+RUN apt-get update && apt-get install -y gettext libgettextpo-dev
+
 ADD requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
