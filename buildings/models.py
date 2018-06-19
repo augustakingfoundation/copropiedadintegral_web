@@ -2,7 +2,7 @@ from django.core.validators import MinLengthValidator
 from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 
 from .data import BUILDING_DOCUMENT_TYPE_CHOICES
 from accounts.data import DOCUMENT_TYPE_CHOICES

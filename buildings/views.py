@@ -2,23 +2,23 @@ from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.views.generic import CreateView
-from django.views.generic import TemplateView
-from django.views.generic import DetailView
-from django.views.generic import UpdateView
-from django.views.generic import ListView
 from django.urls import reverse
 from django.utils.translation import ugettext as _
+from django.views.generic import CreateView
+from django.views.generic import DetailView
+from django.views.generic import ListView
+from django.views.generic import TemplateView
+from django.views.generic import UpdateView
 
 from .forms import BuildingForm
-from .forms import UnitForm
-from .forms import OwnerFormSet
 from .forms import LeaseholderFormSet
+from .forms import OwnerFormSet
+from .forms import UnitForm
 from .models import Building
 from .models import BuildingMembership
-from .models import Unit
-from .models import Owner
 from .models import Leaseholder
+from .models import Owner
+from .models import Unit
 from .permissions import BuildingPermissions
 from app.mixins import CustomUserMixin
 

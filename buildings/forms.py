@@ -2,14 +2,14 @@ import re
 
 from django import forms
 from django.forms import modelformset_factory
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 
-from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .data import BUILDING_DOCUMENT_TYPE_CC
+from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .models import Building
-from .models import Unit
-from .models import Owner
 from .models import Leaseholder
+from .models import Owner
+from .models import Unit
 
 
 class BuildingForm(forms.ModelForm):

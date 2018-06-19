@@ -8,11 +8,11 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.translation import ugettext as _
 from django.views.generic import FormView
 from django.views.generic import TemplateView
 from django.views.generic import UpdateView
 from django.views.generic import View
-from django.utils.translation import ugettext as _
 
 from accounts.forms import ProfileForm
 from accounts.forms import SignUpForm
