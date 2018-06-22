@@ -780,7 +780,7 @@ msgstr "Parking lots"
 #, fuzzy
 #| msgid "Agregar propietario"
 msgid "Agregar parqueadero"
-msgstr "Add owner"
+msgstr "Add parking lot"
 
 #: buildings/templates/buildings/administrative/unit_detail.html:114
 #, fuzzy
@@ -809,7 +809,7 @@ msgstr "Delete"
 #, fuzzy
 #| msgid "No hay unidades registradas aún."
 msgid "No hay parqueaderos registrados."
-msgstr "No units registered yet."
+msgstr "No parking lots registered yet."
 
 #: buildings/templates/buildings/administrative/unit_form.html:9
 msgid "Registrar unidad"

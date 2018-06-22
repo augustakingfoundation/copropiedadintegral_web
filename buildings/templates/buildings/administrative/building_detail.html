@@ -9,7 +9,7 @@
 
 {% if can_edit_building %}
 <div class="clearfix">
-  <a href="{% url 'buildings:building_update' object.id %}" class="btn btn-outline-info float-right">Editar información básica</a>
+  <a href="{% url 'buildings:building_update' object.id %}" class="btn btn-outline-info float-right">{% trans "Editar información básica" %}</a>
 </div>
 {% endif %}
 
