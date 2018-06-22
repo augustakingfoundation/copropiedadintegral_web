@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-06-21 23:44-0500\n"
+"POT-Creation-Date: 2018-06-22 10:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -649,6 +649,12 @@ msgstr "parking lot"
 msgid "parqueaderos"
 msgstr "parking lots"
 
+#: buildings/templates/buildings/administrative/building_detail.html:12
+#, fuzzy
+#| msgid "Editar información personal"
+msgid "Editar información básica"
+msgstr "Edit personal information"
+
 #: buildings/templates/buildings/administrative/building_detail.html:29
 msgid "Dirección"
 msgstr "Address"
@@ -778,7 +784,6 @@ msgstr "Parking lots"
 
 #: buildings/templates/buildings/administrative/unit_detail.html:105
 #, fuzzy
-#| msgid "Agregar propietario"
 msgid "Agregar parqueadero"
 msgstr "Add parking lot"
 
@@ -807,7 +812,6 @@ msgstr "Delete"
 
 #: buildings/templates/buildings/administrative/unit_detail.html:138
 #, fuzzy
-#| msgid "No hay unidades registradas aún."
 msgid "No hay parqueaderos registrados."
 msgstr "No parking lots registered yet."
 
