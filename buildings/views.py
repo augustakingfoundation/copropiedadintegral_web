@@ -489,7 +489,9 @@ class ParkingLotFormView(CustomUserMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
+        # Get unit instance.
         unit = self.get_object()
+        # Create parking lot object.
         parking_lot = form.save(commit=False)
         parking_lot.unit = self.get_object()
         parking_lot.save()
@@ -500,3 +502,53 @@ class ParkingLotFormView(CustomUserMixin, CreateView):
         )
 
         return redirect(unit.get_absolute_url())
+
+
+class ParkingLotUpdateView(CustomUserMixin, UpdateView):
+    """
+    Form view to update information about a parking lot.
+    """
+    model = ParkingLot
+    form_class = ParkingLotForm
+    template_name = 'buildings/administrative/parkinglot_form.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get parking lot object.
+        return get_object_or_404(
+            ParkingLot,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['p_pk'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        context['active_units'] = True
+
+        return context
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    @transaction.atomic
+    def form_valid(self, form):
+        # Update parking lot object.
+        form.save()
+
+        messages.success(
+            self.request,
+            _('Parqueadero actualizado exitosamente.'),
+        )
+
+        return super().form_valid(form)

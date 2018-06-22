@@ -121,6 +121,12 @@
         <tr>
           <td>{{ parking_lot.number }}</td>
           <td>{{ parking_lot.get_parking_lot_type_display }}</td>
+
+        {% if can_edit_unit %}
+          <td>
+              <a href="{% url 'buildings:parking_lot_update' building.id object.id parking_lot.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+          </td>
+        {% endif %}
         </tr>
         {% endfor %}
       </tbody>
