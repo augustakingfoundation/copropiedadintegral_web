@@ -21,49 +21,49 @@
 
       {% if memberships %}
       <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">{% trans "Mis roles" %}</th>
-            <th scope="col">{% trans "Nombre" %}</th>
-            <th scope="col">{% trans "Identificación" %}</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for membership in memberships %}
-          <tr>
-            <td>
-              {% if membership.is_administrator %}
-              <p>{% trans "Administrador" %}</p>
-              {% endif %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">{% trans "Mis roles" %}</th>
+              <th scope="col">{% trans "Nombre" %}</th>
+              <th scope="col">{% trans "Identificación" %}</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for membership in memberships %}
+            <tr>
+              <td>
+                {% if membership.is_administrator %}
+                <p>{% trans "Administrador" %}</p>
+                {% endif %}
 
-              {% if membership.is_administrative_assistant %}
-              <p>{% trans "Asistente administrativo" %}</p>
-              {% endif %}
+                {% if membership.is_administrative_assistant %}
+                <p>{% trans "Asistente administrativo" %}</p>
+                {% endif %}
 
-              {% if membership.is_accountant %}
-              <p>{% trans "Contador" %}</p>
-              {% endif %}
+                {% if membership.is_accountant %}
+                <p>{% trans "Contador" %}</p>
+                {% endif %}
 
-              {% if membership.is_accounting_assistant %}
-              <p>{% trans "Asistente Contable" %}</p>
-              {% endif %}
+                {% if membership.is_accounting_assistant %}
+                <p>{% trans "Asistente Contable" %}</p>
+                {% endif %}
 
-              {% if membership.is_fiscal_reviewer %}
-              <p>{% trans "Revisor fiscal" %}</p>
-              {% endif %}
-            </td>
+                {% if membership.is_fiscal_reviewer %}
+                <p>{% trans "Revisor fiscal" %}</p>
+                {% endif %}
+              </td>
 
-            <td>{{ membership.building.name }}</td>
-            <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
-            <td>
-              <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">{% trans "Ver copropiedad" %}</a>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              <td>{{ membership.building.name }}</td>
+              <td>{{ membership.building.get_document_type_display }} - {{ membership.building.document_number }}</td>
+              <td>
+                <a href="{{ membership.building.get_absolute_url }}" class="btn btn-outline-dark">{% trans "Ver copropiedad" %}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
       {% else %}
       <p>{% trans "No hay copropiedades activas aún." %}</p>

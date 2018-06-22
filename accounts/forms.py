@@ -70,6 +70,10 @@ class SignUpForm(
 
 
 class UserPasswordResetForm(PasswordResetForm):
+    """
+    Password recovery form. It inherits from
+    the default password recovery form of Django.
+    """
     def get_users(self, email):
         active_users = User.objects.filter(
             email__iexact=email,
@@ -79,6 +83,12 @@ class UserPasswordResetForm(PasswordResetForm):
 
 
 class ProfileForm(forms.ModelForm):
+    """
+    Profile update form. It takes the User model and
+    creates a form based on the model attributes. Also, it's
+    validating that to make any change, the current user password
+    must be confirmed.
+    """
     current_password = forms.CharField(
         widget=forms.PasswordInput,
         label=_('Contraseña actual'),
@@ -112,6 +122,8 @@ class ProfileForm(forms.ModelForm):
         password_confirm = cleaned_data.get('password_confirm')
         user = getattr(self, 'instance', None)
 
+        # Validate current password to allow the users
+        # update thier password.
         if (
             (current_password or new_password) and
             not user.check_password(current_password)
@@ -121,6 +133,8 @@ class ProfileForm(forms.ModelForm):
                 _('Contraseña no válida.'),
             )
 
+        # Validate new password form. If passwords don't
+        # match, a error message will be rised.
         if new_password != password_confirm:
             self.add_error(
                 'password_confirm',

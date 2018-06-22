@@ -1,0 +1,35 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h1>Unidad {{ unit }}</h1>
+  <hr>
+
+  <form method="post">
+  <h3>{% if parking_lot_update %}{% trans "Editar parqueadero" %} {{ object }}{% else %}{% trans "Registrar parqueadero" %}{% endif %}</h3>
+
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.number class+="form-control" %}
+          {{ form.number.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.parking_lot_type class+="form-control" %}
+          {{ form.parking_lot_type.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+  </form>
+</div>
+{% endblock %}

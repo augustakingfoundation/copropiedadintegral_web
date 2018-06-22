@@ -60,6 +60,8 @@
     <dd class="col-sm-9">{{ owner.correspondence_address|default:"N/D" }}</dd>
   </dl>
   <hr>
+  {% empty %}
+  <p>{% trans 'No hay propietarios registrados.' %}</p>
   {% endfor %}
 
   {% if object.leaseholder_set.count > 1 %}
@@ -89,6 +91,43 @@
     <dd class="col-sm-9">{{ leaseholder.email|default:"N/D" }}</dd>
   </dl>
   <hr>
+  {% empty %}
+  <p>{% trans 'No hay arrendatarios registrados.' %}</p>
   {% endfor %}
+</div>
+
+<div class="jumbotron">
+  <h2>{% trans 'Parqueaderos' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:parking_lot_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Agregar parqueadero" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.parkinglot_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Número" %}</th>
+          <th scope="col">{% trans "Tipo" %}</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for parking_lot in object.parkinglot_set.all %}
+        <tr>
+          <td>{{ parking_lot.number }}</td>
+          <td>{{ parking_lot.get_parking_lot_type_display }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay parqueaderos registrados.' %}</p>
+  {% endif %}
 </div>
 {% endblock %}
