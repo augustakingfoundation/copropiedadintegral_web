@@ -532,6 +532,7 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
         context['unit'] = self.get_object().unit
         context['building'] = self.get_object().unit.building
         context['active_units'] = True
+        context['parking_lot_update'] = True
 
         return context
 
