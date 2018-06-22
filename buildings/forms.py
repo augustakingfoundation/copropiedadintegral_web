@@ -2,17 +2,21 @@ import re
 
 from django import forms
 from django.forms import modelformset_factory
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 
-from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .data import BUILDING_DOCUMENT_TYPE_CC
+from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .models import Building
-from .models import Unit
-from .models import Owner
 from .models import Leaseholder
+from .models import Owner
+from .models import ParkingLot
+from .models import Unit
 
 
 class BuildingForm(forms.ModelForm):
+    """
+    Building or condo form.
+    """
     class Meta:
         model = Building
         fields = (
@@ -44,6 +48,9 @@ class BuildingForm(forms.ModelForm):
             'initial_period',
         ]
 
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
         for field in fields:
             label = self.fields[field].label
             self.fields[field].label = ''
@@ -54,6 +61,8 @@ class BuildingForm(forms.ModelForm):
         document_type = cleaned_data.get('document_type')
         document_number = cleaned_data.get('document_number')
 
+        # Validating document type NIT to fits the Colombian
+        # standar. Example Ej: 12345678-1
         if (
             document_type == BUILDING_DOCUMENT_TYPE_NIT and
             not re.match(r'^\d{5,15}-\d{1}$', document_number)
@@ -63,6 +72,8 @@ class BuildingForm(forms.ModelForm):
                 _('El NIT ingresado no es válido. Ej: 12345678-1'),
             )
 
+        # Validating document type CC to fits the Colombian
+        # standar. This value must contain only numbers.
         elif (
             document_type == BUILDING_DOCUMENT_TYPE_CC and
             not re.match(r'^\d{5,15}$', document_number)
@@ -74,6 +85,10 @@ class BuildingForm(forms.ModelForm):
 
 
 class OwnerForm(forms.ModelForm):
+    """
+    Unit owner form. It's user to define the
+    OwnerFormSet structure.
+    """
     class Meta:
         model = Owner
         fields = (
@@ -101,6 +116,9 @@ class OwnerForm(forms.ModelForm):
             'email',
         ]
 
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
         for field in fields:
             label = self.fields[field].label
             self.fields[field].label = ''
@@ -119,6 +137,10 @@ OwnerFormSet = modelformset_factory(
 
 
 class LeaseholderForm(forms.ModelForm):
+    """
+    Unit leaseholder form. It's user to define the
+    Leaseholder FormSet structure.
+    """
     class Meta:
         model = Owner
         fields = (
@@ -144,6 +166,9 @@ class LeaseholderForm(forms.ModelForm):
             'email',
         ]
 
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
         for field in fields:
             label = self.fields[field].label
             self.fields[field].label = ''
@@ -162,6 +187,9 @@ LeaseholderFormSet = modelformset_factory(
 
 
 class UnitForm(forms.ModelForm):
+    """
+    Unit form (Apartment, house or office).
+    """
     class Meta:
         model = Unit
         fields = (
@@ -185,12 +213,17 @@ class UnitForm(forms.ModelForm):
             'observations',
         ]
 
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
         for field in fields:
             label = self.fields[field].label
             self.fields[field].label = ''
             self.fields[field].widget.attrs['placeholder'] = label
 
     def clean_coefficient(self):
+        # Validation to the coefficient field. It must
+        # be a value between 0 and 100.
         value = self.cleaned_data['coefficient']
 
         if value:
@@ -201,3 +234,22 @@ class UnitForm(forms.ModelForm):
                 )
 
         return value
+
+
+class ParkingLotForm(forms.ModelForm):
+    """
+    Parking log form. The unit field included in the
+    model is excluded from the from and this value is
+    assigned in the parking lot create view, in the
+    post request.
+    """
+    class Meta:
+        model = ParkingLot
+        fields = (
+            'number',
+            'parking_lot_type',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['number'].widget.attrs['placeholder'] = _('Número/ID')

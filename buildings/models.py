@@ -2,14 +2,21 @@ from django.core.validators import MinLengthValidator
 from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 
 from .data import BUILDING_DOCUMENT_TYPE_CHOICES
+from .data import PARKING_LOT_TYPE_CHOICES
 from accounts.data import DOCUMENT_TYPE_CHOICES
 from app.validators import FileSizeValidator
 
 
 class BuildingMembership(models.Model):
+    """
+    This model represents a membership of user in
+    a building or condo. Memberships can have
+    different roles: Administrator, administrative assistant,
+    accountant, accounting assistant and fiscal reviewer.
+    """
     user = models.ForeignKey(
         'accounts.User',
         on_delete=models.CASCADE,
@@ -72,6 +79,12 @@ class BuildingMembership(models.Model):
 
 
 class Building(models.Model):
+    """
+    This model represents a building, condo or coproperty.
+    a condo is a type of real estate divided into several
+    units that are each separately owned, surrounded by
+    common areas jointly owned.
+    """
     name = models.CharField(
         max_length=100,
         verbose_name=_('nombre'),
@@ -199,6 +212,10 @@ class Building(models.Model):
 
 
 class Unit(models.Model):
+    """
+    This model represents an apartment, house or office
+    that is part of a condo.
+    """
     building = models.ForeignKey(
         'buildings.Building',
         on_delete=models.CASCADE,
@@ -278,6 +295,11 @@ class Unit(models.Model):
 
 
 class Owner(models.Model):
+    """
+    This model represents a unit owner. At least one
+    owner is required by each unit. Multiple owners
+    can be added to an unit.
+    """
     name = models.CharField(
         max_length=100,
         verbose_name=_('nombre'),
@@ -289,16 +311,12 @@ class Owner(models.Model):
     )
 
     document_type = models.PositiveSmallIntegerField(
-        null=True,
-        blank=True,
         choices=DOCUMENT_TYPE_CHOICES,
         verbose_name=_('tipo de documento'),
     )
 
     document_number = models.CharField(
         max_length=32,
-        null=True,
-        blank=True,
         verbose_name=_('número de documento'),
     )
 
@@ -383,6 +401,11 @@ class Owner(models.Model):
 
 
 class Leaseholder(models.Model):
+    """
+    This model represents a unit leaseholder. Leaseholders
+    are not required.  Multiple leaseholders can be added to
+    an unit.
+    """
     name = models.CharField(
         max_length=100,
         verbose_name=_('nombre'),
@@ -394,16 +417,12 @@ class Leaseholder(models.Model):
     )
 
     document_type = models.PositiveSmallIntegerField(
-        null=True,
-        blank=True,
         choices=DOCUMENT_TYPE_CHOICES,
         verbose_name=_('tipo de documento'),
     )
 
     document_number = models.CharField(
         max_length=32,
-        null=True,
-        blank=True,
         verbose_name=_('número de documento'),
     )
 
@@ -475,3 +494,37 @@ class Leaseholder(models.Model):
         verbose_name = _('arrendatario')
         verbose_name_plural = _('arrendatarios')
         ordering = ('last_name',)
+
+
+class ParkingLot(models.Model):
+    """
+    This model represents a parking lot assigned to an
+    unit.
+    """
+    number = models.CharField(
+        max_length=10,
+        unique=True,
+        verbose_name=_('número'),
+    )
+
+    parking_lot_type = models.PositiveSmallIntegerField(
+        choices=PARKING_LOT_TYPE_CHOICES,
+        verbose_name=_('tipo de parqueadero'),
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def __str__(self):
+        return '{0} - {1}'.format(
+            self.unit,
+            self.number,
+        )
+
+    class Meta:
+        verbose_name = _('parqueadero')
+        verbose_name_plural = _('parqueaderos')
+        ordering = ('number',)

@@ -11,3 +11,12 @@ BUILDING_DOCUMENT_TYPE_CHOICES = (
     (BUILDING_DOCUMENT_TYPE_NIT, 'NIT'),
     (BUILDING_DOCUMENT_TYPE_OTHER, _('Otro')),
 )
+
+PARKING_LOT_ASSIGNED = 1
+PARKING_LOT_OWN = 2
+
+PARKING_LOT_TYPE_CHOICES = (
+    ('', _('Tipo de parqueadero')),
+    (PARKING_LOT_ASSIGNED, _('Asignado (Arrendado o Temporal por sorteo)')),
+    (PARKING_LOT_OWN, _('Propio')),
+)
