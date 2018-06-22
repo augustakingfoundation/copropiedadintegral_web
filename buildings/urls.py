@@ -5,6 +5,7 @@ from .views import BuildingFormView
 from .views import BuildingUpdateView
 from .views import ParkingLotFormView
 from .views import ParkingLotUpdateView
+from .views import ParkingLotDeleteView
 from .views import UnitDetailView
 from .views import UnitFormView
 from .views import UnitsListView
@@ -64,5 +65,11 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/actualizar/(?P<p_pk>\d+)/$',
         ParkingLotUpdateView.as_view(),
         name='parking_lot_update',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/eliminar/(?P<p_pk>\d+)/$',
+        ParkingLotDeleteView.as_view(),
+        name='parking_lot_delete',
     ),
 ]
