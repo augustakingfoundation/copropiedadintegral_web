@@ -439,7 +439,7 @@ msgstr "The coefficient must be a value between 0 and 100"
 
 #: buildings/forms.py:255
 msgid "Número/ID"
-msgstr Number - ID""
+msgstr "Number - ID"
 
 #: buildings/models.py:29 buildings/models.py:209 buildings/models.py:222
 msgid "copropiedad"
