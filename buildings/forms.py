@@ -180,7 +180,7 @@ LeaseholderFormSet = modelformset_factory(
     form=LeaseholderForm,
     extra=0,
     max_num=2,
-    min_num=1,
+    min_num=0,
     validate_min=False,
     can_delete=True,
 )

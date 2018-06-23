@@ -16,6 +16,7 @@ from buildings.models import Leaseholder
 from buildings.models import Owner
 from buildings.models import Unit
 from buildings.permissions import BuildingPermissions
+from buildings.utils import process_unit_formset
 
 
 class UnitsListView(CustomUserMixin, ListView):
@@ -144,28 +145,15 @@ class UnitFormView(CustomUserMixin, TemplateView):
                 )
             )
 
-        return self.process_data(form, owner_formset, leaseholder_formset)
-
-    @transaction.atomic
-    def process_data(self, form, owner_formset, leaseholder_formset):
         # Save unit form data.
         unit = form.save(commit=False)
         unit.building = self.get_object()
         unit.save()
 
         # Create Owner instances.
-        for owner_form in owner_formset:
-            if owner_form.is_valid():
-                owner = owner_form.save(commit=False)
-                owner.unit = unit
-                owner.save()
-
+        process_unit_formset(owner_formset, unit)
         # Create Leaseholder instances.
-        for leaseholder_form in leaseholder_formset:
-            if leaseholder_form.is_valid():
-                leaseholder = leaseholder_form.save(commit=False)
-                leaseholder.unit = unit
-                leaseholder.save()
+        process_unit_formset(leaseholder_formset, unit)
 
         messages.success(
             self.request,
@@ -264,35 +252,12 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
                 )
             )
 
-        return self.process_data(form, owner_formset, leaseholder_formset)
-
-    @transaction.atomic
-    def process_data(self, form, owner_formset, leaseholder_formset):
+        # Save unit form data.
         unit = form.save()
-
         # Update, delete or create new Owner instances for this unit.
-        for owner_form in owner_formset:
-            if owner_form.is_valid():
-                owner = owner_form.save(commit=False)
-                owner.unit = unit
-                owner.save()
-
-                delete = owner_form.cleaned_data['DELETE']
-
-                if delete:
-                    owner.delete()
-
+        process_unit_formset(owner_formset, unit)
         # Update, delete or create new Leaseholder instances for this unit.
-        for leaseholder_form in leaseholder_formset:
-            if leaseholder_form.is_valid():
-                leaseholder = leaseholder_form.save(commit=False)
-                leaseholder.unit = unit
-                leaseholder.save()
-
-                delete = leaseholder_form.cleaned_data['DELETE']
-
-                if delete:
-                    leaseholder.delete()
+        process_unit_formset(leaseholder_formset, unit)
 
         messages.success(
             self.request,
