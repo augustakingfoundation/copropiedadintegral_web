@@ -683,7 +683,7 @@ msgstr "assingend to the unit"
 
 #: buildings/templates/buildings/administrative/parking_lot_delete_confirm.html:12
 msgid "¿está seguro que desea eliminar este parqueadero?"
-msgstr "Are you sure you want to reove this parking?"
+msgstr "Are you sure you want to remove this parking lot?"
 
 #: buildings/templates/buildings/administrative/parking_lot_delete_confirm.html:15
 msgid "No, regresar al detalle de la unidad"
