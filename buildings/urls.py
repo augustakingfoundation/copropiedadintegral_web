@@ -1,15 +1,15 @@
 from django.conf.urls import url
 
-from .views import BuildingDetailView
-from .views import BuildingFormView
-from .views import BuildingUpdateView
-from .views import ParkingLotFormView
-from .views import ParkingLotUpdateView
-from .views import ParkingLotDeleteView
-from .views import UnitDetailView
-from .views import UnitFormView
-from .views import UnitsListView
-from .views import UnitUpdateView
+from buildings.views.buildings import BuildingDetailView
+from buildings.views.buildings import BuildingFormView
+from buildings.views.buildings import BuildingUpdateView
+from buildings.views.parking_lots import ParkingLotFormView
+from buildings.views.parking_lots import ParkingLotUpdateView
+from buildings.views.parking_lots import ParkingLotDeleteView
+from buildings.views.units import UnitDetailView
+from buildings.views.units import UnitFormView
+from buildings.views.units import UnitsListView
+from buildings.views.units import UnitUpdateView
 
 
 urlpatterns = [
