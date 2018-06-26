@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 from .data import BUILDING_DOCUMENT_TYPE_CHOICES
 from .data import PARKING_LOT_TYPE_CHOICES
+from .data import VEHICLE_TYPE_CHOICES
 from accounts.data import DOCUMENT_TYPE_CHOICES
 from app.validators import FileSizeValidator
 
@@ -528,3 +529,48 @@ class ParkingLot(models.Model):
         verbose_name = _('parqueadero')
         verbose_name_plural = _('parqueaderos')
         ordering = ('number',)
+
+
+class Vehicle(models.Model):
+    """
+    This model represents a vehicle assigned to an
+    unit.
+    """
+    brand = models.CharField(
+        max_length=50,
+        verbose_name=_('marca'),
+    )
+
+    vehicle_type = models.PositiveSmallIntegerField(
+        choices=VEHICLE_TYPE_CHOICES,
+        verbose_name=_('tipo de vehículo'),
+    )
+
+    license_plate = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        verbose_name=_('placa'),
+    )
+
+    color = models.CharField(
+        max_length=50,
+        verbose_name=_('color'),
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def __str__(self):
+        return '{0} - {1}'.format(
+            self.unit,
+            self.license_plate,
+        )
+
+    class Meta:
+        verbose_name = _('vehículo')
+        verbose_name_plural = _('vehículos')
+        ordering = ('unit',)

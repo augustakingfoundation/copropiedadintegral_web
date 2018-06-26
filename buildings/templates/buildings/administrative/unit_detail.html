@@ -138,4 +138,49 @@
   <p>{% trans 'No hay parqueaderos registrados.' %}</p>
   {% endif %}
 </div>
+
+<div class="jumbotron">
+  <h2>{% trans 'Vehículos' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:vehicle_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar vehículo" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.vehicle_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Tipo" %}</th>
+          <th scope="col">{% trans "Color" %}</th>
+          <th scope="col">{% trans "Marca" %}</th>
+          <th scope="col">{% trans "Placa" %}</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vehicle in object.vehicle_set.all %}
+        <tr>
+          <td>{{ vehicle.get_vehicle_type_display }}</td>
+          <td>{{ vehicle.color }}</td>
+          <td>{{ vehicle.brand }}</td>
+          <td>{{ vehicle.license_plate|default:"N/D" }}</td>
+
+        {% if can_edit_unit %}
+          <td>
+              
+          </td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay parqueaderos registrados.' %}</p>
+  {% endif %}
+</div>
 {% endblock %}

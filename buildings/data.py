@@ -20,3 +20,15 @@ PARKING_LOT_TYPE_CHOICES = (
     (PARKING_LOT_ASSIGNED, _('Asignado (Arrendado o Temporal por sorteo)')),
     (PARKING_LOT_OWN, _('Propio')),
 )
+
+
+VEHICLE_TYPE_CAR = 1
+VEHICLE_TYPE_MOTORCYCLE = 2
+VEHICLE_TYPE_BICYCLE = 3
+
+VEHICLE_TYPE_CHOICES = (
+    ('', _('Tipo de vehículo')),
+    (VEHICLE_TYPE_CAR, _('Carro')),
+    (VEHICLE_TYPE_MOTORCYCLE, _('Motocicleta')),
+    (VEHICLE_TYPE_BICYCLE, _('Bicicleta')),
+)
