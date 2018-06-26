@@ -4,6 +4,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.urls import reverse
 
 from app.mixins import CustomUserMixin
 from buildings.forms import VehicleForm
@@ -56,3 +58,54 @@ class VehicleFormView(CustomUserMixin, CreateView):
         )
 
         return redirect(unit.get_absolute_url())
+
+
+class VehicleUpdateView(CustomUserMixin, UpdateView):
+    """
+    Form view to update information about a vehicle.
+    """
+    model = Vehicle
+    form_class = VehicleForm
+    template_name = 'buildings/administrative/vehicle_form.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            Vehicle,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['v_pk'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        context['active_units'] = True
+        context['vehicle_update'] = True
+
+        return context
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    @transaction.atomic
+    def form_valid(self, form):
+        # Update vehicle object.
+        form.save()
+
+        messages.success(
+            self.request,
+            _('Vehículo actualizado exitosamente.'),
+        )
+
+        return super().form_valid(form)
