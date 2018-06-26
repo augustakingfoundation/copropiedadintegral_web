@@ -21,6 +21,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'huey.contrib.djhuey',
     'djangoformsetjs',
+    'storages',
 
     'app',
     'accounts',
