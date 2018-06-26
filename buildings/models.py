@@ -7,6 +7,9 @@ from django.utils.translation import gettext_lazy as _
 from .data import BUILDING_DOCUMENT_TYPE_CHOICES
 from .data import PARKING_LOT_TYPE_CHOICES
 from .data import VEHICLE_TYPE_CHOICES
+from .data import VEHICLE_TYPE_CAR
+from .data import VEHICLE_TYPE_MOTORCYCLE
+from .data import VEHICLE_TYPE_BICYCLE
 from accounts.data import DOCUMENT_TYPE_CHOICES
 from app.validators import FileSizeValidator
 
@@ -564,10 +567,22 @@ class Vehicle(models.Model):
         verbose_name=_('unidad'),
     )
 
+    @property
+    def is_car(self):
+        return self.vehicle_type == VEHICLE_TYPE_CAR
+
+    @property
+    def is_motorcycle(self):
+        return self.vehicle_type == VEHICLE_TYPE_MOTORCYCLE
+
+    @property
+    def is_bicycle(self):
+        return self.vehicle_type == VEHICLE_TYPE_BICYCLE
+
     def __str__(self):
         return '{0} - {1}'.format(
             self.unit,
-            self.license_plate,
+            self.brand,
         )
 
     class Meta:
