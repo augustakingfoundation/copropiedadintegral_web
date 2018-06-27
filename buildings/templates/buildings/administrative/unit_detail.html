@@ -138,4 +138,95 @@
   <p>{% trans 'No hay parqueaderos registrados.' %}</p>
   {% endif %}
 </div>
+
+<div class="jumbotron">
+  <h2>{% trans 'Vehículos' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:vehicle_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar vehículo" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.vehicle_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Tipo" %}</th>
+          <th scope="col">{% trans "Color" %}</th>
+          <th scope="col">{% trans "Marca" %}</th>
+          <th scope="col">{% trans "Placa" %}</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vehicle in object.vehicle_set.all %}
+        <tr>
+          <td>{{ vehicle.get_vehicle_type_display }}</td>
+          <td>{{ vehicle.color }}</td>
+          <td>{{ vehicle.brand }}</td>
+          <td>{{ vehicle.license_plate|default:"N/D" }}</td>
+
+        {% if can_edit_unit %}
+          <td>
+            <a href="{% url 'buildings:vehicle_update' building.id object.id vehicle.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+
+            <a href="{% url 'buildings:vehicle_delete' building.id object.id vehicle.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+          </td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay vehículos registrados.' %}</p>
+  {% endif %}
+</div>
+
+<div class="jumbotron">
+  <h2>{% trans 'Trabajadores domésticos' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:domestic_worker_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar trabajador doméstico" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.domesticworker_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Nombre" %}</th>
+          <th scope="col">{% trans "Documento" %}</th>
+          <th scope="col">{% trans "Horario" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for domestic_worker in object.domesticworker_set.all %}
+        <tr>
+          <td>{{ domestic_worker.first_name }} {{ domestic_worker.last_name }}</td>
+          <td>{{ domestic_worker.get_document_type_display }} - {{ domestic_worker.document_number }}</td>
+          <td><pre>{{ domestic_worker.schedule|linebreaks }}</pre></td>
+
+        {% if can_edit_unit %}
+          <td>
+            <a href="{% url 'buildings:domestic_worker_update' building.id object.id domestic_worker.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+
+            <a href="{% url 'buildings:domestic_worker_delete' building.id object.id domestic_worker.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+          </td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay trabajadores domésticos registrados.' %}</p>
+  {% endif %}
+</div>
 {% endblock %}

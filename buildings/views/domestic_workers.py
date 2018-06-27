@@ -2,26 +2,26 @@ from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic.edit import DeleteView
+from django.urls import reverse
 
 from app.mixins import CustomUserMixin
-from buildings.forms import ParkingLotForm
-from buildings.models import ParkingLot
+from buildings.models import DomesticWorker
 from buildings.models import Unit
+from buildings.forms import DomesticWorkerForm
 from buildings.permissions import BuildingPermissions
 
 
-class ParkingLotFormView(CustomUserMixin, CreateView):
+class DomesticWorkerFormView(CustomUserMixin, CreateView):
     """
-    Form view to create a new parking lot of a unit.
+    Form view to register a new vehicle into a unit.
     """
-    model = ParkingLot
-    form_class = ParkingLotForm
-    template_name = 'buildings/administrative/parkinglot_form.html'
+    model = DomesticWorker
+    form_class = DomesticWorkerForm
+    template_name = 'buildings/administrative/domesticworker_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -48,26 +48,26 @@ class ParkingLotFormView(CustomUserMixin, CreateView):
     def form_valid(self, form):
         # Get unit instance.
         unit = self.get_object()
-        # Create parking lot object.
-        parking_lot = form.save(commit=False)
-        parking_lot.unit = self.get_object()
-        parking_lot.save()
+        # Create domestic worker object.
+        domestic_worker = form.save(commit=False)
+        domestic_worker.unit = self.get_object()
+        domestic_worker.save()
 
         messages.success(
             self.request,
-            _('Parqueadero creado exitosamente.')
+            _('Trabajador doméstico creado exitosamente.')
         )
 
         return redirect(unit.get_absolute_url())
 
 
-class ParkingLotUpdateView(CustomUserMixin, UpdateView):
+class DomesticWorkerUpdateView(CustomUserMixin, UpdateView):
     """
-    Form view to update information about a parking lot.
+    Form view to update information about a domestic worker.
     """
-    model = ParkingLot
-    form_class = ParkingLotForm
-    template_name = 'buildings/administrative/parkinglot_form.html'
+    model = DomesticWorker
+    form_class = DomesticWorkerForm
+    template_name = 'buildings/administrative/domesticworker_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -76,11 +76,11 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get parking lot object.
+        # Get domestic worker object.
         return get_object_or_404(
-            ParkingLot,
+            DomesticWorker,
             unit_id=self.kwargs['u_pk'],
-            pk=self.kwargs['p_pk'],
+            pk=self.kwargs['dw_pk'],
         )
 
     def get_context_data(self, **kwargs):
@@ -88,7 +88,7 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
         context['unit'] = self.get_object().unit
         context['building'] = self.get_object().unit.building
         context['active_units'] = True
-        context['parking_lot_update'] = True
+        context['domestic_worker_update'] = True
 
         return context
 
@@ -101,25 +101,25 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Update parking lot object.
+        # Update domestic worker object.
         form.save()
 
         messages.success(
             self.request,
-            _('Parqueadero actualizado exitosamente.'),
+            _('Trabajador doméstico actualizado exitosamente.'),
         )
 
         return super().form_valid(form)
 
 
-class ParkingLotDeleteView(CustomUserMixin, DeleteView):
+class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
     """
-    Parking lot delete view. Users are redirected to a view
+    Domestic worker delete view. Users are redirected to a view
     in which they will be asked about confirmation for
-    delete a parking lot definitely.
+    delete a domestic worker definitely.
     """
-    model = ParkingLot
-    template_name = 'buildings/administrative/parking_lot_delete_confirm.html'
+    model = DomesticWorker
+    template_name = 'buildings/administrative/domestic_worker_delete_confirm.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -130,9 +130,9 @@ class ParkingLotDeleteView(CustomUserMixin, DeleteView):
     def get_object(self, queryset=None):
         # Get parking lot object.
         return get_object_or_404(
-            ParkingLot,
+            DomesticWorker,
             unit_id=self.kwargs['u_pk'],
-            pk=self.kwargs['p_pk'],
+            pk=self.kwargs['dw_pk'],
         )
 
     def get_success_url(self):

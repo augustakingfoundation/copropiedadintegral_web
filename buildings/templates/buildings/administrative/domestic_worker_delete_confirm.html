@@ -9,7 +9,7 @@
   <h1>{% trans 'Unidad' %} {{ unit }}</h1>
   <hr>
 
-  <div class="alert alert-danger" role="alert">{% trans "Eliminar parqueadero" %} {{ object.number }} {% trans 'asignado a la unidad' %} {{ unit }}. {% trans "¿está seguro que desea eliminar este parqueadero?" %}</div>
+  <div class="alert alert-danger" role="alert">{% trans "Eliminar trabajador doméstico" %} {{ object.first_name }} {{ object.last_name }} {% trans 'asignado a la unidad' %} {{ unit }}. {% trans "¿está seguro que desea eliminar a esta persona?" %}</div>
 
   <form method="post">{% csrf_token %}
       <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">{% trans "No, regresar al detalle de la unidad" %}</a>

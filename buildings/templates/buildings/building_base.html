@@ -24,6 +24,13 @@
 
   <div class="row">
     <div class="col-sm-12 col-md-2 col-lg-2">
+      {% if building.logo %}
+      <img class="img-responsive thumbnail" src="{{ building.logo.url }}" alt="{{ building }}" style="width: 160px; height: auto">
+
+      <br>
+      <br>
+      {% endif %}
+
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <a class="nav-link {% if active_general %}active{% endif %}" href="{{ building.get_absolute_url }}">{% trans "General" %}</a>
         <a class="nav-link {% if active_units %}active{% endif %}" href="{% url 'buildings:units_list' building.id %}">{% trans "Unidades" %}</a>

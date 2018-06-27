@@ -6,11 +6,15 @@ from django.utils.translation import gettext_lazy as _
 
 from .data import BUILDING_DOCUMENT_TYPE_CC
 from .data import BUILDING_DOCUMENT_TYPE_NIT
+from .data import VEHICLE_TYPE_CAR
+from .data import VEHICLE_TYPE_MOTORCYCLE
 from .models import Building
+from .models import DomesticWorker
 from .models import Leaseholder
 from .models import Owner
 from .models import ParkingLot
 from .models import Unit
+from .models import Vehicle
 
 
 class BuildingForm(forms.ModelForm):
@@ -238,8 +242,8 @@ class UnitForm(forms.ModelForm):
 
 class ParkingLotForm(forms.ModelForm):
     """
-    Parking log form. The unit field included in the
-    model is excluded from the from and this value is
+    Parking lot form. The unit field included in the
+    model is excluded from the form and this value is
     assigned in the parking lot create view, in the
     post request.
     """
@@ -253,3 +257,86 @@ class ParkingLotForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['number'].widget.attrs['placeholder'] = _('Número/ID')
+
+
+class VehicleForm(forms.ModelForm):
+    """
+    Vehicle form. The unit field included in the
+    model is excluded from the form and this value is
+    assigned in the vehicle create view, in the
+    post request.
+    """
+    class Meta:
+        model = Vehicle
+        fields = (
+            'brand',
+            'vehicle_type',
+            'license_plate',
+            'color',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'brand',
+            'license_plate',
+            'color',
+        ]
+
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label
+
+    def clean(self):
+        cleaned_data = super().clean()
+        vehicle_type = cleaned_data.get('vehicle_type')
+
+        if (
+            vehicle_type in (VEHICLE_TYPE_CAR, VEHICLE_TYPE_MOTORCYCLE) and
+            not cleaned_data.get('license_plate')
+        ):
+            self.add_error(
+                'license_plate',
+                _('Para carros y motocicletas la placa es requerida.'),
+            )
+
+
+class DomesticWorkerForm(forms.ModelForm):
+    """
+    Domestic worker form. The unit field included in the
+    model is excluded from the form and this value is
+    assigned in the domestic worker create view, in the
+    post request.
+    """
+    class Meta:
+        model = DomesticWorker
+        fields = (
+            'first_name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'schedule',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'first_name',
+            'last_name',
+            'document_number',
+            'schedule',
+        ]
+
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label

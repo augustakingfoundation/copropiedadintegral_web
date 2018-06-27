@@ -10,6 +10,12 @@ from buildings.views.units import UnitDetailView
 from buildings.views.units import UnitFormView
 from buildings.views.units import UnitsListView
 from buildings.views.units import UnitUpdateView
+from buildings.views.vehicles import VehicleFormView
+from buildings.views.vehicles import VehicleUpdateView
+from buildings.views.vehicles import VehicleDeleteView
+from buildings.views.domestic_workers import DomesticWorkerFormView
+from buildings.views.domestic_workers import DomesticWorkerUpdateView
+from buildings.views.domestic_workers import DomesticWorkerDeleteView
 
 
 urlpatterns = [
@@ -71,5 +77,41 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/eliminar/(?P<p_pk>\d+)/$',
         ParkingLotDeleteView.as_view(),
         name='parking_lot_delete',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/registrar/$',
+        VehicleFormView.as_view(),
+        name='vehicle_form',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/actualizar/(?P<v_pk>\d+)/$',
+        VehicleUpdateView.as_view(),
+        name='vehicle_update',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/eliminar/(?P<v_pk>\d+)/$',
+        VehicleDeleteView.as_view(),
+        name='vehicle_delete',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/registrar/$',
+        DomesticWorkerFormView.as_view(),
+        name='domestic_worker_form',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/actualizar/(?P<dw_pk>\d+)/$',
+        DomesticWorkerUpdateView.as_view(),
+        name='domestic_worker_update',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/eliminar/(?P<dw_pk>\d+)/$',
+        DomesticWorkerDeleteView.as_view(),
+        name='domestic_worker_delete',
     ),
 ]
