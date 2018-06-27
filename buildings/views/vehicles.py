@@ -21,7 +21,7 @@ class VehicleFormView(CustomUserMixin, CreateView):
     """
     model = Vehicle
     form_class = VehicleForm
-    template_name = 'buildings/administrative/vehicle_form.html'
+    template_name = 'buildings/administrative/vehicles/vehicle_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -40,6 +40,7 @@ class VehicleFormView(CustomUserMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object()
         context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
 
         return context
@@ -67,7 +68,7 @@ class VehicleUpdateView(CustomUserMixin, UpdateView):
     """
     model = Vehicle
     form_class = VehicleForm
-    template_name = 'buildings/administrative/vehicle_form.html'
+    template_name = 'buildings/administrative/vehicles/vehicle_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -87,7 +88,9 @@ class VehicleUpdateView(CustomUserMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object().unit
         context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
+        # Returned to put the correct title in the vehicle form.
         context['vehicle_update'] = True
 
         return context
@@ -119,7 +122,7 @@ class VehicleDeleteView(CustomUserMixin, DeleteView):
     delete a vehicle definitely.
     """
     model = Vehicle
-    template_name = 'buildings/administrative/vehicle_delete_confirm.html'
+    template_name = 'buildings/administrative/vehicles/vehicle_delete_confirm.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -128,7 +131,7 @@ class VehicleDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get parking lot object.
+        # Get vehicle object.
         return get_object_or_404(
             Vehicle,
             unit_id=self.kwargs['u_pk'],
@@ -145,6 +148,7 @@ class VehicleDeleteView(CustomUserMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
         context['building'] = self.get_object().unit.building
 
