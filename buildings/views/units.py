@@ -25,7 +25,7 @@ class UnitsListView(CustomUserMixin, ListView):
     created in a building or condo.
     """
     model = Unit
-    template_name = 'buildings/administrative/units_list.html'
+    template_name = 'buildings/administrative/units/units_list.html'
     context_object_name = 'units_list'
 
     def test_func(self):
@@ -67,7 +67,7 @@ class UnitFormView(CustomUserMixin, TemplateView):
     add multiple owners, and a formset to add multiple
     leaseholders.
     """
-    template_name = 'buildings/administrative/unit_form.html'
+    template_name = 'buildings/administrative/units/unit_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_create_unit(
@@ -112,6 +112,7 @@ class UnitFormView(CustomUserMixin, TemplateView):
             )
         )
 
+    @transaction.atomic
     def post(self, *args, **kwargs):
         form = UnitForm(self.request.POST)
 
@@ -171,7 +172,7 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
     Leaseholder model will be initialized in the formsets
     to update them easily.
     """
-    template_name = 'buildings/administrative/unit_form.html'
+    template_name = 'buildings/administrative/units/unit_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -280,7 +281,7 @@ class UnitDetailView(CustomUserMixin, DetailView):
     Detail view of a Unit (Apartment, house or office).
     """
     model = Building
-    template_name = 'buildings/administrative/unit_detail.html'
+    template_name = 'buildings/administrative/units/unit_detail.html'
 
     def get_object(self, queryset=None):
         return get_object_or_404(

@@ -17,11 +17,11 @@ from buildings.permissions import BuildingPermissions
 
 class DomesticWorkerFormView(CustomUserMixin, CreateView):
     """
-    Form view to register a new vehicle into a unit.
+    Form view to register a new domestic worker into a unit.
     """
     model = DomesticWorker
     form_class = DomesticWorkerForm
-    template_name = 'buildings/administrative/domesticworker_form.html'
+    template_name = 'buildings/administrative/domestic_workers/domestic_worker_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -30,6 +30,7 @@ class DomesticWorkerFormView(CustomUserMixin, CreateView):
         )
 
     def get_object(self, queryset=None):
+        # Get unit object.
         return get_object_or_404(
             Unit,
             building_id=self.kwargs['b_pk'],
@@ -40,6 +41,7 @@ class DomesticWorkerFormView(CustomUserMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object()
         context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
 
         return context
@@ -67,7 +69,7 @@ class DomesticWorkerUpdateView(CustomUserMixin, UpdateView):
     """
     model = DomesticWorker
     form_class = DomesticWorkerForm
-    template_name = 'buildings/administrative/domesticworker_form.html'
+    template_name = 'buildings/administrative/domestic_workers/domestic_worker_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -87,7 +89,9 @@ class DomesticWorkerUpdateView(CustomUserMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object().unit
         context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
+        # Returned to put the correct title in the domestic worker form.
         context['domestic_worker_update'] = True
 
         return context
@@ -119,7 +123,7 @@ class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
     delete a domestic worker definitely.
     """
     model = DomesticWorker
-    template_name = 'buildings/administrative/domestic_worker_delete_confirm.html'
+    template_name = 'buildings/administrative/domestic_workers/domestic_worker_delete_confirm.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -128,7 +132,7 @@ class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get parking lot object.
+        # Get domestic worker object.
         return get_object_or_404(
             DomesticWorker,
             unit_id=self.kwargs['u_pk'],
@@ -145,6 +149,7 @@ class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
         context['building'] = self.get_object().unit.building
 

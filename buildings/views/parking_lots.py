@@ -21,7 +21,7 @@ class ParkingLotFormView(CustomUserMixin, CreateView):
     """
     model = ParkingLot
     form_class = ParkingLotForm
-    template_name = 'buildings/administrative/parkinglot_form.html'
+    template_name = 'buildings/administrative/parking_lots/parkinglot_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -40,6 +40,7 @@ class ParkingLotFormView(CustomUserMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object()
         context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
 
         return context
@@ -67,7 +68,7 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
     """
     model = ParkingLot
     form_class = ParkingLotForm
-    template_name = 'buildings/administrative/parkinglot_form.html'
+    template_name = 'buildings/administrative/parking_lots/parkinglot_form.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -87,7 +88,9 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object().unit
         context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
+        # Returned to put the correct title in the parking lot form.
         context['parking_lot_update'] = True
 
         return context
@@ -119,7 +122,7 @@ class ParkingLotDeleteView(CustomUserMixin, DeleteView):
     delete a parking lot definitely.
     """
     model = ParkingLot
-    template_name = 'buildings/administrative/parking_lot_delete_confirm.html'
+    template_name = 'buildings/administrative/parking_lots/parking_lot_delete_confirm.html'
 
     def test_func(self):
         return BuildingPermissions.can_edit_unit(
@@ -145,6 +148,7 @@ class ParkingLotDeleteView(CustomUserMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
         context['building'] = self.get_object().unit.building
 
