@@ -215,6 +215,7 @@
 
         {% if can_edit_unit %}
           <td>
+            <a href="{% url 'buildings:domestic_worker_update' building.id object.id domestic_worker.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
             
           </td>
         {% endif %}
