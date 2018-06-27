@@ -385,6 +385,11 @@ class Owner(models.Model):
         verbose_name=_('correo electrónico'),
     )
 
+    is_main = models.BooleanField(
+        verbose_name=_('propietario principal'),
+        default=False,
+    )
+
     unit = models.ForeignKey(
         'buildings.Unit',
         on_delete=models.CASCADE,
@@ -479,6 +484,11 @@ class Leaseholder(models.Model):
         null=True,
         blank=True,
         verbose_name=_('correo electrónico'),
+    )
+
+    is_main = models.BooleanField(
+        verbose_name=_('arrendatario principal'),
+        default=False,
     )
 
     unit = models.ForeignKey(
