@@ -110,3 +110,42 @@ class DomesticWorkerUpdateView(CustomUserMixin, UpdateView):
         )
 
         return super().form_valid(form)
+
+
+class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
+    """
+    Domestic worker delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete a domestic worker definitely.
+    """
+    model = DomesticWorker
+    template_name = 'buildings/administrative/domestic_worker_delete_confirm.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get parking lot object.
+        return get_object_or_404(
+            DomesticWorker,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['dw_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['active_units'] = True
+        context['building'] = self.get_object().unit.building
+
+        return context

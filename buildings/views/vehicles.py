@@ -114,7 +114,7 @@ class VehicleUpdateView(CustomUserMixin, UpdateView):
 
 class VehicleDeleteView(CustomUserMixin, DeleteView):
     """
-    Vehicle delete view. Users is redirected to a view
+    Vehicle delete view. Users are redirected to a view
     in which they will be asked about confirmation for
     delete a vehicle definitely.
     """

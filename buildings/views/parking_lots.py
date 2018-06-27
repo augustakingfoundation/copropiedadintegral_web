@@ -114,7 +114,7 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
 
 class ParkingLotDeleteView(CustomUserMixin, DeleteView):
     """
-    Parking lot delete view. Users is redirected to a view
+    Parking lot delete view. Users are redirected to a view
     in which they will be asked about confirmation for
     delete a parking lot definitely.
     """
