@@ -589,3 +589,53 @@ class Vehicle(models.Model):
         verbose_name = _('vehículo')
         verbose_name_plural = _('vehículos')
         ordering = ('unit',)
+
+
+class Domesticworker(models.Model):
+    """
+    This model represents a domestic worker registered to
+    an unit.
+    """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name=_('nombre'),
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name=_('apellidos'),
+    )
+
+    document_type = models.PositiveSmallIntegerField(
+        choices=DOCUMENT_TYPE_CHOICES,
+        verbose_name=_('tipo de documento'),
+    )
+
+    document_number = models.CharField(
+        max_length=32,
+        verbose_name=_('número de documento'),
+    )
+
+    schedule = models.TextField(
+        blank=True,
+        verbose_name=_('horario'),
+        help_text=_('Días y horarios en los que va a trabajar.'),
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def __str__(self):
+        return '{0} {1} - {2}'.format(
+            self.first_name,
+            self.last_name,
+            self.unit,
+        )
+
+    class Meta:
+        verbose_name = _('trabajador doméstico')
+        verbose_name_plural = _('trabajadores domésticos')
+        ordering = ('unit',)
