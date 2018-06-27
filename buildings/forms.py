@@ -9,6 +9,7 @@ from .data import BUILDING_DOCUMENT_TYPE_NIT
 from .data import VEHICLE_TYPE_CAR
 from .data import VEHICLE_TYPE_MOTORCYCLE
 from .models import Building
+from .models import DomesticWorker
 from .models import Leaseholder
 from .models import Owner
 from .models import ParkingLot
@@ -303,3 +304,39 @@ class VehicleForm(forms.ModelForm):
                 'license_plate',
                 _('Para carros y motocicletas la placa es requerida.'),
             )
+
+
+class DomesticWorkerForm(forms.ModelForm):
+    """
+    Domestic worker form. The unit field included in the
+    model is excluded from the form and this value is
+    assigned in the domestic worker create view, in the
+    post request.
+    """
+    class Meta:
+        model = DomesticWorker
+        fields = (
+            'first_name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'schedule',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'first_name',
+            'last_name',
+            'document_number',
+            'schedule',
+        ]
+
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label

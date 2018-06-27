@@ -591,7 +591,7 @@ class Vehicle(models.Model):
         ordering = ('unit',)
 
 
-class Domesticworker(models.Model):
+class DomesticWorker(models.Model):
     """
     This model represents a domestic worker registered to
     an unit.

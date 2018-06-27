@@ -48,7 +48,7 @@ class VehicleFormView(CustomUserMixin, CreateView):
     def form_valid(self, form):
         # Get unit instance.
         unit = self.get_object()
-        # Create parking lot object.
+        # Create vehicle object.
         vehicle = form.save(commit=False)
         vehicle.unit = self.get_object()
         vehicle.save()
