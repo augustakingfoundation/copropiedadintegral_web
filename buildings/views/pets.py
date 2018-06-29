@@ -182,3 +182,11 @@ class PetDeleteView(CustomUserMixin, DeleteView):
         context['building'] = self.get_object().unit.building
 
         return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Mascota eliminada exitosamente.')
+        )
+
+        return super(PetDeleteView, self).delete(request, *args, **kwargs)

@@ -10,7 +10,11 @@
   <hr>
 
 <div class="clearfix">
-  <a href="{% url 'buildings:pet_update' building.id unit.id object.id %}" class="btn btn-outline-dark float-right">{% trans "Editar" %}</a>
+  <div class="float-right">
+    <a href="{% url 'buildings:pet_update' building.id unit.id object.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+
+    <a href="{% url 'buildings:pet_delete' building.id unit.id object.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+  </div>
 </div>
 
   <dl class="row">
