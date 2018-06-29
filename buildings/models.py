@@ -627,7 +627,6 @@ class DomesticWorker(models.Model):
     )
 
     schedule = models.TextField(
-        blank=True,
         verbose_name=_('horario'),
         help_text=_('Días y horarios en los que va a trabajar.'),
     )
@@ -648,4 +647,62 @@ class DomesticWorker(models.Model):
     class Meta:
         verbose_name = _('trabajador doméstico')
         verbose_name_plural = _('trabajadores domésticos')
+        ordering = ('unit',)
+
+
+class Pet(models.Model):
+    """
+    This model represents a pet registered to
+    an unit.
+    """
+    pet_type = models.CharField(
+        max_length=30,
+        verbose_name=_('tipo de mascota'),
+        help_text=_('perro, gato, etc.'),
+    )
+
+    breed = models.CharField(
+        max_length=30,
+        verbose_name=_('raza'),
+    )
+
+    name = models.CharField(
+        max_length=30,
+        verbose_name=_('nombre'),
+    )
+
+    color = models.CharField(
+        max_length=50,
+        verbose_name=_('color'),
+    )
+
+    picture = models.ImageField(
+        max_length=255,
+        blank=True,
+        help_text='150x150',
+        validators=[FileSizeValidator(4000)],
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def get_absolute_url(self):
+        return reverse(
+            'buildings:pet_detail',
+            args=[self.unit.building.id, self.unit.id, self.id]
+        )
+
+    def __str__(self):
+        return '{0} | {1} - {2}'.format(
+            self.unit,
+            self.pet_type,
+            self.name,
+        )
+
+    class Meta:
+        verbose_name = _('mascota')
+        verbose_name_plural = _('mascotas')
         ordering = ('unit',)
