@@ -18,6 +18,7 @@ from buildings.views.domestic_workers import DomesticWorkerUpdateView
 from buildings.views.domestic_workers import DomesticWorkerDeleteView
 from buildings.views.pets import PetFormView
 from buildings.views.pets import PetDetailView
+from buildings.views.pets import PetUpdateView
 
 
 urlpatterns = [
@@ -127,5 +128,11 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/detalle/(?P<pet_pk>\d+)/$',
         PetDetailView.as_view(),
         name='pet_detail',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/actualizar/(?P<pet_pk>\d+)/$',
+        PetUpdateView.as_view(),
+        name='pet_update',
     ),
 ]

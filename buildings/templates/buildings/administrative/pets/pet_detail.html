@@ -9,6 +9,10 @@
   <h1>{% trans 'Mascota registrada en la unidad' %} {{ unit }}</h1>
   <hr>
 
+<div class="clearfix">
+  <a href="{% url 'buildings:pet_update' building.id unit.id object.id %}" class="btn btn-outline-dark float-right">{% trans "Editar" %}</a>
+</div>
+
   <dl class="row">
     <dt class="col-sm-3">{% trans "Tipo de mascota" %}</dt>
     <dd class="col-sm-9">{{ object.pet_type }}</dd>

@@ -47,5 +47,10 @@
 
       <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
   </form>
+
+  {% if object.picture %}
+    <p>{% trans 'Fotografía actual:' %}</p>
+    <img class="img-responsive thumbnail" src="{{ object.picture.url }}" alt="{{ picture }}" style="width: 300px; height: auto">
+  {% endif %}
 </div>
 {% endblock %}

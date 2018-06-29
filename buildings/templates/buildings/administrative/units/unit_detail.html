@@ -262,6 +262,10 @@
         {% if can_edit_unit %}
           <td>
             <a href="{% url 'buildings:pet_detail' building.id object.id pet.id %}" class="btn btn-outline-dark">{% trans "Ver detalle" %}</a>
+
+            <a href="{% url 'buildings:pet_update' building.id object.id pet.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+
+            <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
           </td>
         {% endif %}
         </tr>

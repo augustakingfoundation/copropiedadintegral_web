@@ -689,6 +689,12 @@ class Pet(models.Model):
         verbose_name=_('unidad'),
     )
 
+    def get_absolute_url(self):
+        return reverse(
+            'buildings:pet_detail',
+            args=[self.unit.building.id, self.unit.id, self.id]
+        )
+
     def __str__(self):
         return '{0} | {1} - {2}'.format(
             self.unit,
