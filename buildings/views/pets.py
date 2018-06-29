@@ -2,11 +2,12 @@ from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
-from django.urls import reverse
 
 from app.mixins import CustomUserMixin
 from buildings.forms import PetForm
@@ -124,7 +125,7 @@ class PetUpdateView(CustomUserMixin, UpdateView):
         return context
 
     def get_success_url(self):
-        # Reverse to unit detail.
+        # Reverse to pet detail.
         return reverse(
             'buildings:pet_detail',
             args=[self.kwargs['b_pk'], self.kwargs['u_pk'], self.kwargs['pet_pk']]
@@ -141,3 +142,43 @@ class PetUpdateView(CustomUserMixin, UpdateView):
         )
 
         return super().form_valid(form)
+
+
+class PetDeleteView(CustomUserMixin, DeleteView):
+    """
+    Pet delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete a pet definitely.
+    """
+    model = Pet
+    template_name = 'buildings/administrative/pets/pet_delete_confirm.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get pet object.
+        return get_object_or_404(
+            Pet,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['pet_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+        context['building'] = self.get_object().unit.building
+
+        return context

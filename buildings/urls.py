@@ -3,22 +3,23 @@ from django.conf.urls import url
 from buildings.views.buildings import BuildingDetailView
 from buildings.views.buildings import BuildingFormView
 from buildings.views.buildings import BuildingUpdateView
+from buildings.views.domestic_workers import DomesticWorkerDeleteView
+from buildings.views.domestic_workers import DomesticWorkerFormView
+from buildings.views.domestic_workers import DomesticWorkerUpdateView
+from buildings.views.parking_lots import ParkingLotDeleteView
 from buildings.views.parking_lots import ParkingLotFormView
 from buildings.views.parking_lots import ParkingLotUpdateView
-from buildings.views.parking_lots import ParkingLotDeleteView
+from buildings.views.pets import PetDeleteView
+from buildings.views.pets import PetDetailView
+from buildings.views.pets import PetFormView
+from buildings.views.pets import PetUpdateView
 from buildings.views.units import UnitDetailView
 from buildings.views.units import UnitFormView
 from buildings.views.units import UnitsListView
 from buildings.views.units import UnitUpdateView
+from buildings.views.vehicles import VehicleDeleteView
 from buildings.views.vehicles import VehicleFormView
 from buildings.views.vehicles import VehicleUpdateView
-from buildings.views.vehicles import VehicleDeleteView
-from buildings.views.domestic_workers import DomesticWorkerFormView
-from buildings.views.domestic_workers import DomesticWorkerUpdateView
-from buildings.views.domestic_workers import DomesticWorkerDeleteView
-from buildings.views.pets import PetFormView
-from buildings.views.pets import PetDetailView
-from buildings.views.pets import PetUpdateView
 
 
 urlpatterns = [
@@ -134,5 +135,11 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/actualizar/(?P<pet_pk>\d+)/$',
         PetUpdateView.as_view(),
         name='pet_update',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/eliminar/(?P<pet_pk>\d+)/$',
+        PetDeleteView.as_view(),
+        name='pet_delete',
     ),
 ]

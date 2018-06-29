@@ -1,0 +1,24 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h1>{% trans 'Unidad' %} {{ unit }}</h1>
+  <hr>
+
+  <div class="alert alert-danger" role="alert">{% trans "Eliminar mascota" %} {{ object }}, {% trans 'asignada a la unidad' %} {{ unit }}. {% trans "¿está seguro que desea eliminar esta mascota?" %}</div>
+
+    {% if object.picture %}
+      <img class="img-responsive thumbnail" src="{{ object.picture.url }}" alt="{{ picture }}" style="width: 300px; height: auto">
+    {% endif %}
+
+  <form method="post">{% csrf_token %}
+      <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">{% trans "No, regresar al detalle de la unidad" %}</a>
+
+      <input class="btn btn-outline-danger" type="submit" value="{% trans "Si, eliminar definitivamente" %}" />
+  </form>
+</div>
+{% endblock %}
