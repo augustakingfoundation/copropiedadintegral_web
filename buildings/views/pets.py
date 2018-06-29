@@ -189,4 +189,4 @@ class PetDeleteView(CustomUserMixin, DeleteView):
             _('Mascota eliminada exitosamente.')
         )
 
-        return super(PetDeleteView, self).delete(request, *args, **kwargs)
+        return super().delete(request, *args, **kwargs)

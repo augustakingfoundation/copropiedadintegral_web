@@ -154,3 +154,11 @@ class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
         context['building'] = self.get_object().unit.building
 
         return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Trabajador doméstico eliminado exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)
