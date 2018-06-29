@@ -6,8 +6,8 @@
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>{% trans 'Unidad' %} {{ unit }}</h1>
-  <hr>
+  <!-- Common header for all templates inside the unit administration module -->
+  {% include "buildings/administrative/units/unit_header.html" %}
 
   <div class="alert alert-danger" role="alert">{% trans "Eliminar parqueadero" %} {{ object.number }} {% trans 'asignado a la unidad' %} {{ unit }}. {% trans "¿está seguro que desea eliminar este parqueadero?" %}</div>
 

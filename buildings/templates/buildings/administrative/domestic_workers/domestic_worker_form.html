@@ -6,8 +6,8 @@
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>Unidad {{ unit }}</h1>
-  <hr>
+  <!-- Common header for all templates inside the unit administration module -->
+  {% include "buildings/administrative/units/unit_header.html" %}
 
   <form method="post">
   <h3>{% if domestic_worker_update %}{% trans "Editar trabajador doméstico" %} {{ object }}{% else %}{% trans "Registrar trabajador doméstico" %}{% endif %}</h3>

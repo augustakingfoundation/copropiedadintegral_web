@@ -734,7 +734,7 @@ class Visitor(models.Model):
     )
 
     relationship = models.CharField(
-        max_length=100,
+        max_length=50,
         verbose_name=_('parentesco'),
     )
 
