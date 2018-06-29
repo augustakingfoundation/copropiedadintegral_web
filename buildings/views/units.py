@@ -2,7 +2,9 @@ from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.utils.translation import ugettext as _
+from django.views.generic import DeleteView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 from django.views.generic import TemplateView
@@ -308,3 +310,49 @@ class UnitDetailView(CustomUserMixin, DetailView):
         )
 
         return context
+
+
+class UnitDeleteView(CustomUserMixin, DeleteView):
+    """
+    Unit delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete an unit definitely.
+    """
+    model = Unit
+    template_name = 'buildings/administrative/units/unit_delete_confirm.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().building,
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Unit,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['u_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to units list view.
+        return reverse(
+            'buildings:units_list',
+            args=[self.kwargs['b_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+        context['building'] = self.get_object().building
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Unidad eliminado exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)

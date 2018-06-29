@@ -16,6 +16,7 @@ from .models import ParkingLot
 from .models import Pet
 from .models import Unit
 from .models import Vehicle
+from .models import Visitor
 
 
 class BuildingForm(forms.ModelForm):
@@ -369,6 +370,42 @@ class PetForm(forms.ModelForm):
             'name',
             'color',
             'picture',
+        ]
+
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label
+
+
+class VisitorForm(forms.ModelForm):
+    """
+    Authorized visitor form. The unit field included in the
+    model is excluded from the form and this value is
+    assigned in the pet create view, in the
+    post request.
+    """
+    class Meta:
+        model = Visitor
+        fields = (
+            'first_name',
+            'last_name',
+            'document_type',
+            'document_number',
+            'relationship',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'first_name',
+            'last_name',
+            'document_number',
+            'relationship',
         ]
 
         # Here we are defining the placeholder for each

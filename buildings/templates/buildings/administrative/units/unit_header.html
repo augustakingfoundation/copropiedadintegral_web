@@ -1,0 +1,8 @@
+{% load i18n %}
+<!-- Template used to be included in all views of the unit administration section -->
+<div class="clearfix">
+	<h1 class="float-left">{% trans 'Unidad' %} {{ unit }}</h1>
+
+	<a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark float-right">{% trans "Regresar al detalle de la unidad" %}</a>
+</div>
+<hr>

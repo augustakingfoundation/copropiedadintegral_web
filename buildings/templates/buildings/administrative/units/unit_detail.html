@@ -97,6 +97,50 @@
 </div>
 
 <div class="jumbotron">
+  <h2>{% trans 'Visitantes autorizados' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:visitor_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar Visitante autorizado" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.visitor_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Nombre" %}</th>
+          <th scope="col">{% trans "Documento" %}</th>
+          <th scope="col">{% trans "Parentesco" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for visitor in object.visitor_set.all %}
+        <tr>
+          <td>{{ visitor.first_name }} {{ visitor.last_name }}</td>
+          <td>{{ visitor.get_document_type_display }} - {{ visitor.document_number }}</td>
+          <td>{{ visitor.relationship }}</td>
+
+        {% if can_edit_unit %}
+          <td>
+            <a href="{% url 'buildings:visitor_update' building.id object.id visitor.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+
+            <a href="{% url 'buildings:visitor_delete' building.id object.id visitor.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+          </td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay visitantes autorizados registrados aún.' %}</p>
+  {% endif %}
+</div>
+
+<div class="jumbotron">
   <h2>{% trans 'Parqueaderos' %}</h2>
   <hr>
 

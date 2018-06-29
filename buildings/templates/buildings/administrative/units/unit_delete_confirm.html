@@ -2,14 +2,17 @@
 
 {% load static widget_tweaks i18n %}
 
-{% block title %}{{ unit }}{% endblock %}
+{% block title %}{{ object }}{% endblock %}
 
 {% block building_section %}
 <div class="jumbotron">
   <!-- Common header for all templates inside the unit administration module -->
   {% include "buildings/administrative/units/unit_header.html" %}
 
-  <div class="alert alert-danger" role="alert">{% trans "Eliminar mascota" %} {{ object }}, {% trans 'asignada a la unidad' %} {{ unit }}. {% trans "¿está seguro que desea eliminar esta mascota?" %}</div>
+  <div class="alert alert-danger" role="alert">
+    <p>{% trans "Eliminar unidad" %} {{ object }}. <strong>{% trans 'Todos los datos relacionados con esta unidad serán eliminados de forma permanente.' %}</strong></p>
+    <p>{% trans "¿está seguro que desea eliminar esta unidad?" %}</p>
+  </div>
 
     {% if object.picture %}
       <img class="img-responsive thumbnail" src="{{ object.picture.url }}" alt="{{ picture }}" style="width: 300px; height: auto">

@@ -598,7 +598,7 @@ class Vehicle(models.Model):
     class Meta:
         verbose_name = _('vehículo')
         verbose_name_plural = _('vehículos')
-        ordering = ('unit',)
+        ordering = ('vehicle_type',)
 
 
 class DomesticWorker(models.Model):
@@ -647,7 +647,7 @@ class DomesticWorker(models.Model):
     class Meta:
         verbose_name = _('trabajador doméstico')
         verbose_name_plural = _('trabajadores domésticos')
-        ordering = ('unit',)
+        ordering = ('last_name',)
 
 
 class Pet(models.Model):
@@ -705,4 +705,55 @@ class Pet(models.Model):
     class Meta:
         verbose_name = _('mascota')
         verbose_name_plural = _('mascotas')
-        ordering = ('unit',)
+        ordering = ('name',)
+
+
+class Visitor(models.Model):
+    """
+    This model represents an authorized visitor
+    registered to an unit.
+    """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name=_('nombre'),
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name=_('apellidos'),
+    )
+
+    document_type = models.PositiveSmallIntegerField(
+        choices=DOCUMENT_TYPE_CHOICES,
+        verbose_name=_('tipo de documento'),
+    )
+
+    document_number = models.CharField(
+        max_length=32,
+        verbose_name=_('número de documento'),
+    )
+
+    relationship = models.CharField(
+        max_length=50,
+        verbose_name=_('parentesco'),
+        help_text=_('Amigo, familiar, etc'),
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def __str__(self):
+        return '{0} {1} | {2} - {3}'.format(
+            self.first_name,
+            self.last_name,
+            self.get_document_type_display(),
+            self.document_number,
+        )
+
+    class Meta:
+        verbose_name = _('visitante autorizado')
+        verbose_name_plural = _('visitantes autorizados')
+        ordering = ('last_name',)

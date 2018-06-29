@@ -6,8 +6,8 @@
 
 {% block building_section %}
 <div class="jumbotron">
-  <h1>{% trans 'Mascota registrada en la unidad' %} {{ unit }}</h1>
-  <hr>
+  <!-- Common header for all templates inside the unit administration module -->
+  {% include "buildings/administrative/units/unit_header.html" %}
 
 <div class="clearfix">
   <div class="float-right">

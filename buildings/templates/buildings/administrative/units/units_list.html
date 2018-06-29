@@ -34,6 +34,8 @@
           {% if can_view_unit_detail %}
           <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">{% trans "Ver información" %}</a>
           {% endif %}
+
+          <a href="{% url 'buildings:unit_delete' building.id unit.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
         </td>
       </tr>
       {% endfor %}
