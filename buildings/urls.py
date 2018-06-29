@@ -21,6 +21,7 @@ from buildings.views.vehicles import VehicleDeleteView
 from buildings.views.vehicles import VehicleFormView
 from buildings.views.vehicles import VehicleUpdateView
 from buildings.views.visitors import VisitorFormView
+from buildings.views.visitors import VisitorUpdateView
 
 
 urlpatterns = [
@@ -148,5 +149,11 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/registrar/$',
         VisitorFormView.as_view(),
         name='visitor_form',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/actualizar/(?P<pet_pk>\d+)/$',
+        VisitorUpdateView.as_view(),
+        name='visitor_update',
     ),
 ]

@@ -56,7 +56,60 @@ class VisitorFormView(CustomUserMixin, CreateView):
 
         messages.success(
             self.request,
-            _('Visitante autorizado creado exitosamente.')
+            _('Visitante creado exitosamente.')
         )
 
         return redirect(unit.get_absolute_url())
+
+
+class VisitorUpdateView(CustomUserMixin, UpdateView):
+    """
+    Form view to update information about an authorized visitor.
+    """
+    model = Visitor
+    form_class = VisitorForm
+    template_name = 'buildings/administrative/visitors/visitor_form.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            Visitor,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['pet_pk'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+        # Returned to put the correct title in the vehicle form.
+        context['visitor_update'] = True
+
+        return context
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    @transaction.atomic
+    def form_valid(self, form):
+        # Update vehicle object.
+        form.save()
+
+        messages.success(
+            self.request,
+            _('Visitante actualizado exitosamente.'),
+        )
+
+        return super().form_valid(form)
