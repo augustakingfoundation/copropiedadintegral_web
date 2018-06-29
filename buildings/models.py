@@ -627,7 +627,6 @@ class DomesticWorker(models.Model):
     )
 
     schedule = models.TextField(
-        blank=True,
         verbose_name=_('horario'),
         help_text=_('Días y horarios en los que va a trabajar.'),
     )
