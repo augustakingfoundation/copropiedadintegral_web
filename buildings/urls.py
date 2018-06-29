@@ -17,6 +17,7 @@ from buildings.views.units import UnitDetailView
 from buildings.views.units import UnitFormView
 from buildings.views.units import UnitsListView
 from buildings.views.units import UnitUpdateView
+from buildings.views.units import UnitDeleteView
 from buildings.views.vehicles import VehicleDeleteView
 from buildings.views.vehicles import VehicleFormView
 from buildings.views.vehicles import VehicleUpdateView
@@ -32,48 +33,68 @@ urlpatterns = [
         name='building_create',
     ),
 
+    # pk = Building id.
     url(
         r'^(?P<pk>\d+)/actualizar/$',
         BuildingUpdateView.as_view(),
         name='building_update',
     ),
 
+    # pk = Building id.
     url(
         r'^(?P<pk>\d+)/$',
         BuildingDetailView.as_view(),
         name='building_detail',
     ),
 
+    # pk = Building id.
     url(
         r'^(?P<pk>\d+)/unidades/$',
         UnitsListView.as_view(),
         name='units_list',
     ),
 
+    # pk = Building id.
     url(
         r'^(?P<pk>\d+)/unidades/crear/$',
         UnitFormView.as_view(),
         name='unit_form',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/$',
         UnitDetailView.as_view(),
         name='unit_detail',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/actualizar/$',
         UnitUpdateView.as_view(),
         name='unit_update',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/eliminar/$',
+        UnitDeleteView.as_view(),
+        name='unit_delete',
+    ),
+
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/registrar/$',
         ParkingLotFormView.as_view(),
         name='parking_lot_form',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # p_pk = Parking lot id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/actualizar/(?P<p_pk>\d+)/$',
@@ -81,6 +102,8 @@ urlpatterns = [
         name='parking_lot_update',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # p_pk = Parking lot id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/eliminar/(?P<p_pk>\d+)/$',
@@ -88,12 +111,16 @@ urlpatterns = [
         name='parking_lot_delete',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/registrar/$',
         VehicleFormView.as_view(),
         name='vehicle_form',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # v_pk = Vehicle id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/actualizar/(?P<v_pk>\d+)/$',
@@ -101,6 +128,8 @@ urlpatterns = [
         name='vehicle_update',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # v_pk = Vehicle id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/eliminar/(?P<v_pk>\d+)/$',
@@ -108,12 +137,16 @@ urlpatterns = [
         name='vehicle_delete',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/registrar/$',
         DomesticWorkerFormView.as_view(),
         name='domestic_worker_form',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # dm_pk = Domestic worker id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/actualizar/(?P<dw_pk>\d+)/$',
@@ -121,6 +154,8 @@ urlpatterns = [
         name='domestic_worker_update',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # dm_pk = Domestic worker id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/eliminar/(?P<dw_pk>\d+)/$',
@@ -128,12 +163,16 @@ urlpatterns = [
         name='domestic_worker_delete',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/registrar/$',
         PetFormView.as_view(),
         name='pet_form',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # pet_pk = Pet id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/detalle/(?P<pet_pk>\d+)/$',
@@ -141,6 +180,8 @@ urlpatterns = [
         name='pet_detail',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # pet_pk = Pet id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/actualizar/(?P<pet_pk>\d+)/$',
@@ -148,6 +189,8 @@ urlpatterns = [
         name='pet_update',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # pet_pk = Pet id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/eliminar/(?P<pet_pk>\d+)/$',
@@ -155,12 +198,16 @@ urlpatterns = [
         name='pet_delete',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/registrar/$',
         VisitorFormView.as_view(),
         name='visitor_form',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # av_pk = Authorized visitor id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/actualizar/(?P<av_pk>\d+)/$',
@@ -168,6 +215,8 @@ urlpatterns = [
         name='visitor_update',
     ),
 
+    # b_pk = Building id.
+    # u_pk = unit id.
     # av_pk = Authorized visitor id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/eliminar/(?P<av_pk>\d+)/$',

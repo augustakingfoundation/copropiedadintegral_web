@@ -131,7 +131,7 @@ class VisitorDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
+        # Get authorized visitor object.
         return get_object_or_404(
             Visitor,
             unit_id=self.kwargs['u_pk'],
