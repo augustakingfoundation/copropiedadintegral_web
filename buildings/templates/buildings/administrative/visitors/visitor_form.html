@@ -1,0 +1,51 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <!-- Common header for all templates inside the unit administration module -->
+  {% include "buildings/administrative/units/unit_header.html" %}
+
+  <form method="post">
+  <h3>{% if visitor_update %}{% trans "Editar visitante autorizado" %} {{ object }}{% else %}{% trans "Registrar visitante autorizado" %}{% endif %}</h3>
+
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.first_name class+="form-control" %}
+          {{ form.first_name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.last_name class+="form-control" %}
+          {{ form.last_name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.document_type class+="form-control" %}
+          {{ form.document_type.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.document_number class+="form-control" %}
+          {{ form.document_number.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.relationship class+="form-control" %}
+          <p class="font-weight-light">{{ form.relationship.help_text }}</p>
+          {{ form.relationship.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+  </form>
+</div>
+{% endblock %}

@@ -102,7 +102,7 @@
 
   {% if can_edit_unit %}
   <div class="clearfix">
-    <a href="" class="btn btn-outline-info float-right">{% trans "Registrar Visitante" %}</a>
+    <a href="{% url 'buildings:visitor_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar Visitante autorizado" %}</a>
   </div>
   {% endif %}
 

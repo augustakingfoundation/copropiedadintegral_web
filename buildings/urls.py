@@ -20,6 +20,7 @@ from buildings.views.units import UnitUpdateView
 from buildings.views.vehicles import VehicleDeleteView
 from buildings.views.vehicles import VehicleFormView
 from buildings.views.vehicles import VehicleUpdateView
+from buildings.views.visitors import VisitorFormView
 
 
 urlpatterns = [
@@ -141,5 +142,11 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/eliminar/(?P<pet_pk>\d+)/$',
         PetDeleteView.as_view(),
         name='pet_delete',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/registrar/$',
+        VisitorFormView.as_view(),
+        name='visitor_form',
     ),
 ]
