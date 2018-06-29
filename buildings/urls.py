@@ -74,12 +74,14 @@ urlpatterns = [
         name='parking_lot_form',
     ),
 
+    # p_pk = Parking lot id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/actualizar/(?P<p_pk>\d+)/$',
         ParkingLotUpdateView.as_view(),
         name='parking_lot_update',
     ),
 
+    # p_pk = Parking lot id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/parqueaderos/eliminar/(?P<p_pk>\d+)/$',
         ParkingLotDeleteView.as_view(),
@@ -92,12 +94,14 @@ urlpatterns = [
         name='vehicle_form',
     ),
 
+    # v_pk = Vehicle id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/actualizar/(?P<v_pk>\d+)/$',
         VehicleUpdateView.as_view(),
         name='vehicle_update',
     ),
 
+    # v_pk = Vehicle id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/vehículos/eliminar/(?P<v_pk>\d+)/$',
         VehicleDeleteView.as_view(),
@@ -110,12 +114,14 @@ urlpatterns = [
         name='domestic_worker_form',
     ),
 
+    # dm_pk = Domestic worker id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/actualizar/(?P<dw_pk>\d+)/$',
         DomesticWorkerUpdateView.as_view(),
         name='domestic_worker_update',
     ),
 
+    # dm_pk = Domestic worker id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/eliminar/(?P<dw_pk>\d+)/$',
         DomesticWorkerDeleteView.as_view(),
@@ -128,18 +134,21 @@ urlpatterns = [
         name='pet_form',
     ),
 
+    # pet_pk = Pet id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/detalle/(?P<pet_pk>\d+)/$',
         PetDetailView.as_view(),
         name='pet_detail',
     ),
 
+    # pet_pk = Pet id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/actualizar/(?P<pet_pk>\d+)/$',
         PetUpdateView.as_view(),
         name='pet_update',
     ),
 
+    # pet_pk = Pet id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/eliminar/(?P<pet_pk>\d+)/$',
         PetDeleteView.as_view(),
@@ -152,12 +161,14 @@ urlpatterns = [
         name='visitor_form',
     ),
 
+    # av_pk = Authorized visitor id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/actualizar/(?P<av_pk>\d+)/$',
         VisitorUpdateView.as_view(),
         name='visitor_update',
     ),
 
+    # av_pk = Authorized visitor id.
     url(
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/visitantes-autorizados/eliminar/(?P<av_pk>\d+)/$',
         VisitorDeleteView.as_view(),
