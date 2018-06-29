@@ -229,4 +229,48 @@
   <p>{% trans 'No hay trabajadores domésticos registrados.' %}</p>
   {% endif %}
 </div>
+
+<div class="jumbotron">
+  <h2>{% trans 'Mascotas' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:pet_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar mascota" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.pet_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Tipo de mascota" %}</th>
+          <th scope="col">{% trans "Raza" %}</th>
+          <th scope="col">{% trans "Nombre" %}</th>
+          <th scope="col">{% trans "Color" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pet in object.pet_set.all %}
+        <tr>
+          <td>{{ pet.pet_type }}</td>
+          <td>{{ pet.breed }}</td>
+          <td>{{ pet.name }}</td>
+          <td>{{ pet.color }}</td>
+
+        {% if can_edit_unit %}
+          <td>
+            <a href="{% url 'buildings:pet_detail' building.id object.id pet.id %}" class="btn btn-outline-dark">{% trans "Ver detalle" %}</a>
+          </td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay mascotas registradas aún.' %}</p>
+  {% endif %}
+</div>
 {% endblock %}

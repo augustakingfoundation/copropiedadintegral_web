@@ -16,6 +16,8 @@ from buildings.views.vehicles import VehicleDeleteView
 from buildings.views.domestic_workers import DomesticWorkerFormView
 from buildings.views.domestic_workers import DomesticWorkerUpdateView
 from buildings.views.domestic_workers import DomesticWorkerDeleteView
+from buildings.views.pets import PetFormView
+from buildings.views.pets import PetDetailView
 
 
 urlpatterns = [
@@ -113,5 +115,17 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/trabajadores-domésticos/eliminar/(?P<dw_pk>\d+)/$',
         DomesticWorkerDeleteView.as_view(),
         name='domestic_worker_delete',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/registrar/$',
+        PetFormView.as_view(),
+        name='pet_form',
+    ),
+
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/mascotas/detalle/(?P<pet_pk>\d+)/$',
+        PetDetailView.as_view(),
+        name='pet_detail',
     ),
 ]

@@ -1,0 +1,36 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h1>{% trans 'Mascota registrada en la unidad' %} {{ unit }}</h1>
+  <hr>
+
+  <dl class="row">
+    <dt class="col-sm-3">{% trans "Tipo de mascota" %}</dt>
+    <dd class="col-sm-9">{{ object.pet_type }}</dd>
+
+    <dt class="col-sm-3">{% trans "Raza" %}</dt>
+    <dd class="col-sm-9">{{ object.breed }}</dd>
+
+    <dt class="col-sm-3">{% trans "Nombre" %}</dt>
+    <dd class="col-sm-9">{{ object.name }}</dd>
+
+    <dt class="col-sm-3">{% trans "Color" %}</dt>
+    <dd class="col-sm-9">{{ object.color }}</dd>
+
+    <dt class="col-sm-3">{% trans "Fotografía" %}</dt>
+    <dd class="col-sm-9">
+    {% if object.picture %}
+      <img class="img-responsive thumbnail" src="{{ object.picture.url }}" alt="{{ picture }}" style="width: 300px; height: auto">
+    {% else %}
+      {% trans 'No disponible' %}
+    {% endif %}
+    </dd>
+  </dl>
+
+</div>
+{% endblock %}

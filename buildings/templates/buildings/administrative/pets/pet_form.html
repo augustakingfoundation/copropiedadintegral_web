@@ -1,0 +1,51 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h1>{% trans 'Unidad' %} {{ unit }}</h1>
+  <hr>
+
+  <form method="post"  enctype="multipart/form-data">
+  <h3>{% if pet_update %}{% trans "Editar mascota" %} {{ object }}{% else %}{% trans "Registrar mascota" %}{% endif %}</h3>
+
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.pet_type class+="form-control" %}
+          <p class="font-weight-light">{{ form.pet_type.help_text }}</p>
+          {{ form.pet_type.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.breed class+="form-control" %}
+          {{ form.breed.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.name class+="form-control" %}
+          {{ form.name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.color class+="form-control" %}
+          {{ form.color.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.picture class+="form-control" %}
+          {{ form.picture.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+  </form>
+</div>
+{% endblock %}
