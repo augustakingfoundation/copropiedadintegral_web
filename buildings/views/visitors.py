@@ -81,7 +81,7 @@ class VisitorUpdateView(CustomUserMixin, UpdateView):
         return get_object_or_404(
             Visitor,
             unit_id=self.kwargs['u_pk'],
-            pk=self.kwargs['pet_pk'],
+            pk=self.kwargs['av_pk'],
         )
 
     def get_context_data(self, **kwargs):
@@ -90,7 +90,7 @@ class VisitorUpdateView(CustomUserMixin, UpdateView):
         context['building'] = self.get_object().unit.building
         # Returned to activate the correct tab in the side bar.
         context['active_units'] = True
-        # Returned to put the correct title in the vehicle form.
+        # Returned to put the correct title in the visitor form.
         context['visitor_update'] = True
 
         return context
@@ -104,7 +104,7 @@ class VisitorUpdateView(CustomUserMixin, UpdateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Update vehicle object.
+        # Update visitor object.
         form.save()
 
         messages.success(
@@ -113,3 +113,51 @@ class VisitorUpdateView(CustomUserMixin, UpdateView):
         )
 
         return super().form_valid(form)
+
+
+class VisitorDeleteView(CustomUserMixin, DeleteView):
+    """
+    Authorized visitor delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete a visitor definitely.
+    """
+    model = Visitor
+    template_name = 'buildings/administrative/visitors/visitor_delete_confirm.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            Visitor,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['av_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+        context['building'] = self.get_object().unit.building
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Visitante eliminado exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)

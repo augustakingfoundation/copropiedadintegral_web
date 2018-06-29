@@ -746,10 +746,11 @@ class Visitor(models.Model):
     )
 
     def __str__(self):
-        return '{0} | {1} {2}'.format(
-            self.unit,
+        return '{0} {1} | {2} - {3}'.format(
             self.first_name,
             self.last_name,
+            self.get_document_type_display(),
+            self.document_number,
         )
 
     class Meta:
