@@ -12,7 +12,7 @@
   <form method="post">
   {% csrf_token %}
   {% if form.non_field_errors %}
-      <div class="form-group">
+      <div class="alert alert-warning" role="alert">
           {{ form.non_field_errors }}
       </div>
   {% endif %}
@@ -132,6 +132,7 @@
                         </button>
                         {% render_field owner_form.is_main class+="ci-main-owner-input" %}
                       </div>
+                      <p>{{ owner_form.is_main.errors }}</p>
                     </div>
 
                     <div class="clearfix">
@@ -223,6 +224,7 @@
                         </button>
                         {% render_field owner_formset.empty_form.is_main class+="ci-main-owner-input" %}
                       </div>
+                      <p>{{ owner_formset.empty_form.is_main.errors }}</p>
                     </div>
 
                     <div class="clearfix">

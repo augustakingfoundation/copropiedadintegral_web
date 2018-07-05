@@ -19,6 +19,7 @@ from buildings.models import Owner
 from buildings.models import Unit
 from buildings.permissions import BuildingPermissions
 from buildings.utils import process_unit_formset
+from buildings.utils import validate_is_main_formset
 
 
 class UnitsListView(CustomUserMixin, ListView):
@@ -139,6 +140,40 @@ class UnitFormView(CustomUserMixin, TemplateView):
             not form.is_valid() or
             not owner_formset.is_valid() or
             not leaseholder_formset.is_valid()
+        ):
+            return self.render_to_response(
+                self.get_context_data(
+                    form=form,
+                    owner_formset=owner_formset,
+                    leaseholder_formset=leaseholder_formset,
+                )
+            )
+
+        # Validate the number of form with 'is_main' field
+        # checked. If there are not forms checked or there
+        # are more than one, an error message must be raised.
+        #  Units must have one main owner.
+        form, owner_formset, is_main_owner_counter = validate_is_main_formset(
+            form=form,
+            formset=owner_formset,
+            formset_type='owner',
+        )
+
+        # Validate the number of form with 'is_main' field
+        # checked. If there  are more than one, an error
+        # message must be raised. Units must have only one
+        # main leaseholder.
+        form, leaseholder_formset, is_main_leaseholder_counter = validate_is_main_formset(
+            form=form,
+            formset=leaseholder_formset,
+            formset_type='owner',
+        )
+
+        # Return formsets errors.
+        if (
+            not is_main_owner_counter or
+            is_main_owner_counter > 1 or
+            is_main_leaseholder_counter > 1
         ):
             return self.render_to_response(
                 self.get_context_data(
