@@ -67,51 +67,60 @@
               {% endif %}
               {% render_field owner_form.id %}
               <div data-formset-form>
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_form.name class+="form-control" %}
                       {{ owner_form.name.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                       {% render_field owner_form.last_name class+="form-control" %}
                       {{ owner_form.last_name.errors }}
                   </div>
+                </div>
 
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_form.document_type class+="form-control" %}
                       {{ owner_form.document_type.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                       {% render_field owner_form.document_number class+="form-control" %}
                       {{ owner_form.document_number.errors }}
                   </div>
+                </div>
 
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_form.mobile_phone class+="form-control" %}
                       <p class="font-weight-light">{{ owner_form.mobile_phone.help_text }}</p>
                       {{ owner_form.mobile_phone.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group  col-md-6">
                       {% render_field owner_form.phone_number class+="form-control" %}
                       <p class="font-weight-light">{{ owner_form.phone_number.help_text }}</p>
                       {{ owner_form.phone_number.errors }}
                   </div>
+                </div>
 
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_form.correspondence_address class+="form-control" %}
                       <p class="font-weight-light">{{ owner_form.correspondence_address.help_text }}</p>
                       {{ owner_form.correspondence_address.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group  col-md-6">
                       {% render_field owner_form.email class+="form-control" %}
                       {{ owner_form.email.errors }}
                   </div>
+                </div>
 
-                  <hr>
-                  <div class="form-group clearfix">
+                <hr>
+                <div class="row">
+                  <div class="form-group clearfix col-md-6">
                     <div class="clearfix">
                     <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
                     </div>
@@ -131,13 +140,14 @@
                   </div>
 
                   <hr>
-                  <div class="form-group clearfix">
+                  <div class="form-group clearfix col-md-6">
                     <button type="button" class="btn btn-outline-danger float-right jsDeleteOwnerButton">
                       {% trans 'Eliminar' %}
                     </button>
                     {% render_field owner_form.DELETE class+="ci-delete-owner-input d-none" %}
                   </div>
-                  <hr>
+                </div>
+                <hr>
               </div>
           {% endfor %}
           </div>
@@ -146,52 +156,62 @@
           {% escapescript %}
               <p class="h4">{% trans "Otro propietario" %}</p>
               <div data-formset-form>
-                  <div class="form-group">
+
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.name class+="form-control" %}
                       {{ owner_formset.empty_form.name.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.last_name class+="form-control" %}
                       {{ owner_formset.empty_form.last_name.errors }}
                   </div>
+                </div>
 
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.document_type class+="form-control" %}
                       {{ owner_formset.empty_form.document_type.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.document_number class+="form-control" %}
                       {{ owner_formset.empty_form.document_number.errors }}
                   </div>
+                </div>
 
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.mobile_phone class+="form-control" %}
                       <p class="font-weight-light">{{ owner_formset.empty_form.mobile_phone.help_text }}</p>
                       {{ owner_formset.empty_form.mobile_phone.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.phone_number class+="form-control" %}
                       <p class="font-weight-light">{{ owner_formset.empty_form.phone_number.help_text }}</p>
                       {{ owner_formset.empty_form.phone_number.errors }}
                   </div>
+                </div>
 
-                  <div class="form-group">
+                <div class="row">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.correspondence_address class+="form-control" %}
                       <p class="font-weight-light">{{ owner_formset.empty_form.correspondence_address.help_text }}</p>
                       {{ owner_formset.empty_form.correspondence_address.errors }}
                   </div>
 
-                  <div class="form-group">
+                  <div class="form-group col-md-6">
                       {% render_field owner_formset.empty_form.email class+="form-control" %}
                       {{ owner_formset.empty_form.email.errors }}
                   </div>
+                </div>
 
-                  <hr>
+                <hr>
 
-                  <div class="form-group clearfix">
+                <div class="row">
+                  <div class="form-group clearfix col-md-6">
                     <div class="clearfix">
                     <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
                     </div>
@@ -212,13 +232,14 @@
 
                   <hr>
 
-                  <div class="form-group clearfix">
+                  <div class="form-group clearfix  col-md-6">
                     <button type="button" class="btn btn-outline-danger float-right jsDeleteOwnerButton">
                       {% trans 'Eliminar' %}
                     </button>
                     {% render_field owner_formset.empty_form.DELETE class+="ci-delete-owner-input d-none" %}
                   </div>
-                  <hr>
+                </div>
+                <hr>
               </div>
           {% endescapescript %}
           </script>
