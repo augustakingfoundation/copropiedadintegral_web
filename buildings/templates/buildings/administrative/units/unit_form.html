@@ -112,10 +112,30 @@
 
                   <hr>
                   <div class="form-group clearfix">
+                    <div class="clearfix">
+                    <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
+                    </div>
+
+                    <div class="clearfix">
+                      <div class="float-right">
+                        <button type="button" class="btn btn-outline-info jsMainOwnerButton">
+                          {% trans 'Propietario principal' %}
+                        </button>
+                        {% render_field owner_form.is_main class+="ci-main-owner-input" %}
+                      </div>
+                    </div>
+
+                    <div class="clearfix">
+                    <p class="font-weight-light float-right">{% trans 'El propietario principal recibirá las notificaciones para realizar la actualización de datos de la unidad.' %}</p>
+                    </div>
+                  </div>
+
+                  <hr>
+                  <div class="form-group clearfix">
                     <button type="button" class="btn btn-outline-danger float-right jsDeleteOwnerButton">
                       {% trans 'Eliminar' %}
                     </button>
-                    {% render_field owner_form.DELETE class+="ci-delete-owner_input d-none" %}
+                    {% render_field owner_form.DELETE class+="ci-delete-owner-input d-none" %}
                   </div>
                   <hr>
               </div>
@@ -170,11 +190,33 @@
                   </div>
 
                   <hr>
+
+                  <div class="form-group clearfix">
+                    <div class="clearfix">
+                    <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
+                    </div>
+
+                    <div class="clearfix">
+                      <div class="float-right">
+                        <button type="button" class="btn btn-outline-info jsMainOwnerButton">
+                          {% trans 'Propietario principal' %}
+                        </button>
+                        {% render_field owner_formset.empty_form.is_main class+="ci-main-owner-input" %}
+                      </div>
+                    </div>
+
+                    <div class="clearfix">
+                    <p class="font-weight-light float-right">{% trans 'El propietario principal recibirá las notificaciones para realizar la actualización de datos de la unidad.' %}</p>
+                    </div>
+                  </div>
+
+                  <hr>
+
                   <div class="form-group clearfix">
                     <button type="button" class="btn btn-outline-danger float-right jsDeleteOwnerButton">
                       {% trans 'Eliminar' %}
                     </button>
-                    {% render_field owner_formset.empty_form.DELETE class+="ci-delete-owner_input d-none" %}
+                    {% render_field owner_formset.empty_form.DELETE class+="ci-delete-owner-input d-none" %}
                   </div>
                   <hr>
               </div>
@@ -325,7 +367,33 @@ $(function() {
     // Action to change delete checkbox value on owner form.
     $('#owner_formset').on('click', '.jsDeleteOwnerButton', function () {
       // Find checkbox input to delete current form in owners formset.
-      $(this).parent().find('.ci-delete-owner_input').click();
+      $(this).parent().find('.ci-delete-owner-input').click();
+    });
+
+    // Action to change main owner checkbox value on owner form.
+    $('#owner_formset').on('click', '.jsMainOwnerButton', function () {
+      // Get clicked button.
+      var main_button = $(this);
+      // Get checkbox input in the cliked button form.
+      var set_main_input = $(this).parent().find('.ci-main-owner-input');
+
+      // Uncheck other main owner buttons in the formset.
+      $("#owner_formset .ci-main-owner-input").each(function(idx, element) {
+        $(element).prop("checked", false);
+        $(element).removeClass('btn-info');
+        $(element).addClass('btn-outline-info');
+      });
+
+      // Remove active class for other main owner buttons.
+      $("#owner_formset .jsMainOwnerButton").each(function(idx, element) {
+        $(element).removeClass('btn-info');
+        $(element).addClass('btn-outline-info');
+      });
+
+      // Check main owner input in the current formset.
+      set_main_input.click()
+      // Add active class (btn-info) to the main button in the current formset.
+      main_button.addClass('btn-info').removeClass('btn-outline-info');
     });
 });
 </script>

@@ -106,6 +106,7 @@ class OwnerForm(forms.ModelForm):
             'phone_number',
             'correspondence_address',
             'email',
+            'is_main',
         )
 
     def __init__(self, *args, **kwargs):
