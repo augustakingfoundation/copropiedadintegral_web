@@ -110,12 +110,13 @@
                       {{ owner_form.email.errors }}
                   </div>
 
-                  {% if forloop.counter != 1 %}
-                  <div class="form-group">
-                      <label>{% trans "Eliminar" %}</label>
-                      {% render_field owner_form.DELETE %}
+                  <hr>
+                  <div class="form-group clearfix">
+                    <button type="button" class="btn btn-outline-danger float-right jsDeleteOwnerButton">
+                      {% trans 'Eliminar' %}
+                    </button>
+                    {% render_field owner_form.DELETE class+="ci-delete-owner_input d-none" %}
                   </div>
-                  {% endif %}
                   <hr>
               </div>
           {% endfor %}
@@ -168,9 +169,12 @@
                       {{ owner_formset.empty_form.email.errors }}
                   </div>
 
-                  <div class="form-group">
-                      <label>Eliminar</label>
-                      {% render_field owner_formset.empty_form.DELETE %}
+                  <hr>
+                  <div class="form-group clearfix">
+                    <button type="button" class="btn btn-outline-danger float-right jsDeleteOwnerButton">
+                      {% trans 'Eliminar' %}
+                    </button>
+                    {% render_field owner_formset.empty_form.DELETE class+="ci-delete-owner_input d-none" %}
                   </div>
                   <hr>
               </div>
@@ -316,6 +320,12 @@ $(function() {
 
     $('#leaseholder_formset').formset({
         animateForms: true
+    });
+
+    // Action to change delete checkbox value on owner form.
+    $('#owner_formset').on('click', '.jsDeleteOwnerButton', function () {
+      // Find checkbox input to delete current form in owners formset.
+      $(this).parent().find('.ci-delete-owner_input').click();
     });
 });
 </script>
