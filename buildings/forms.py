@@ -158,6 +158,7 @@ class LeaseholderForm(forms.ModelForm):
             'mobile_phone',
             'phone_number',
             'email',
+            'is_main',
         )
 
     def __init__(self, *args, **kwargs):
