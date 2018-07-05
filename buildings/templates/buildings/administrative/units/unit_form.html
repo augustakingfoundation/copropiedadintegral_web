@@ -130,7 +130,7 @@
                         <button type="button" class="btn btn-outline-info jsMainFormsetButton">
                           {% trans 'Propietario principal' %}
                         </button>
-                        {% render_field owner_form.is_main class+="ci-main-formset-input" %}
+                        {% render_field owner_form.is_main class+="ci-main-formset-input d-none" %}
                       </div>
                       <p>{{ owner_form.is_main.errors }}</p>
                     </div>
@@ -222,7 +222,7 @@
                         <button type="button" class="btn btn-outline-info jsMainFormsetButton">
                           {% trans 'Propietario principal' %}
                         </button>
-                        {% render_field owner_formset.empty_form.is_main class+="ci-main-formset-input" %}
+                        {% render_field owner_formset.empty_form.is_main class+="ci-main-formset-input d-none" %}
                       </div>
                       <p>{{ owner_formset.empty_form.is_main.errors }}</p>
                     </div>
@@ -246,8 +246,8 @@
           {% endescapescript %}
           </script>
 
-          <div>
-              <button class="btn btn-outline-success" type="button" data-formset-add>{% trans "Agregar propietario" %}</button>
+          <div class="clearfix">
+              <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar propietario" %}</button>
           </div>
       </div>
 
@@ -324,7 +324,7 @@
                         <button type="button" class="btn btn-outline-info jsMainFormsetButton">
                           {% trans 'Arrendatario principal' %}
                         </button>
-                        {% render_field leaseholder_form.is_main class+="ci-main-formset-input" %}
+                        {% render_field leaseholder_form.is_main class+="ci-main-formset-input d-none" %}
                       </div>
                       <p>{{ leaseholder_form.is_main.errors }}</p>
                     </div>
@@ -409,7 +409,7 @@
                         <button type="button" class="btn btn-outline-info jsMainFormsetButton">
                           {% trans 'Arrendatario principal' %}
                         </button>
-                        {% render_field leaseholder_formset.empty_form.is_main class+="ci-main-formset-input" %}
+                        {% render_field leaseholder_formset.empty_form.is_main class+="ci-main-formset-input d-none" %}
                       </div>
                       <p>{{ leaseholder_formset.empty_form.is_main.errors }}</p>
                     </div>
@@ -433,8 +433,8 @@
           {% endescapescript %}
           </script>
 
-          <div>
-              <button class="btn btn-outline-success" type="button" data-formset-add>{% trans "Agregar arrendatario" %}</button>
+          <div class="clearfix">
+              <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar arrendatario" %}</button>
           </div>
       </div>
       <hr>
@@ -456,6 +456,14 @@ $(function() {
     $('#leaseholder_formset').formset({
         animateForms: true
     });
+
+    // Add active class to 'is_main' button is related field is checked on formset.
+    $('.ci_UnitFormFormset .ci-main-formset-input').each(function(idx, element) {
+      if (element.checked) {
+        $(element).parent().find('.jsMainFormsetButton').addClass('btn-info').removeClass('btn-outline-info');
+      }
+    });
+
 
     // Action to change delete checkbox value on owner and leaseholder form.
     $('.ci_UnitFormFormset').on('click', '.jsDeleteFormsetButton', function () {

@@ -166,7 +166,7 @@ class UnitFormView(CustomUserMixin, TemplateView):
         form, leaseholder_formset, is_main_leaseholder_counter = validate_is_main_formset(
             form=form,
             formset=leaseholder_formset,
-            formset_type='owner',
+            formset_type='leaseholder',
         )
 
         # Return formsets errors.
