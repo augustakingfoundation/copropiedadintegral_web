@@ -84,8 +84,11 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                {% render_field contact_form.DELETE %}
+              <div class="form-group clearfix">
+                <button type="button" class="btn btn-outline-danger float-right jsDeleteFormsetButton">
+                  {% trans 'Eliminar' %}
+                </button>
+                {% render_field contact_form.DELETE class+="ci-delete-formset-input d-none" %}
               </div>
               <hr>
             </div>
@@ -95,27 +98,28 @@
         <script type="form-template" data-formset-empty-form>
         {% escapescript %}
             <div data-formset-form>
-            <p class="h4">{% trans "Otro propietario" %}</p>
-
               <div class="row">
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     {% render_field formset.empty_form.first_name class+="form-control" %}
                     {{ formset.empty_form.first_name.errors }}
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     {% render_field formset.empty_form.last_name class+="form-control" %}
                     {{ formset.empty_form.last_name.errors }}
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="form-group col-md-4">
                     {% render_field formset.empty_form.mobile_phone class+="form-control" %}
                     {{ formset.empty_form.mobile_phone.errors }}
                 </div>
               </div>
 
-              <div class="form-group">
-                {% render_field formset.empty_form.DELETE %}
+              <div class="form-group clearfix">
+                <button type="button" class="btn btn-outline-danger float-right jsDeleteFormsetButton">
+                  {% trans 'Eliminar' %}
+                </button>
+                {% render_field formset.empty_form.DELETE class+="ci-delete-formset-input d-none" %}
               </div>
               <hr>
             </div>
@@ -135,12 +139,26 @@
 {% endblock %}
 
 {% block js %}
-<script src="{% static 'js/jquery.formset.js' %}"></script>
+<script src="{% static 'libs/formset/jquery.formset.js' %}"></script>
 
 <script>
 $(function() {
     $('#contact_formset').formset({
         animateForms: true
+    });
+
+    $('#id_birthdate').datetimepicker({
+        timepicker:false,
+        format:'d/m/Y',
+        scrollInput: false,
+        scrollMonth: false,
+        maxDate: new Date()
+    });
+
+    // Action to change delete checkbox value on emergency contact form.
+    $('#contact_formset').on('click', '.jsDeleteFormsetButton', function () {
+      // Find checkbox input to delete current form in emergency contact formset.
+      $(this).parent().find('.ci-delete-formset-input').click();
     });
 });
 </script>

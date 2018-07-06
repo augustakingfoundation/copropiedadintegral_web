@@ -1,1 +1,3 @@
-// Write your general js functions here.
+$(function() {
+    $.datetimepicker.setLocale('es');
+});
