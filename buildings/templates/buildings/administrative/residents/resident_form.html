@@ -1,0 +1,148 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks formset_tags i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <!-- Common header for all templates inside the unit administration module -->
+  {% include "buildings/administrative/units/unit_header.html" %}
+
+  <form method="post">
+  <h3>{% if resident_update %}{% trans "Editar residente" %} {{ object }}{% else %}{% trans "Registrar residente" %}{% endif %}</h3>
+
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.first_name class+="form-control" %}
+          {{ form.first_name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.last_name class+="form-control" %}
+          {{ form.last_name.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.birthdate class+="form-control" %}
+          {{ form.birthdate.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.document_type class+="form-control" %}
+          {{ form.document_type.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.document_number class+="form-control" %}
+          {{ form.document_number.errors }}
+      </div>
+
+
+      <div class="form-group">
+          {% render_field form.mobile_phone class+="form-control" %}
+          <p class="font-weight-light">{{ form.mobile_phone.help_text }}</p>
+          {{ form.mobile_phone.errors }}
+      </div>
+
+      <hr>
+      <h3>{% trans "Contactos de emergencia" %}</h3>
+
+      <div id="contact_formset" data-formset-prefix="{{ formset.prefix }}">
+        {% if formset.non_form_errors %}
+        <div class="alert alert-warning" role="alert">{{ formset.non_form_errors }}</div>
+        {% endif %}
+
+        {{ formset.management_form }}
+        <div data-formset-body>
+        {% for contact_form in formset %}
+            {% if object %}
+            <p class="h4">{% trans "Propietario" %} {{ forloop.counter }}</p>
+            {% endif %}
+            {% render_field contact_form.id %}
+            <div data-formset-form>
+              <div class="row">
+                <div class="form-group col-md-4">
+                    {% render_field contact_form.first_name class+="form-control" %}
+                    {{ contact_form.first_name.errors }}
+                </div>
+
+                <div class="form-group col-md-4">
+                    {% render_field contact_form.last_name class+="form-control" %}
+                    {{ contact_form.last_name.errors }}
+                </div>
+
+                <div class="form-group col-md-4">
+                    {% render_field contact_form.mobile_phone class+="form-control" %}
+                    {{ contact_form.mobile_phone.errors }}
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="form-group">
+                {% render_field contact_form.DELETE %}
+              </div>
+              <hr>
+            </div>
+        {% endfor %}
+        </div>
+
+        <script type="form-template" data-formset-empty-form>
+        {% escapescript %}
+            <div data-formset-form>
+            <p class="h4">{% trans "Otro propietario" %}</p>
+
+              <div class="row">
+                <div class="form-group col-md-6">
+                    {% render_field formset.empty_form.first_name class+="form-control" %}
+                    {{ formset.empty_form.first_name.errors }}
+                </div>
+
+                <div class="form-group col-md-6">
+                    {% render_field formset.empty_form.last_name class+="form-control" %}
+                    {{ formset.empty_form.last_name.errors }}
+                </div>
+
+                <div class="form-group col-md-6">
+                    {% render_field formset.empty_form.mobile_phone class+="form-control" %}
+                    {{ formset.empty_form.mobile_phone.errors }}
+                </div>
+              </div>
+
+              <hr>
+              <div class="form-group">
+                {% render_field formset.empty_form.DELETE %}
+              </div>
+              <hr>
+            </div>
+        {% endescapescript %}
+        </script>
+
+        <div class="clearfix">
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar propietario" %}</button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'js/jquery.formset.js' %}"></script>
+
+<script>
+$(function() {
+    $('#contact_formset').formset({
+        animateForms: true
+    });
+});
+</script>
+{% endblock %}

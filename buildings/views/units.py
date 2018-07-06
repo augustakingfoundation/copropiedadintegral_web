@@ -385,7 +385,7 @@ class UnitDeleteView(CustomUserMixin, DeleteView):
     """
     Unit delete view. Users are redirected to a view
     in which they will be asked about confirmation for
-    delete an unit definitely.
+    delete a unit definitely.
     """
     model = Unit
     template_name = 'buildings/administrative/units/unit_delete_confirm.html'

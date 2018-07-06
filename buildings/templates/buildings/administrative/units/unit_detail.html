@@ -97,6 +97,45 @@
 </div>
 
 <div class="jumbotron">
+  <h2>{% trans 'Residentes' %}</h2>
+  <hr>
+
+  {% if can_edit_unit %}
+  <div class="clearfix">
+    <a href="{% url 'buildings:resident_form' building.id object.id %}" class="btn btn-outline-info float-right">{% trans "Registrar residente" %}</a>
+  </div>
+  {% endif %}
+
+  {% if object.resident_set.count %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Nombre" %}</th>
+          <th scope="col">{% trans "Edad" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for resident in object.resident_set.all %}
+        <tr>
+          <td>{{ resident.first_name }} {{ resident.last_name }}</td>
+          <td>{{ resident.calculate_age }}</td>
+
+        {% if can_edit_unit %}
+          <td>
+          </td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>{% trans 'No hay visitantes autorizados registrados aún.' %}</p>
+  {% endif %}
+</div>
+
+<div class="jumbotron">
   <h2>{% trans 'Visitantes autorizados' %}</h2>
   <hr>
 
