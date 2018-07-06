@@ -1,0 +1,61 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ unit }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <!-- Common header for all templates inside the unit administration module -->
+  {% include "buildings/administrative/units/unit_header.html" %}
+
+<div class="clearfix">
+  <div class="float-right">
+    <a href="" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+
+    <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+  </div>
+</div>
+
+  <h3>{% trans 'Residente' %}</h3>
+  <dl class="row">
+    <dt class="col-sm-3">{% trans "Nombre" %}</dt>
+    <dd class="col-sm-9">{{ object.first_name }} {{ object.last_name }}</dd>
+
+    <dt class="col-sm-3">{% trans "Edad" %}</dt>
+    <dd class="col-sm-9">{{ object.calculate_age }}</dd>
+
+    <dt class="col-sm-3">{% trans "Documento" %}</dt>
+    <dd class="col-sm-9">{{ object.get_document_type_display }} - {{ object.document_number }}</dd>
+
+    <dt class="col-sm-3">{% trans "Teléfono celular" %}</dt>
+    <dd class="col-sm-9">{{ object.mobile_phone|default:"N/D" }}</dd>
+  </dl>
+
+  <div class="table-responsive">
+    {% if object.emergencycontact_set.count %}
+    <h3>{% trans 'Contactos de emergencia' %}</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Nombre" %}</th>
+          <th scope="col">{% trans "Teléfono" %}</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contact in object.emergencycontact_set.all %}
+        <tr>
+          <td>{{ contact.first_name }} {{ contact.last_name }}</td>
+          <td>{{ contact.mobile_phone }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    </div>
+    {% else %}
+    <p>{% trans "No hay contactos de emergencia registrados aún." %}</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
