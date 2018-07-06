@@ -1,0 +1,185 @@
+{% load static widget_tweaks formset_tags i18n %}
+
+<div id="leaseholder_formset" data-formset-prefix="{{ leaseholder_formset.prefix }}" class="ci_UnitFormFormset">
+  {% if leaseholder_formset.non_form_errors %}
+  <div class="alert alert-warning" role="alert">{{ leaseholder_formset.non_form_errors }}</div>
+  {% endif %}
+
+  {{ leaseholder_formset.management_form }}
+  <div data-formset-body>
+  {% for leaseholder_form in leaseholder_formset %}
+      {% if object %}
+      <p class="h4">{% trans "Arrendatario" %} {{ forloop.counter }}</p>
+      {% endif %}
+      {% render_field leaseholder_form.id %}
+      <div data-formset-form>
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.name class+="form-control" %}
+              {{ leaseholder_form.name.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.last_name class+="form-control" %}
+              {{ leaseholder_form.last_name.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.document_type class+="form-control" %}
+              {{ leaseholder_form.document_type.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.document_number class+="form-control" %}
+              {{ leaseholder_form.document_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.mobile_phone class+="form-control" %}
+              <p class="font-weight-light">{{ leaseholder_form.mobile_phone.help_text }}</p>
+              {{ leaseholder_form.mobile_phone.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.phone_number class+="form-control" %}
+              <p class="font-weight-light">{{ leaseholder_form.phone_number.help_text }}</p>
+              {{ leaseholder_form.phone_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_form.email class+="form-control" %}
+              {{ leaseholder_form.email.errors }}
+          </div>
+        </div>
+
+        <hr>
+        <div class="row">
+          <div class="form-group clearfix col-md-6">
+            <div class="clearfix">
+            <p class="float-right">{% trans '¿Es el arrendatario principal de la unidad?' %}</p>
+            </div>
+
+            <div class="clearfix">
+              <div class="float-right">
+                <button type="button" class="btn btn-outline-info jsMainFormsetButton">
+                  {% trans 'Arrendatario principal' %}
+                </button>
+                {% render_field leaseholder_form.is_main class+="ci-main-formset-input d-none" %}
+              </div>
+              <p>{{ leaseholder_form.is_main.errors }}</p>
+            </div>
+
+            <div class="clearfix">
+            <p class="font-weight-light float-right">{% trans 'El arrendatario principal recibirá las notificaciones para realizar la actualización de datos.' %}</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group clearfix col-md-6">
+            <button type="button" class="btn btn-outline-danger float-right jsDeleteFormsetButton">
+              {% trans 'Eliminar' %}
+            </button>
+            {% render_field leaseholder_form.DELETE class+="ci-delete-formset-input d-none" %}
+          </div>
+        </div>
+        <hr>
+      </div>
+  {% endfor %}
+  </div>
+
+  <script type="form-template" data-formset-empty-form>
+  {% escapescript %}
+      <div data-formset-form>
+      <p class="h4">{% trans "Otro arrendatario" %}</p>
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.name class+="form-control" %}
+              {{ leaseholder_formset.empty_form.name.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.last_name class+="form-control" %}
+              {{ leaseholder_formset.empty_form.last_name.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.document_type class+="form-control" %}
+              {{ leaseholder_formset.empty_form.document_type.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.document_number class+="form-control" %}
+              {{ leaseholder_formset.empty_form.document_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.mobile_phone class+="form-control" %}
+              <p class="font-weight-light">{{ leaseholder_formset.empty_form.mobile_phone.help_text }}</p>
+              {{ leaseholder_formset.empty_form.mobile_phone.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.phone_number class+="form-control" %}
+              <p class="font-weight-light">{{ leaseholder_formset.empty_form.phone_number.help_text }}</p>
+              {{ leaseholder_formset.empty_form.phone_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field leaseholder_formset.empty_form.email class+="form-control" %}
+              {{ leaseholder_formset.empty_form.email.errors }}
+          </div>
+        </div>
+
+        <hr>
+        <div class="row">
+          <div class="form-group clearfix col-md-6">
+            <div class="clearfix">
+            <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
+            </div>
+
+            <div class="clearfix">
+              <div class="float-right">
+                <button type="button" class="btn btn-outline-info jsMainFormsetButton">
+                  {% trans 'Arrendatario principal' %}
+                </button>
+                {% render_field leaseholder_formset.empty_form.is_main class+="ci-main-formset-input d-none" %}
+              </div>
+              <p>{{ leaseholder_formset.empty_form.is_main.errors }}</p>
+            </div>
+
+            <div class="clearfix">
+            <p class="font-weight-light float-right">{% trans 'El arrendatario principal recibirá las notificaciones para realizar la actualización de datos.' %}</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group clearfix col-md-6">
+            <button type="button" class="btn btn-outline-danger float-right jsDeleteFormsetButton">
+              {% trans 'Eliminar' %}
+            </button>
+            {% render_field leaseholder_formset.empty_form.DELETE class+="ci-delete-formset-input d-none" %}
+          </div>
+        </div>
+        <hr>
+      </div>
+  {% endescapescript %}
+  </script>
+
+  <div class="clearfix">
+      <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar arrendatario" %}</button>
+  </div>
+</div>
