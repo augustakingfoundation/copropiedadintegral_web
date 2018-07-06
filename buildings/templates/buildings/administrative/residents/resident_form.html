@@ -84,8 +84,6 @@
                 </div>
               </div>
 
-              <hr>
-
               <div class="form-group">
                 {% render_field contact_form.DELETE %}
               </div>
@@ -116,7 +114,6 @@
                 </div>
               </div>
 
-              <hr>
               <div class="form-group">
                 {% render_field formset.empty_form.DELETE %}
               </div>
@@ -126,9 +123,11 @@
         </script>
 
         <div class="clearfix">
-            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar propietario" %}</button>
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar contacto de emergencia" %}</button>
         </div>
       </div>
+
+      <hr>
 
       <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
   </form>

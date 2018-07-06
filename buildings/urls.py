@@ -25,6 +25,7 @@ from buildings.views.visitors import VisitorFormView
 from buildings.views.visitors import VisitorUpdateView
 from buildings.views.visitors import VisitorDeleteView
 from buildings.views.residents import ResidentFormView
+from buildings.views.residents import ResidentDetailView
 
 
 urlpatterns = [
@@ -231,5 +232,14 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/residentes/registrar/$',
         ResidentFormView.as_view(),
         name='resident_form',
+    ),
+
+    # b_pk = Building id.
+    # u_pk = unit id.
+    # r_pk = Resident id.
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/residentes/detalle/(?P<r_pk>\d+)/$',
+        ResidentDetailView.as_view(),
+        name='resident_detail',
     ),
 ]

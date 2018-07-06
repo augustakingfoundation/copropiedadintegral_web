@@ -5,6 +5,7 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
+from django.views.generic import DetailView
 from django.views.generic import TemplateView
 from django.views.generic.edit import DeleteView
 from django.urls import reverse
@@ -45,7 +46,9 @@ class ResidentFormView(CustomUserMixin, TemplateView):
         )
 
     def get(self, *args, **kwargs):
+        # Resident form.
         form = ResidentForm()
+        # Emergency contacts formset.
         formset = EmergencyContactFormSet(
             queryset=EmergencyContact.objects.none(),
         )
@@ -56,7 +59,9 @@ class ResidentFormView(CustomUserMixin, TemplateView):
 
     @transaction.atomic
     def post(self, *args, **kwargs):
+        # Resident form.
         form = ResidentForm(self.request.POST)
+        # Emergency contacts formset.
         formset = EmergencyContactFormSet(
             self.request.POST,
             queryset=EmergencyContact.objects.none(),
@@ -69,12 +74,14 @@ class ResidentFormView(CustomUserMixin, TemplateView):
 
         unit = self.get_object()
 
+        # Create resident instance.
         resident = form.save(commit=False)
         resident.unit = unit
         resident.save()
 
         for form in formset:
             if form.is_valid():
+                # Create emergency contact object.
                 contact = form.save(commit=False)
                 contact.resident = resident
                 contact.save()
@@ -90,3 +97,32 @@ class ResidentFormView(CustomUserMixin, TemplateView):
         )
 
         return redirect(resident.get_absolute_url())
+
+
+class ResidentDetailView(CustomUserMixin, DetailView):
+    """
+    Detail view of a resident registered into a unit.
+    """
+    model = Resident
+    template_name = 'buildings/administrative/residents/resident_detail.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Resident,
+            pk=self.kwargs['r_pk'],
+        )
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+
+        return context
