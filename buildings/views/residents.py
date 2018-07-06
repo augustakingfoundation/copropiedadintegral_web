@@ -13,6 +13,7 @@ from django.urls import reverse
 from app.mixins import CustomUserMixin
 from buildings.forms import ResidentForm
 from buildings.forms import EmergencyContactFormSet
+from buildings.utils import process_emergency_contacts_formset
 from buildings.models import Resident
 from buildings.models import Unit
 from buildings.models import EmergencyContact
@@ -79,17 +80,8 @@ class ResidentFormView(CustomUserMixin, TemplateView):
         resident.unit = unit
         resident.save()
 
-        for form in formset:
-            if form.is_valid():
-                # Create emergency contact object.
-                contact = form.save(commit=False)
-                contact.resident = resident
-                contact.save()
-
-                delete = form.cleaned_data['DELETE']
-
-                if delete:
-                    contact.delete()
+        # Create emergency contact instances.
+        process_emergency_contacts_formset(formset, resident)
 
         messages.success(
             self.request,
@@ -126,3 +118,75 @@ class ResidentDetailView(CustomUserMixin, DetailView):
         context['active_units'] = True
 
         return context
+
+
+class ResidentUpdateView(CustomUserMixin, TemplateView):
+    template_name = 'buildings/administrative/residents/resident_form.html'
+    form_class = ResidentForm
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+
+        return context
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Resident,
+            unit_id=self.kwargs['u_pk'],
+            id=self.kwargs['r_pk'],
+        )
+
+    def get(self, *args, **kwargs):
+        resident = self.get_object()
+        # Resident form.
+        form = ResidentForm(instance=resident)
+        # Emergency contacts formset.
+        formset = EmergencyContactFormSet(
+            queryset=EmergencyContact.objects.filter(resident=resident),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset)
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        # Resident form.
+        form = ResidentForm(
+            self.request.POST,
+            instance=self.get_object(),
+        )
+        # Emergency contacts formset.
+        formset = EmergencyContactFormSet(
+            self.request.POST,
+            queryset=EmergencyContact.objects.filter(
+                resident=self.get_object(),
+            ),
+        )
+
+        if not form.is_valid() or not formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
+
+        resident = form.save()
+
+        # Update emergency contact instances.
+        process_emergency_contacts_formset(formset, resident)
+
+        messages.success(
+            self.request,
+            _('Residente actualizado exitosamente.')
+        )
+
+        return redirect(resident.get_absolute_url())
