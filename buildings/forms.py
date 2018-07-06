@@ -17,6 +17,8 @@ from .models import Pet
 from .models import Unit
 from .models import Vehicle
 from .models import Visitor
+from .models import Resident
+from .models import EmergencyContact
 
 
 class BuildingForm(forms.ModelForm):
@@ -387,7 +389,7 @@ class VisitorForm(forms.ModelForm):
     """
     Authorized visitor form. The unit field included in the
     model is excluded from the form and this value is
-    assigned in the pet create view, in the
+    assigned in the visitor create view, in the
     post request.
     """
     class Meta:
@@ -417,3 +419,86 @@ class VisitorForm(forms.ModelForm):
             label = self.fields[field].label
             self.fields[field].label = ''
             self.fields[field].widget.attrs['placeholder'] = label
+
+
+class ResidentForm(forms.ModelForm):
+    """
+    Residents form. The unit field included in the
+    model is excluded from the form and this value is
+    assigned in the resident create view, in the
+    post request.
+    """
+    class Meta:
+        model = Resident
+        fields = (
+            'first_name',
+            'last_name',
+            'birthdate',
+            'document_type',
+            'document_number',
+            'mobile_phone',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'first_name',
+            'last_name',
+            'birthdate',
+            'document_type',
+            'document_number',
+            'mobile_phone',
+        ]
+
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label
+
+
+class EmergencyContactForm(forms.ModelForm):
+    """
+    Emergency contact form. The unit field included in the
+    model is excluded from the form and this value is
+    assigned in the resident create view, in the
+    post request.
+    """
+    class Meta:
+        model = Resident
+        fields = (
+            'first_name',
+            'last_name',
+            'mobile_phone',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        fields = [
+            'first_name',
+            'last_name',
+            'mobile_phone',
+        ]
+
+        # Here we are defining the placeholder for each
+        # form field. The field labels are used to set
+        # the field placeholder automatically.
+        for field in fields:
+            label = self.fields[field].label
+            self.fields[field].label = ''
+            self.fields[field].widget.attrs['placeholder'] = label
+
+
+EmergencyContactFormSet = modelformset_factory(
+    EmergencyContact,
+    form=EmergencyContactForm,
+    extra=0,
+    max_num=3,
+    min_num=1,
+    validate_min=False,
+    can_delete=True,
+)

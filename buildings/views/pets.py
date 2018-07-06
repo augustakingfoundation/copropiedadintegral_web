@@ -64,7 +64,7 @@ class PetFormView(CustomUserMixin, CreateView):
 
 class PetDetailView(CustomUserMixin, DetailView):
     """
-    Detail view of a pet registered into an unit.
+    Detail view of a pet registered into a unit.
     """
     model = Pet
     template_name = 'buildings/administrative/pets/pet_detail.html'

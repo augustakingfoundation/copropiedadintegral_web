@@ -1,0 +1,251 @@
+from django.contrib import messages
+from django.db import transaction
+from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.utils.translation import ugettext as _
+from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DetailView
+from django.views.generic import TemplateView
+from django.views.generic.edit import DeleteView
+from django.urls import reverse
+
+from app.mixins import CustomUserMixin
+from buildings.forms import ResidentForm
+from buildings.forms import EmergencyContactFormSet
+from buildings.utils import process_emergency_contacts_formset
+from buildings.models import Resident
+from buildings.models import Unit
+from buildings.models import EmergencyContact
+from buildings.permissions import BuildingPermissions
+
+
+class ResidentFormView(CustomUserMixin, TemplateView):
+    """
+    Form view to create a resident. One formset is
+    processed in this view that allows to create
+    multiple emergency contacts for a resident.
+    """
+    template_name = 'buildings/administrative/residents/resident_form.html'
+    form_class = ResidentForm
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().building,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object()
+        context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+
+        return context
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Unit,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['u_pk'],
+        )
+
+    def get(self, *args, **kwargs):
+        # Resident form.
+        form = ResidentForm()
+        # Emergency contacts formset.
+        formset = EmergencyContactFormSet(
+            queryset=EmergencyContact.objects.none(),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset)
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        # Resident form.
+        form = ResidentForm(self.request.POST)
+        # Emergency contacts formset.
+        formset = EmergencyContactFormSet(
+            self.request.POST,
+            queryset=EmergencyContact.objects.none(),
+        )
+
+        # Resident and emergency contact form validation.
+        if not form.is_valid() or not formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
+
+        unit = self.get_object()
+
+        # Create resident instance.
+        resident = form.save(commit=False)
+        resident.unit = unit
+        resident.save()
+
+        # Create emergency contact instances.
+        process_emergency_contacts_formset(formset, resident)
+
+        messages.success(
+            self.request,
+            _('Residente creado exitosamente.')
+        )
+
+        return redirect(resident.get_absolute_url())
+
+
+class ResidentDetailView(CustomUserMixin, DetailView):
+    """
+    Detail view of a resident registered into a unit.
+    """
+    model = Resident
+    template_name = 'buildings/administrative/residents/resident_detail.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Resident,
+            pk=self.kwargs['r_pk'],
+        )
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+
+        return context
+
+
+class ResidentUpdateView(CustomUserMixin, TemplateView):
+    """
+    Form view to update a resident. Emergency contacts
+    formset is proccesed too in this view.
+    """
+    template_name = 'buildings/administrative/residents/resident_form.html'
+    form_class = ResidentForm
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        context['building'] = self.get_object().unit.building
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+
+        return context
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Resident,
+            unit_id=self.kwargs['u_pk'],
+            id=self.kwargs['r_pk'],
+        )
+
+    def get(self, *args, **kwargs):
+        resident = self.get_object()
+        # Resident form.
+        form = ResidentForm(instance=resident)
+        # Emergency contacts formset.
+        formset = EmergencyContactFormSet(
+            queryset=EmergencyContact.objects.filter(resident=resident),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(form=form, formset=formset)
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        # Resident form.
+        form = ResidentForm(
+            self.request.POST,
+            instance=self.get_object(),
+        )
+        # Emergency contacts formset.
+        formset = EmergencyContactFormSet(
+            self.request.POST,
+            queryset=EmergencyContact.objects.filter(
+                resident=self.get_object(),
+            ),
+        )
+
+        # Resident and emergency contact form validation.
+        if not form.is_valid() or not formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(form=form, formset=formset)
+            )
+
+        resident = form.save()
+
+        # Update emergency contact instances.
+        process_emergency_contacts_formset(formset, resident)
+
+        messages.success(
+            self.request,
+            _('Residente actualizado exitosamente.')
+        )
+
+        return redirect(resident.get_absolute_url())
+
+
+class ResidentDeleteView(CustomUserMixin, DeleteView):
+    """
+    Resident delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete a resident definitely.
+    """
+    model = Resident
+    template_name = 'buildings/administrative/residents/resident_delete_confirm.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get pet object.
+        return get_object_or_404(
+            Resident,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['r_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+        context['building'] = self.get_object().unit.building
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Residente eliminado exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)

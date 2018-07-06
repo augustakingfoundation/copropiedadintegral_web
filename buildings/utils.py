@@ -67,3 +67,22 @@ def process_unit_formset(formset, unit):
 
             if delete:
                 instance.delete()
+
+
+def process_emergency_contacts_formset(formset, resident):
+    """
+    Function to process the residnet form formset data.
+    Post data for emergency contacts is processed by
+    this function.
+    """
+    for form in formset:
+        if form.is_valid():
+            # Create emergency contact object.
+            contact = form.save(commit=False)
+            contact.resident = resident
+            contact.save()
+
+            delete = form.cleaned_data['DELETE']
+
+            if delete:
+                contact.delete()

@@ -1,3 +1,4 @@
+from datetime import date
 from django.core.validators import MinLengthValidator
 from django.core.validators import RegexValidator
 from django.db import models
@@ -6,10 +7,10 @@ from django.utils.translation import gettext_lazy as _
 
 from .data import BUILDING_DOCUMENT_TYPE_CHOICES
 from .data import PARKING_LOT_TYPE_CHOICES
-from .data import VEHICLE_TYPE_CHOICES
-from .data import VEHICLE_TYPE_CAR
-from .data import VEHICLE_TYPE_MOTORCYCLE
 from .data import VEHICLE_TYPE_BICYCLE
+from .data import VEHICLE_TYPE_CAR
+from .data import VEHICLE_TYPE_CHOICES
+from .data import VEHICLE_TYPE_MOTORCYCLE
 from accounts.data import DOCUMENT_TYPE_CHOICES
 from app.validators import FileSizeValidator
 
@@ -302,7 +303,7 @@ class Owner(models.Model):
     """
     This model represents a unit owner. At least one
     owner is required by each unit. Multiple owners
-    can be added to an unit.
+    can be added to a unit.
     """
     name = models.CharField(
         max_length=100,
@@ -413,7 +414,7 @@ class Leaseholder(models.Model):
     """
     This model represents a unit leaseholder. Leaseholders
     are not required.  Multiple leaseholders can be added to
-    an unit.
+    a unit.
     """
     name = models.CharField(
         max_length=100,
@@ -510,6 +511,155 @@ class Leaseholder(models.Model):
         ordering = ('last_name',)
 
 
+class EmergencyContact(models.Model):
+    """
+    This model represent an emergency contact of
+    a resident.
+    """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name=_('nombre'),
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name=_('apellidos'),
+    )
+
+    mobile_phone = models.CharField(
+        max_length=32,
+        verbose_name=_('número celular'),
+        help_text=_('Si desea ingresar más de un número celular, '
+                    'estos deben ir separados por coma (,).'),
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message=_('El dato no es válido, sólo debe ingresar números. '
+                          'Si desea ingresar más de un número celular, estos '
+                          'deben estar separados por coma (,).')
+            ),
+            MinLengthValidator(10),
+        ],
+        error_messages={
+            'min_length':
+                'Ingrese al menos %(limit_value)d caracteres,'
+                ' (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    resident = models.ForeignKey(
+        'buildings.Resident',
+        on_delete=models.CASCADE,
+        verbose_name=_('residente'),
+    )
+
+    def __str__(self):
+        return '{0} {1}'.format(
+            self.first_name,
+            self.last_name,
+        )
+
+    class Meta:
+        verbose_name = _('contacto de emergencia')
+        verbose_name_plural = _('contactos de emergencia')
+        ordering = ('last_name',)
+
+
+class Resident(models.Model):
+    """
+    This model represents a resident
+    registered in a unit.
+    """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name=_('nombre'),
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name=_('apellidos'),
+    )
+
+    birthdate = models.DateField(
+        verbose_name=_('fecha de nacimiento'),
+    )
+
+    document_type = models.PositiveSmallIntegerField(
+        choices=DOCUMENT_TYPE_CHOICES,
+        verbose_name=_('tipo de documento'),
+    )
+
+    document_number = models.CharField(
+        max_length=32,
+        verbose_name=_('número de documento'),
+    )
+
+    mobile_phone = models.CharField(
+        max_length=32,
+        verbose_name=_('número celular'),
+        default='',
+        blank=True,
+        help_text=_('Si desea ingresar más de un número celular, '
+                    'estos deben ir separados por coma (,).'),
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message=_('El dato no es válido, sólo debe ingresar números. '
+                          'Si desea ingresar más de un número celular, estos '
+                          'deben estar separados por coma (,).')
+            ),
+            MinLengthValidator(10),
+        ],
+        error_messages={
+            'min_length':
+                'Ingrese al menos %(limit_value)d caracteres,'
+                ' (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def get_absolute_url(self):
+        return reverse(
+            'buildings:resident_detail',
+            args=[self.unit.building.id, self.unit.id, self.id]
+        )
+
+    @property
+    def calculate_age(self):
+        today = date.today()
+        if self.birthdate:
+            try:
+                birthday = self.birthdate.replace(year=today.year)
+            except ValueError:
+                birthday = self.birthdate.replace(
+                    year=today.year, day=self.birthdate.day - 1
+                )
+            if birthday > today:
+                return today.year - self.birthdate.year - 1
+            else:
+                return today.year - self.birthdate.year
+
+        return 0
+
+    def __str__(self):
+        return '{0} {1} | {2} - {3}'.format(
+            self.first_name,
+            self.last_name,
+            self.get_document_type_display(),
+            self.document_number,
+        )
+
+    class Meta:
+        verbose_name = _('residente')
+        verbose_name_plural = _('residentes')
+        ordering = ('last_name',)
+
+
 class ParkingLot(models.Model):
     """
     This model represents a parking lot assigned to an
@@ -603,8 +753,8 @@ class Vehicle(models.Model):
 
 class DomesticWorker(models.Model):
     """
-    This model represents a domestic worker registered to
-    an unit.
+    This model represents a domestic worker registered in
+    a unit.
     """
     first_name = models.CharField(
         max_length=100,
@@ -652,8 +802,8 @@ class DomesticWorker(models.Model):
 
 class Pet(models.Model):
     """
-    This model represents a pet registered to
-    an unit.
+    This model represents a pet registered in
+    a unit.
     """
     pet_type = models.CharField(
         max_length=30,
@@ -711,7 +861,7 @@ class Pet(models.Model):
 class Visitor(models.Model):
     """
     This model represents an authorized visitor
-    registered to an unit.
+    registered in a unit.
     """
     first_name = models.CharField(
         max_length=100,
