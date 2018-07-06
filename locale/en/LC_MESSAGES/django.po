@@ -65,7 +65,7 @@ msgstr "name"
 #: buildings/models.py:526 buildings/models.py:580 buildings/models.py:766
 #: buildings/models.py:873
 msgid "apellidos"
-msgstr "last mane"
+msgstr "last name"
 
 #: accounts/models.py:65 buildings/models.py:131 buildings/models.py:386
 #: buildings/models.py:487
