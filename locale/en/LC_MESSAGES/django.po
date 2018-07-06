@@ -1128,7 +1128,7 @@ msgid ""
 "El propietario principal recibirá las notificaciones para realizar la "
 "actualización de datos de la unidad."
 msgstr ""
-"maon owner will receive notifications to make "
+"main owner will receive notifications to make "
 "data update."
 
 #: buildings/templates/buildings/administrative/units/inc_owner_formset.html:104
