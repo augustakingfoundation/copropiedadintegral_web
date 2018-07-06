@@ -510,6 +510,132 @@ class Leaseholder(models.Model):
         ordering = ('last_name',)
 
 
+class EmergencyContact(models.Model):
+    """
+    This model represent an emergency contact of
+    a resident.
+    """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name=_('nombre'),
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name=_('apellidos'),
+    )
+
+    mobile_phone = models.CharField(
+        max_length=32,
+        verbose_name=_('número celular'),
+        help_text=_('Si desea ingresar más de un número celular, '
+                    'estos deben ir separados por coma (,).'),
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message=_('El dato no es válido, sólo debe ingresar números. '
+                          'Si desea ingresar más de un número celular, estos '
+                          'deben estar separados por coma (,).')
+            ),
+            MinLengthValidator(10),
+        ],
+        error_messages={
+            'min_length':
+                'Ingrese al menos %(limit_value)d caracteres,'
+                ' (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    resident = models.ForeignKey(
+        'buildings.Resident',
+        on_delete=models.CASCADE,
+        verbose_name=_('residente'),
+    )
+
+    def __str__(self):
+        return '{0} {1}'.format(
+            self.first_name,
+            self.last_name,
+        )
+
+    class Meta:
+        verbose_name = _('contacto de emergencia')
+        verbose_name_plural = _('contactos de emergencia')
+        ordering = ('last_name',)
+
+
+class Resident(models.Model):
+    """
+    This model represents a resident
+    registered to an unit.
+    """
+    first_name = models.CharField(
+        max_length=100,
+        verbose_name=_('nombre'),
+    )
+
+    last_name = models.CharField(
+        max_length=100,
+        verbose_name=_('apellidos'),
+    )
+
+    birthdate = models.DateField(
+        verbose_name=_('fecha de nacimiento'),
+    )
+
+    document_type = models.PositiveSmallIntegerField(
+        choices=DOCUMENT_TYPE_CHOICES,
+        verbose_name=_('tipo de documento'),
+    )
+
+    document_number = models.CharField(
+        max_length=32,
+        verbose_name=_('número de documento'),
+    )
+
+    mobile_phone = models.CharField(
+        max_length=32,
+        verbose_name=_('número celular'),
+        default='',
+        blank=True,
+        help_text=_('Si desea ingresar más de un número celular, '
+                    'estos deben ir separados por coma (,).'),
+        validators=[
+            RegexValidator(
+                '^[0-9 ,]*$',
+                message=_('El dato no es válido, sólo debe ingresar números. '
+                          'Si desea ingresar más de un número celular, estos '
+                          'deben estar separados por coma (,).')
+            ),
+            MinLengthValidator(10),
+        ],
+        error_messages={
+            'min_length':
+                'Ingrese al menos %(limit_value)d caracteres,'
+                ' (actualmente tiene %(show_value)d).'
+        }
+    )
+
+    unit = models.ForeignKey(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    def __str__(self):
+        return '{0} {1} | {2} - {3}'.format(
+            self.first_name,
+            self.last_name,
+            self.get_document_type_display(),
+            self.document_number,
+        )
+
+    class Meta:
+        verbose_name = _('residente')
+        verbose_name_plural = _('residentes')
+        ordering = ('last_name',)
+
+
 class ParkingLot(models.Model):
     """
     This model represents a parking lot assigned to an
