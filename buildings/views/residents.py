@@ -21,6 +21,11 @@ from buildings.permissions import BuildingPermissions
 
 
 class ResidentFormView(CustomUserMixin, TemplateView):
+    """
+    Form view to create a resident. One formset is
+    processed in this view that allows to create
+    multiple emergency contacts for a resident.
+    """
     template_name = 'buildings/administrative/residents/resident_form.html'
     form_class = ResidentForm
 
@@ -68,6 +73,7 @@ class ResidentFormView(CustomUserMixin, TemplateView):
             queryset=EmergencyContact.objects.none(),
         )
 
+        # Resident and emergency contact form validation.
         if not form.is_valid() or not formset.is_valid():
             return self.render_to_response(
                 self.get_context_data(form=form, formset=formset)
@@ -121,6 +127,10 @@ class ResidentDetailView(CustomUserMixin, DetailView):
 
 
 class ResidentUpdateView(CustomUserMixin, TemplateView):
+    """
+    Form view to update a resident. Emergency contacts
+    formset is proccesed too in this view.
+    """
     template_name = 'buildings/administrative/residents/resident_form.html'
     form_class = ResidentForm
 
@@ -174,6 +184,7 @@ class ResidentUpdateView(CustomUserMixin, TemplateView):
             ),
         )
 
+        # Resident and emergency contact form validation.
         if not form.is_valid() or not formset.is_valid():
             return self.render_to_response(
                 self.get_context_data(form=form, formset=formset)
@@ -190,3 +201,51 @@ class ResidentUpdateView(CustomUserMixin, TemplateView):
         )
 
         return redirect(resident.get_absolute_url())
+
+
+class ResidentDeleteView(CustomUserMixin, DeleteView):
+    """
+    Resident delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete a resident definitely.
+    """
+    model = Resident
+    template_name = 'buildings/administrative/residents/resident_delete_confirm.html'
+
+    def test_func(self):
+        return BuildingPermissions.can_edit_unit(
+            user=self.request.user,
+            building=self.get_object().unit.building,
+        )
+
+    def get_object(self, queryset=None):
+        # Get pet object.
+        return get_object_or_404(
+            Resident,
+            unit_id=self.kwargs['u_pk'],
+            pk=self.kwargs['r_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:unit_detail',
+            args=[self.kwargs['b_pk'], self.kwargs['u_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit'] = self.get_object().unit
+        # Returned to activate the correct tab in the side bar.
+        context['active_units'] = True
+        context['building'] = self.get_object().unit.building
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Residente eliminado exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)

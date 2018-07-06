@@ -13,20 +13,21 @@ from buildings.views.pets import PetDeleteView
 from buildings.views.pets import PetDetailView
 from buildings.views.pets import PetFormView
 from buildings.views.pets import PetUpdateView
+from buildings.views.residents import ResidentDeleteView
+from buildings.views.residents import ResidentDetailView
+from buildings.views.residents import ResidentFormView
+from buildings.views.residents import ResidentUpdateView
+from buildings.views.units import UnitDeleteView
 from buildings.views.units import UnitDetailView
 from buildings.views.units import UnitFormView
 from buildings.views.units import UnitsListView
 from buildings.views.units import UnitUpdateView
-from buildings.views.units import UnitDeleteView
 from buildings.views.vehicles import VehicleDeleteView
 from buildings.views.vehicles import VehicleFormView
 from buildings.views.vehicles import VehicleUpdateView
+from buildings.views.visitors import VisitorDeleteView
 from buildings.views.visitors import VisitorFormView
 from buildings.views.visitors import VisitorUpdateView
-from buildings.views.visitors import VisitorDeleteView
-from buildings.views.residents import ResidentFormView
-from buildings.views.residents import ResidentDetailView
-from buildings.views.residents import ResidentUpdateView
 
 
 urlpatterns = [
@@ -251,5 +252,14 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/residentes/actualizar/(?P<r_pk>\d+)/$',
         ResidentUpdateView.as_view(),
         name='resident_update',
+    ),
+
+    # b_pk = Building id.
+    # u_pk = unit id.
+    # r_pk = Resident id.
+    url(
+        r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/residentes/eliminar/(?P<r_pk>\d+)/$',
+        ResidentDeleteView.as_view(),
+        name='resident_delete',
     ),
 ]

@@ -1,3 +1,3 @@
 $(function() {
-    $.datetimepicker.setLocale('es');
+    $.datetimepicker.setLocale('en');
 });
