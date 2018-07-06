@@ -1,0 +1,197 @@
+{% load static widget_tweaks formset_tags i18n %}
+<div id="owner_formset" data-formset-prefix="{{ owner_formset.prefix }}" class="ci_UnitFormFormset">
+  {% if owner_formset.non_form_errors %}
+  <div class="alert alert-warning" role="alert">{{ owner_formset.non_form_errors }}</div>
+  {% endif %}
+
+  {{ owner_formset.management_form }}
+  <div data-formset-body>
+  {% for owner_form in owner_formset %}
+      {% if object %}
+      <p class="h4">{% trans "Propietario" %} {{ forloop.counter }}</p>
+      {% endif %}
+      {% render_field owner_form.id %}
+      <div data-formset-form>
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_form.name class+="form-control" %}
+              {{ owner_form.name.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field owner_form.last_name class+="form-control" %}
+              {{ owner_form.last_name.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_form.document_type class+="form-control" %}
+              {{ owner_form.document_type.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field owner_form.document_number class+="form-control" %}
+              {{ owner_form.document_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_form.mobile_phone class+="form-control" %}
+              <p class="font-weight-light">{{ owner_form.mobile_phone.help_text }}</p>
+              {{ owner_form.mobile_phone.errors }}
+          </div>
+
+          <div class="form-group  col-md-6">
+              {% render_field owner_form.phone_number class+="form-control" %}
+              <p class="font-weight-light">{{ owner_form.phone_number.help_text }}</p>
+              {{ owner_form.phone_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_form.correspondence_address class+="form-control" %}
+              <p class="font-weight-light">{{ owner_form.correspondence_address.help_text }}</p>
+              {{ owner_form.correspondence_address.errors }}
+          </div>
+
+          <div class="form-group  col-md-6">
+              {% render_field owner_form.email class+="form-control" %}
+              {{ owner_form.email.errors }}
+          </div>
+        </div>
+
+        <hr>
+        <div class="row">
+          <div class="form-group clearfix col-md-6">
+            <div class="clearfix">
+            <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
+            </div>
+
+            <div class="clearfix">
+              <div class="float-right">
+                <button type="button" class="btn btn-outline-info jsMainFormsetButton">
+                  {% trans 'Propietario principal' %}
+                </button>
+                {% render_field owner_form.is_main class+="ci-main-formset-input d-none" %}
+              </div>
+              <p>{{ owner_form.is_main.errors }}</p>
+            </div>
+
+            <div class="clearfix">
+            <p class="font-weight-light float-right">{% trans 'El propietario principal recibirá las notificaciones para realizar la actualización de datos de la unidad.' %}</p>
+            </div>
+          </div>
+
+          <hr>
+          <div class="form-group clearfix col-md-6">
+            <button type="button" class="btn btn-outline-danger float-right jsDeleteFormsetButton">
+              {% trans 'Eliminar' %}
+            </button>
+            {% render_field owner_form.DELETE class+="ci-delete-formset-input d-none" %}
+          </div>
+        </div>
+        <hr>
+      </div>
+  {% endfor %}
+  </div>
+
+  <script type="form-template" data-formset-empty-form>
+  {% escapescript %}
+      <div data-formset-form>
+      <p class="h4">{% trans "Otro propietario" %}</p>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.name class+="form-control" %}
+              {{ owner_formset.empty_form.name.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.last_name class+="form-control" %}
+              {{ owner_formset.empty_form.last_name.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.document_type class+="form-control" %}
+              {{ owner_formset.empty_form.document_type.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.document_number class+="form-control" %}
+              {{ owner_formset.empty_form.document_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.mobile_phone class+="form-control" %}
+              <p class="font-weight-light">{{ owner_formset.empty_form.mobile_phone.help_text }}</p>
+              {{ owner_formset.empty_form.mobile_phone.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.phone_number class+="form-control" %}
+              <p class="font-weight-light">{{ owner_formset.empty_form.phone_number.help_text }}</p>
+              {{ owner_formset.empty_form.phone_number.errors }}
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.correspondence_address class+="form-control" %}
+              <p class="font-weight-light">{{ owner_formset.empty_form.correspondence_address.help_text }}</p>
+              {{ owner_formset.empty_form.correspondence_address.errors }}
+          </div>
+
+          <div class="form-group col-md-6">
+              {% render_field owner_formset.empty_form.email class+="form-control" %}
+              {{ owner_formset.empty_form.email.errors }}
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+          <div class="form-group clearfix col-md-6">
+            <div class="clearfix">
+            <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
+            </div>
+
+            <div class="clearfix">
+              <div class="float-right">
+                <button type="button" class="btn btn-outline-info jsMainFormsetButton">
+                  {% trans 'Propietario principal' %}
+                </button>
+                {% render_field owner_formset.empty_form.is_main class+="ci-main-formset-input d-none" %}
+              </div>
+              <p>{{ owner_formset.empty_form.is_main.errors }}</p>
+            </div>
+
+            <div class="clearfix">
+            <p class="font-weight-light float-right">{% trans 'El propietario principal recibirá las notificaciones para realizar la actualización de datos de la unidad.' %}</p>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="form-group clearfix  col-md-6">
+            <button type="button" class="btn btn-outline-danger float-right jsDeleteFormsetButton">
+              {% trans 'Eliminar' %}
+            </button>
+            {% render_field owner_formset.empty_form.DELETE class+="ci-delete-formset-input d-none" %}
+          </div>
+        </div>
+        <hr>
+      </div>
+  {% endescapescript %}
+  </script>
+
+  <div class="clearfix">
+      <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar propietario" %}</button>
+  </div>
+</div>
