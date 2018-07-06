@@ -7,6 +7,7 @@ DOCUMENT_TYPE_PASSPORT = 120
 DOCUMENT_IDENTITY_CARD = 130
 
 DOCUMENT_TYPE_CHOICES = (
+    ('', _('Tipo de documento')),
     (DOCUMENT_TYPE_CC, 'C.C.'),
     (DOCUMENT_TYPE_CE, 'C.E.'),
     (DOCUMENT_TYPE_PASSPORT, _('Pasaporte')),
