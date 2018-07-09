@@ -569,7 +569,7 @@ class MembershipForm(forms.ModelForm):
 
     def clean_membership_type(self):
         # Validations for the membership type field.
-        value = self.cleaned_data['user']
+        value = self.cleaned_data['membership_type']
 
         # Each condo can have a maximun of two users with
         # administrator memberships.
