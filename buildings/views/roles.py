@@ -11,6 +11,7 @@ from buildings.models import Building
 from buildings.models import BuildingMembership
 from buildings.permissions import BuildingPermissions
 from buildings.forms import MembershipForm
+from buildings.forms import UserSearchForm
 
 
 class MembershipListView(CustomUserMixin, ListView):
@@ -73,6 +74,7 @@ class MembershipFormView(CustomUserMixin, CreateView):
         context['building'] = self.get_object()
         # Returned to activate the correct tab in the side bar.
         context['active_roles'] = True
+        context['user_search_form'] = UserSearchForm()
 
         return context
 

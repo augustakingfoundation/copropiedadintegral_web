@@ -6,8 +6,42 @@
 
 {% block building_section %}
 <div class="jumbotron">
-  <form method="post" >
 
+  <form method="post" id="id_search_user_form" data-search-user-url="{% url 'accounts:ax_search_user' %}">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group">
+            {% render_field user_search_form.email class+="form-control" %}
+            <!-- Display here the errros defined in the clean method of the membership form for the user field. -->
+            {{ form.user.errors }}
+            <p class="font-weight-light">{{ user_search_form.email.help_text }}</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-outline-info">{% trans "Buscar usuario" %}</button>
+      </div>
+    </div>
+  </form>
+
+  <hr>
+
+  <div class="jsFoundUserInfo card" style="display:none;">
+    <div class="card-body">
+      <div class="alert alert-info" role="alert">{% trans 'Correo electrónico registrado.' %}</div>
+      <p class="jsFoundUserName"></p>
+    </div>
+  </div>
+
+  <div class="jsNotFoundUserInfo card" style="display:none;">
+    <div class="card-body">
+      <div class="alert alert-warning" role="alert">{% trans 'Correo electrónico no registrado.' %}</div>
+      <p>La dirección de correo electrónico <span class="jsNotFoundUserName"></span> no se encuentra registrada en la plataforma.</p>
+    </div>
+  </div>
+
+  <form method="post">
   {% csrf_token %}
   {% if form.non_field_errors %}
       <div class="form-group">
@@ -15,10 +49,9 @@
       </div>
   {% endif %}
 
-      <div class="form-group">
+      <div class="form-group d-none">
           {% render_field form.user class+="form-control" %}
           <p class="font-weight-light">{{ form.user.help_text }}</p>
-          {{ form.user.errors }}
       </div>
 
       <div class="form-group">
@@ -26,7 +59,42 @@
           {{ form.membership_type.errors }}
       </div>
 
-      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Crear membresía" %}</button>
   </form>
 </div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(function() {
+    $('#id_search_user_form').on('submit', function() {
+      var formData = new FormData(this);
+
+      $.ajax({
+          url : $('#id_search_user_form').data('search-user-url'),
+          type: "POST",
+          data : formData,
+          processData: false,
+          contentType: false,
+          success:function(response){
+              var exist = response.exist;
+              var user_info = response.user_info;
+
+              if (exist) {
+                $('.jsFoundUserName').text(user_info.name + ' - ' + user_info.email);
+                $('#id_user').val(user_info.id);
+                $('.jsFoundUserInfo').show();
+                $('.jsNotFoundUserInfo').hide();
+              } else {
+                $('.jsNotFoundUserName').text(user_info.email);
+                $('.jsNotFoundUserInfo').show();
+                $('.jsFoundUserInfo').hide();
+              }
+          },
+      });
+
+      return false;
+    });
+});
+</script>
 {% endblock %}

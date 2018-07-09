@@ -505,6 +505,29 @@ EmergencyContactFormSet = modelformset_factory(
 )
 
 
+class UserSearchForm(forms.Form):
+    """User search form. This form is used to
+    search a registered user by the email attribute.
+    """
+    email = forms.EmailField(
+        required=True,
+        label=_('correo electrónico'),
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': _('Correo electrónico'),
+            },
+        ),
+        help_text=_(
+            'Ingrese la dirección de correo electrónico'
+            ' de un usuario registrado en la aplicación'
+            ' para crear una membresía en esta copropiedad.'
+            ' Si el correo electrónico no se encuentra registrado,'
+            ' tendrá la posibilidad de enviarle una invitación para'
+            ' que cree una cuenta en la plataforma.'
+        )
+    )
+
+
 class MembershipForm(forms.ModelForm):
     """
     Building memberships form. The building field includedin

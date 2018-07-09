@@ -1,9 +1,11 @@
-from django.conf import settings
-from django.contrib import messages
 from hashids import Hashids
 
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import transaction
 from django.http import Http404
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
@@ -142,7 +144,7 @@ class ProfileFormView(CustomUserMixin, UpdateView):
     model = User
     form_class = ProfileForm
     template_name = 'accounts/profile_form.html'
-    success_url = reverse_lazy('acounts:profile_form_view')
+    success_url = reverse_lazy('accounts:profile_form_view')
 
     def test_func(self):
         return UserPermissions.can_edit_profile(
@@ -162,3 +164,34 @@ class ProfileFormView(CustomUserMixin, UpdateView):
         )
 
         return super().form_valid(form)
+
+
+class AjaxSearchUserForm(LoginRequiredMixin, View):
+    """
+    Ajax View to check if there is a registered user
+    with the entered email address.
+    """
+    def post(self, request, **kwargs):
+        email = request.POST.get('email')
+
+        exist = False
+        user_info = {
+            'email': email,
+        }
+
+        if User.objects.filter(email=email):
+            exist = True
+
+            user = User.objects.filter(email=email)[0]
+            user_info = {
+                'email': user.email,
+                'name': user.get_full_name,
+                'id': user.id,
+            }
+
+        return JsonResponse(
+            {
+                'exist': exist,
+                'user_info': user_info,
+            }
+        )
