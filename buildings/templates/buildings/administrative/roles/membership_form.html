@@ -1,0 +1,32 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ building }} - {% trans 'Crear membresía' %}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <form method="post" >
+
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.user class+="form-control" %}
+          <p class="font-weight-light">{{ form.user.help_text }}</p>
+          {{ form.user.errors }}
+      </div>
+
+      <div class="form-group">
+          {% render_field form.membership_type class+="form-control" %}
+          {{ form.membership_type.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+  </form>
+</div>
+{% endblock %}

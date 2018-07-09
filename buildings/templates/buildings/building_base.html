@@ -36,7 +36,7 @@
         <a class="nav-link {% if active_units %}active{% endif %}" href="{% url 'buildings:units_list' building.id %}">{% trans "Unidades" %}</a>
         <a class="nav-link" href="">{% trans "Circulares" %}</a>
         <a class="nav-link" href="">{% trans "Encuestas" %}</a>
-        <a class="nav-link" href="">{% trans "Roles" %}</a>
+        <a class="nav-link {% if active_roles %}active{% endif %}" href="{% url 'buildings:memberships_list' building.id %}">{% trans "Roles" %}</a>
       </div>
     </div>
 

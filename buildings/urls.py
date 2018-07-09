@@ -28,6 +28,8 @@ from buildings.views.vehicles import VehicleUpdateView
 from buildings.views.visitors import VisitorDeleteView
 from buildings.views.visitors import VisitorFormView
 from buildings.views.visitors import VisitorUpdateView
+from buildings.views.roles import MembershipListView
+from buildings.views.roles import MembershipFormView
 
 
 urlpatterns = [
@@ -261,5 +263,19 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/unidades/(?P<u_pk>\d+)/residentes/eliminar/(?P<r_pk>\d+)/$',
         ResidentDeleteView.as_view(),
         name='resident_delete',
+    ),
+
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/roles/$',
+        MembershipListView.as_view(),
+        name='memberships_list',
+    ),
+
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/roles/crear/$',
+        MembershipFormView.as_view(),
+        name='membership_form',
     ),
 ]

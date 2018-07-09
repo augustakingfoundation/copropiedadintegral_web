@@ -42,7 +42,6 @@ class BuildingMembership(models.Model):
 
     membership_type = models.PositiveSmallIntegerField(
         choices=MEMBERSHIP_TYPE_CHOICES,
-        default=MEMBERSHIP_TYPE_ADMINISTRATOR,
         verbose_name=_('tipo de documento'),
     )
 

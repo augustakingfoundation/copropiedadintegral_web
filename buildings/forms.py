@@ -19,6 +19,7 @@ from .models import Vehicle
 from .models import Visitor
 from .models import Resident
 from .models import EmergencyContact
+from .models import BuildingMembership
 
 
 class BuildingForm(forms.ModelForm):
@@ -502,3 +503,18 @@ EmergencyContactFormSet = modelformset_factory(
     validate_min=False,
     can_delete=True,
 )
+
+
+class MembershipForm(forms.ModelForm):
+    """
+    Building memberships form. The building field includedin
+    the model is excluded from the form and this value is
+    assigned in the membership create view, in the
+    post request.
+    """
+    class Meta:
+        model = BuildingMembership
+        fields = (
+            'user',
+            'membership_type',
+        )
