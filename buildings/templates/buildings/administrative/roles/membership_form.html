@@ -37,7 +37,13 @@
   <div class="jsNotFoundUserInfo card" style="display:none;">
     <div class="card-body">
       <div class="alert alert-warning" role="alert">{% trans 'Correo electrónico no registrado.' %}</div>
-      <p>La dirección de correo electrónico <span class="jsNotFoundUserName"></span> no se encuentra registrada o la cuenta no está activa en la plataforma.</p>
+
+      <p>{% trans 'La dirección de correo electrónico' %} <span class="jsNotFoundUserName"></span> {% trans 'no se encuentra registrada o la cuenta no está activa en la plataforma. Puede enviarle una invicatión a esta dirección de correo electrónico para crear una cuenta en la plataforma.' %}</p>
+
+      <button type="submit" id="id_send_email_invitation" class="btn btn-outline-info float-right" data-email="" data-send-email-invitation-url="{% url 'accounts:ax_send_invitation_email' %}">{% trans "Enviar invitación" %}</button>
+
+      <div class="alert alert-info jsInvitationSent" role="alert" style="display:none;">{% trans 'La invitación ha sido enviada. Deberá esperar q que se registre el correo electrónico para crear la membresía.' %}</div>
+      </div>
     </div>
   </div>
 
@@ -89,12 +95,25 @@ $(function() {
                 $('.jsNotFoundUserName').text(user_info.email);
                 $('.jsNotFoundUserInfo').show();
                 $('.jsFoundUserInfo').hide();
+                $('#id_send_email_invitation').data('email', user_info.email);
               }
           },
       });
 
       return false;
     });
+
+    $('#id_send_email_invitation').on('click', function () {
+
+      $.post($(this).data('send-email-invitation-url'), {'email': $(this).data('email'),}, function (response) {
+          if (response === 'success') {
+              alert("YES");
+              $('#id_send_email_invitation').remove();
+              $('.jsInvitationSent').show();
+          }        
+      });
+    });
+
 });
 </script>
 {% endblock %}

@@ -1,5 +1,6 @@
 from hashids import Hashids
 
+from django.http import HttpResponse
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -195,3 +196,33 @@ class AjaxSearchUserForm(LoginRequiredMixin, View):
                 'user_info': user_info,
             }
         )
+
+
+class AjaxSendEmailInvitation(LoginRequiredMixin, View):
+    """
+    Ajax View to send an mail invitation to a non
+    registered email address in the platform.
+    """
+    def post(self, request, **kwargs):
+        email = request.POST.get('email')
+
+        # Send notification email about new membership
+        # to the user.
+        subject = _('Se ha creado una nueva membresía en una copropiedad '
+                    ' para usted.')
+
+        body = render_to_string(
+            'accounts/signup/email_invitation.html', {
+                'title': subject,
+                'from': self.request.user,
+                'base_url': settings.BASE_URL,
+            },
+        )
+
+        send_email(
+            subject=subject,
+            body=body,
+            mail_to=[email],
+        )
+
+        return HttpResponse("success")

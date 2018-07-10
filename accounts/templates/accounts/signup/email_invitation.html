@@ -1,0 +1,17 @@
+{% extends 'layout/email_base.html' %}
+
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Invitación a crear cuenta." %}</h1>
+
+<p>{% trans "Cordial saludo," %}</p>
+
+<p>{{ from.get_full_name }} {% trans 'le ha enviado esta invitación para crear una cuenta en ' %} <strong>Copropiedad Integral,</strong> {% trans 'la mejor forma de gestionar la administración y contabilidad de las copropiedades.' %}</p>
+
+<p>{% trans 'Para crear una cuenta, siga el siguiente link:' %}</p>
+
+<p><a href="{{ base_url }}">{{ base_url }}</a></p>
+{% endblock %}
