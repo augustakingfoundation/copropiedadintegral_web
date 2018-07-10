@@ -73,9 +73,11 @@
 {% block js %}
 <script>
 $(function() {
+    // Submit membership form via AJAX request.
     $('#id_search_user_form').on('submit', function() {
       var formData = new FormData(this);
 
+      // Post request.
       $.ajax({
           url : $('#id_search_user_form').data('search-user-url'),
           type: "POST",
@@ -87,11 +89,16 @@ $(function() {
               var user_info = response.user_info;
 
               if (exist) {
+                // If the email is registered in the platform, basic
+                // information is dislpayed and membership form is
+                // ready to post.
                 $('.jsFoundUserName').text(user_info.name + ' - ' + user_info.email);
                 $('#id_user').val(user_info.id);
                 $('.jsFoundUserInfo').show();
                 $('.jsNotFoundUserInfo').hide();
               } else {
+                // If the email is not registered in the platform,
+                // the send invitation button is displayed.
                 $('.jsNotFoundUserName').text(user_info.email);
                 $('.jsNotFoundUserInfo').show();
                 $('.jsFoundUserInfo').hide();
@@ -103,11 +110,13 @@ $(function() {
       return false;
     });
 
+    // Send invitation buttion action. Send an mail to the
+    // entered email addres, this proccess is managed via AJAX.
     $('#id_send_email_invitation').on('click', function () {
-
+      // Send post request to create send mail task.
       $.post($(this).data('send-email-invitation-url'), {'email': $(this).data('email'),}, function (response) {
           if (response === 'success') {
-              alert("YES");
+              // Remove send invitation button and display sent email confirmation.
               $('#id_send_email_invitation').remove();
               $('.jsInvitationSent').show();
           }        

@@ -175,15 +175,20 @@ class AjaxSearchUserForm(LoginRequiredMixin, View):
     def post(self, request, **kwargs):
         email = request.POST.get('email')
 
+        # Set to False if email addres does not exist.
         exist = False
+
+        # Basic user info for the entered email address.
         user_info = {
             'email': email,
         }
 
         if User.objects.filter(email=email):
+            # Set to True if email address exists.
             exist = True
 
             user = User.objects.filter(email=email)[0]
+            # Basic user info dict.
             user_info = {
                 'email': user.email,
                 'name': user.get_full_name,
