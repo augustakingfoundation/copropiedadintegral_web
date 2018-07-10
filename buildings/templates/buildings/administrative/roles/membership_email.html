@@ -1,0 +1,17 @@
+{% extends 'layout/email_base.html' %}
+
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Notificación de nueva membresía en una copropiedad." %}</h1>
+
+<p>{{ from.get_full_name }} {% trans "ha creado una nueva membresía a su nombre." %}</p>
+
+<p><strong>Tipo de membersía:</strong> {{ membership.get_membership_type_display }}.</p>
+<p><strong>Copropiedad:</strong> {{ membership.building }}.</p>
+
+<p>{% trans 'Diríjase a la aplicación para desempeñar su nuevo rol en esta copropiedad.' %}</p>
+<a href="{{ base_url }}">{{ base_url }}</a>
+{% endblock %}

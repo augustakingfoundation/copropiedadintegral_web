@@ -1,0 +1,44 @@
+{% extends "buildings/building_base.html" %}
+
+{% load i18n %}
+
+{% block title %}{{ building }} - Roles{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+
+  <div class="clearfix">
+    <a href="{% url 'buildings:membership_form' building.id %}" class="btn btn-outline-info float-right">{% trans "Crear membresía" %}</a>
+  </div>
+
+  <br>
+
+  {% if memberships_list %}
+  <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">{% trans "Rol" %}</th>
+        <th scope="col">{% trans "Nombre" %}</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for membership in memberships_list %}
+      <tr>
+        <td>{{ membership.get_membership_type_display }}</td>
+        <td>{{ membership.user.get_full_name }}</td>
+
+        <td>
+          
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p>{% trans "No hay unidades registradas aún." %}</p>
+  {% endif %}
+</div>
+{% endblock %}

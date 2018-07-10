@@ -1,0 +1,128 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ building }} - {% trans 'Crear membresía' %}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+
+  <form method="post" id="id_search_user_form" data-search-user-url="{% url 'accounts:ax_search_user' %}">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-8">
+        <div class="form-group">
+            {% render_field user_search_form.email class+="form-control" %}
+            <!-- Display here the errros defined in the clean method of the membership form for the user field. -->
+            {{ form.user.errors }}
+            <p class="font-weight-light">{{ user_search_form.email.help_text }}</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <button type="submit" class="btn btn-outline-info">{% trans "Buscar usuario" %}</button>
+      </div>
+    </div>
+  </form>
+
+  <hr>
+
+  <div class="jsFoundUserInfo card" style="display:none;">
+    <div class="card-body">
+      <div class="alert alert-info" role="alert">{% trans 'Correo electrónico registrado.' %}</div>
+      <p class="jsFoundUserName"></p>
+    </div>
+  </div>
+
+  <div class="jsNotFoundUserInfo card" style="display:none;">
+    <div class="card-body">
+      <div class="alert alert-warning" role="alert">{% trans 'Correo electrónico no registrado.' %}</div>
+
+      <p>{% trans 'La dirección de correo electrónico' %} <span class="jsNotFoundUserName"></span> {% trans 'no se encuentra registrada o la cuenta no está activa en la plataforma. Puede enviarle una invicatión a esta dirección de correo electrónico para crear una cuenta en la plataforma.' %}</p>
+
+      <button type="submit" id="id_send_email_invitation" class="btn btn-outline-info float-right" data-email="" data-send-email-invitation-url="{% url 'accounts:ax_send_invitation_email' %}">{% trans "Enviar invitación" %}</button>
+
+      <div class="alert alert-info jsInvitationSent" role="alert" style="display:none;">{% trans 'La invitación ha sido enviada. Deberá esperar q que se registre el correo electrónico para crear la membresía.' %}</div>
+      </div>
+    </div>
+  </div>
+
+  <form method="post">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group d-none">
+          {% render_field form.user class+="form-control" %}
+          <p class="font-weight-light">{{ form.user.help_text }}</p>
+      </div>
+
+      <div class="form-group">
+          {% render_field form.membership_type class+="form-control" %}
+          {{ form.membership_type.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Crear membresía" %}</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(function() {
+    // Submit membership form via AJAX request.
+    $('#id_search_user_form').on('submit', function() {
+      var formData = new FormData(this);
+
+      // Post request.
+      $.ajax({
+          url : $('#id_search_user_form').data('search-user-url'),
+          type: "POST",
+          data : formData,
+          processData: false,
+          contentType: false,
+          success:function(response){
+              var exist = response.exist;
+              var user_info = response.user_info;
+
+              if (exist) {
+                // If the email is registered in the platform, basic
+                // information is dislpayed and membership form is
+                // ready to post.
+                $('.jsFoundUserName').text(user_info.name + ' - ' + user_info.email);
+                $('#id_user').val(user_info.id);
+                $('.jsFoundUserInfo').show();
+                $('.jsNotFoundUserInfo').hide();
+              } else {
+                // If the email is not registered in the platform,
+                // the send invitation button is displayed.
+                $('.jsNotFoundUserName').text(user_info.email);
+                $('.jsNotFoundUserInfo').show();
+                $('.jsFoundUserInfo').hide();
+                $('#id_send_email_invitation').data('email', user_info.email);
+              }
+          },
+      });
+
+      return false;
+    });
+
+    // Send invitation buttion action. Send an mail to the
+    // entered email addres, this proccess is managed via AJAX.
+    $('#id_send_email_invitation').on('click', function () {
+      // Send post request to create send mail task.
+      $.post($(this).data('send-email-invitation-url'), {'email': $(this).data('email'),}, function (response) {
+          if (response === 'success') {
+              // Remove send invitation button and display sent email confirmation.
+              $('#id_send_email_invitation').remove();
+              $('.jsInvitationSent').show();
+          }        
+      });
+    });
+
+});
+</script>
+{% endblock %}

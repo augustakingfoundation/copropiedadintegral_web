@@ -88,7 +88,7 @@ urlpatterns += i18n_patterns(
                 'accounts.urls',
                 'accounts',
             ),
-            namespace='acounts'
+            namespace='accounts'
         )
     ),
 

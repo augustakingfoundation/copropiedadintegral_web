@@ -4,21 +4,25 @@ from django import forms
 from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 
-from .data import BUILDING_DOCUMENT_TYPE_CC
-from .data import BUILDING_DOCUMENT_TYPE_NIT
-from .data import VEHICLE_TYPE_CAR
-from .data import VEHICLE_TYPE_MOTORCYCLE
-from .models import Building
-from .models import DomesticWorker
-from .models import Leaseholder
-from .models import Owner
-from .models import ParkingLot
-from .models import Pet
-from .models import Unit
-from .models import Vehicle
-from .models import Visitor
-from .models import Resident
-from .models import EmergencyContact
+from buildings.data import BUILDING_DOCUMENT_TYPE_CC
+from buildings.data import BUILDING_DOCUMENT_TYPE_NIT
+from buildings.data import MEMBERSHIP_TYPE_ACCOUNTANT
+from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATOR
+from buildings.data import MEMBERSHIP_TYPE_FISCAL_REVIEWER
+from buildings.data import VEHICLE_TYPE_CAR
+from buildings.data import VEHICLE_TYPE_MOTORCYCLE
+from buildings.models import Building
+from buildings.models import BuildingMembership
+from buildings.models import DomesticWorker
+from buildings.models import EmergencyContact
+from buildings.models import Leaseholder
+from buildings.models import Owner
+from buildings.models import ParkingLot
+from buildings.models import Pet
+from buildings.models import Resident
+from buildings.models import Unit
+from buildings.models import Vehicle
+from buildings.models import Visitor
 
 
 class BuildingForm(forms.ModelForm):
@@ -502,3 +506,99 @@ EmergencyContactFormSet = modelformset_factory(
     validate_min=False,
     can_delete=True,
 )
+
+
+class UserSearchForm(forms.Form):
+    """User search form. This form is used to
+    search a registered user by the email attribute.
+    """
+    email = forms.EmailField(
+        required=True,
+        label=_('correo electrónico'),
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': _('Correo electrónico'),
+            },
+        ),
+        help_text=_(
+            'Ingrese la dirección de correo electrónico'
+            ' de un usuario registrado en la aplicación'
+            ' para crear una membresía en esta copropiedad.'
+            ' Si el correo electrónico no se encuentra registrado,'
+            ' tendrá la posibilidad de enviarle una invitación para'
+            ' que cree una cuenta en la plataforma.'
+        )
+    )
+
+
+class MembershipForm(forms.ModelForm):
+    """
+    Building memberships form. The building field includedin
+    the model is excluded from the form and this value is
+    assigned in the membership create view, in the
+    post request.
+    """
+    class Meta:
+        model = BuildingMembership
+        fields = (
+            'user',
+            'membership_type',
+        )
+
+    def __init__(self, *args, **kwargs):
+        self.building = kwargs.pop('building')
+
+        super().__init__(*args, **kwargs)
+
+    def clean_user(self):
+        # Validations for the user field. A user
+        # only can have a membership role per
+        # condo.
+        value = self.cleaned_data['user']
+
+        if BuildingMembership.objects.filter(
+            building=self.building,
+            user=value,
+        ):
+            raise forms.ValidationError(
+                _('Ya existe una membresía para este '
+                  'usuario en la copropiedad.')
+            )
+
+        return value
+
+    def clean_membership_type(self):
+        # Validations for the membership type field.
+        value = self.cleaned_data['membership_type']
+
+        # Each condo can have a maximun of two users with
+        # administrator memberships.
+        if BuildingMembership.objects.filter(
+            building=self.building,
+            membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
+        ).count() >= 3:
+            raise forms.ValidationError(
+                _('El máximo número de membresías de administradores '
+                  'por copropiedad es de 3.')
+            )
+
+        # Each condo can have only one user with accountant membership.
+        if BuildingMembership.objects.filter(
+            building=self.building,
+            membership_type=MEMBERSHIP_TYPE_ACCOUNTANT,
+        ):
+            raise forms.ValidationError(
+                _('Solo puede existir una membresía de contador activa.')
+            )
+
+        # Each condo can have only one user with fiscal reviewer membership.
+        if BuildingMembership.objects.filter(
+            building=self.building,
+            membership_type=MEMBERSHIP_TYPE_FISCAL_REVIEWER,
+        ):
+            raise forms.ValidationError(
+                _('Solo puede existir una membresía de revisor fiscal '
+                  'activa.')
+            )
+
+        return value

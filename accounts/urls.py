@@ -3,6 +3,8 @@ from django.conf.urls import url
 from .views import EmailVerificationView
 from .views import ProfileFormView
 from .views import ResendEmailVerificationView
+from .views import AjaxSearchUserForm
+from .views import AjaxSendEmailInvitation
 from django.views.generic import TemplateView
 
 
@@ -31,5 +33,17 @@ urlpatterns = [
         r'^editar-perfil/',
         ProfileFormView.as_view(),
         name='profile_form_view',
+    ),
+
+    url(
+        r'^ax_search_user-profile/',
+        AjaxSearchUserForm.as_view(),
+        name='ax_search_user',
+    ),
+
+    url(
+        r'^ax_search_user-perfil/',
+        AjaxSendEmailInvitation.as_view(),
+        name='ax_send_invitation_email',
     ),
 ]

@@ -11,6 +11,12 @@ from .data import VEHICLE_TYPE_BICYCLE
 from .data import VEHICLE_TYPE_CAR
 from .data import VEHICLE_TYPE_CHOICES
 from .data import VEHICLE_TYPE_MOTORCYCLE
+from .data import MEMBERSHIP_TYPE_CHOICES
+from .data import MEMBERSHIP_TYPE_ADMINISTRATOR
+from .data import MEMBERSHIP_TYPE_ADMINISTRATIVE_ASSISTANT
+from .data import MEMBERSHIP_TYPE_ACCOUNTANT
+from .data import MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
+from .data import MEMBERSHIP_TYPE_FISCAL_REVIEWER
 from accounts.data import DOCUMENT_TYPE_CHOICES
 from app.validators import FileSizeValidator
 
@@ -34,29 +40,9 @@ class BuildingMembership(models.Model):
         verbose_name=_('copropiedad'),
     )
 
-    is_administrator = models.BooleanField(
-        verbose_name=_('administrador'),
-        default=False,
-    )
-
-    is_administrative_assistant = models.BooleanField(
-        verbose_name=_('asistente administrativo'),
-        default=False,
-    )
-
-    is_accountant = models.BooleanField(
-        verbose_name=_('contador'),
-        default=False,
-    )
-
-    is_accounting_assistant = models.BooleanField(
-        verbose_name=_('asistente contable'),
-        default=False,
-    )
-
-    is_fiscal_reviewer = models.BooleanField(
-        verbose_name=_('revisor fiscal'),
-        default=False,
+    membership_type = models.PositiveSmallIntegerField(
+        choices=MEMBERSHIP_TYPE_CHOICES,
+        verbose_name=_('tipo de documento'),
     )
 
     is_active = models.BooleanField(
@@ -68,10 +54,31 @@ class BuildingMembership(models.Model):
         auto_now_add=True,
     )
 
+    @property
+    def is_administrator(self):
+        return self.membership_type == MEMBERSHIP_TYPE_ADMINISTRATOR
+
+    @property
+    def is_administrative_assistant(self):
+        return self.membership_type == MEMBERSHIP_TYPE_ADMINISTRATIVE_ASSISTANT
+
+    @property
+    def is_accountant(self):
+        return self.membership_type == MEMBERSHIP_TYPE_ACCOUNTANT
+
+    @property
+    def is_accounting_assistant(self):
+        return self.membership_type == MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
+
+    @property
+    def is_fiscal_reviewer(self):
+        return self.membership_type == MEMBERSHIP_TYPE_FISCAL_REVIEWER
+
     def __str__(self):
-        return '{0} - {1}'.format(
+        return '{0} - {1} - {2}'.format(
             self.user,
-            self.building
+            self.building,
+            self.get_membership_type_display(),
         )
 
     class Meta:

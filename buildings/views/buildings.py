@@ -8,6 +8,7 @@ from django.views.generic import CreateView
 from django.views.generic import DetailView
 
 from app.mixins import CustomUserMixin
+from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATOR
 from buildings.forms import BuildingForm
 from buildings.models import Building
 from buildings.models import BuildingMembership
@@ -39,7 +40,7 @@ class BuildingFormView(CustomUserMixin, CreateView):
         BuildingMembership.objects.create(
             user=self.request.user,
             building=building,
-            is_administrator=True,
+            membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
             is_active=True,
         )
 
