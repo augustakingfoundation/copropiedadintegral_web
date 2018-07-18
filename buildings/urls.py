@@ -33,6 +33,7 @@ from buildings.views.roles import MembershipFormView
 from buildings.views.roles import MembershipUpdateView
 from buildings.views.roles import MembershipDeleteView
 from buildings.views.data_update import DataUpdateView
+from buildings.views.data_update import RequestOwnersUpdateView
 
 
 urlpatterns = [
@@ -303,5 +304,12 @@ urlpatterns = [
         r'^(?P<pk>\d+)/actualización-de-datos/$',
         DataUpdateView.as_view(),
         name='data_update_view',
+    ),
+
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/actualización-de-datos/propietarios/solicitar/$',
+        RequestOwnersUpdateView.as_view(),
+        name='request_owners_update_view',
     ),
 ]

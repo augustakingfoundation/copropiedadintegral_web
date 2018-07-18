@@ -21,9 +21,10 @@
     <div class="tab-pane fade show active" id="nav-owners" role="tabpanel">
 
       <div class="alert alert-info" role="alert">{% trans 'Se enviará un correo electrónico a los propietarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
-      <form method="post">
-          {{ owner_update_formset.management_form }}
+      <form method="post" action="{% url 'buildings:request_owners_update_view' building.id %}">
+          {% csrf_token %}
 
+          {{ owner_update_formset.management_form }}
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -33,6 +34,7 @@
                 </tr>
               </thead>
               {% for owner_form_update in owner_update_formset %}
+                {% render_field owner_form_update.id %}
                 <tr>
                   <td>
                     {{ owner_form_update.instance }}
@@ -52,6 +54,8 @@
               </tbody>
             </table>
           </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Solicitar actualización" %}</button>
       </form>
     </div>
 
