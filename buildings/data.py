@@ -42,13 +42,11 @@ MEMBERSHIP_TYPE_ACCOUNTANT = 3
 MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT = 4
 MEMBERSHIP_TYPE_FISCAL_REVIEWER = 5
 
-# MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT is not included into the
-# choices because it is added only for users with
-# accuntant membershipsin a deferent way.
 MEMBERSHIP_TYPE_CHOICES = (
     ('', _('Tipo de membresía')),
     (MEMBERSHIP_TYPE_ADMINISTRATOR, _('Administrador')),
     (MEMBERSHIP_TYPE_ADMINISTRATIVE_ASSISTANT, _('Asistente administrativo')),
     (MEMBERSHIP_TYPE_ACCOUNTANT, _('Contador')),
+    (MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT, _('Asistente contable')),
     (MEMBERSHIP_TYPE_FISCAL_REVIEWER, _('Revisor fiscal')),
 )

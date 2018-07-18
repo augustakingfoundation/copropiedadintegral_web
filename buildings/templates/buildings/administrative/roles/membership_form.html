@@ -38,7 +38,7 @@
     <div class="card-body">
       <div class="alert alert-warning" role="alert">{% trans 'Correo electrónico no registrado.' %}</div>
 
-      <p>{% trans 'La dirección de correo electrónico' %} <span class="jsNotFoundUserName"></span> {% trans 'no se encuentra registrada o la cuenta no está activa en la plataforma. Puede enviarle una invicatión a esta dirección de correo electrónico para crear una cuenta en la plataforma.' %}</p>
+      <p>{% trans 'La dirección de correo electrónico' %} <span class="jsNotFoundUserName"></span> {% trans 'no se encuentra registrada o la cuenta no está activa en la plataforma. Puede enviarle una invitación a esta dirección de correo electrónico para crear una cuenta en la plataforma.' %}</p>
 
       <button type="submit" id="id_send_email_invitation" class="btn btn-outline-info float-right" data-email="" data-send-email-invitation-url="{% url 'accounts:ax_send_invitation_email' %}">{% trans "Enviar invitación" %}</button>
 

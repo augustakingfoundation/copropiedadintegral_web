@@ -11,6 +11,7 @@ from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATOR
 from buildings.data import MEMBERSHIP_TYPE_FISCAL_REVIEWER
 from buildings.data import VEHICLE_TYPE_CAR
 from buildings.data import VEHICLE_TYPE_MOTORCYCLE
+from buildings.data import MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
 from buildings.models import Building
 from buildings.models import BuildingMembership
 from buildings.models import DomesticWorker
@@ -589,6 +590,17 @@ class MembershipForm(forms.ModelForm):
         ):
             raise forms.ValidationError(
                 _('Solo puede existir una membresía de contador activa.')
+            )
+
+        # Each condo can have only one user
+        # with accounting assistant membership.
+        if BuildingMembership.objects.filter(
+            building=self.building,
+            membership_type=MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT,
+        ):
+            raise forms.ValidationError(
+                _('Solo puede existir una membresía'
+                  ' de asistente contable activa.')
             )
 
         # Each condo can have only one user with fiscal reviewer membership.
