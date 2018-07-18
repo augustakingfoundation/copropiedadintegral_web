@@ -17,6 +17,7 @@ from buildings.models import Building
 from buildings.models import Leaseholder
 from buildings.models import Owner
 from buildings.models import Unit
+from buildings.models import UnitDataUpdate
 from buildings.permissions import BuildingPermissions
 from buildings.utils import process_unit_formset
 from buildings.utils import validate_is_main_formset
@@ -192,6 +193,8 @@ class UnitFormView(CustomUserMixin, TemplateView):
         unit = form.save(commit=False)
         unit.building = self.get_object()
         unit.save()
+
+        UnitDataUpdate.objects.create(unit=unit)
 
         # Create Owner instances.
         process_unit_formset(owner_formset, unit)

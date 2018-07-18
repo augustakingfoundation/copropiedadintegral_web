@@ -2,7 +2,7 @@
 
 {% load widget_tweaks i18n %}
 
-{% block title %}Acualización de datos - {{ building }}{% endblock %}
+{% block title %}Actualización de datos - {{ building }}{% endblock %}
 
 {% block building_section %}
 <div class="jumbotron">
@@ -19,13 +19,39 @@
 
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-owners" role="tabpanel">
+
+      <div class="alert alert-info" role="alert">{% trans 'Se enviará un correo electrónico a los propietarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
       <form method="post">
           {{ owner_update_formset.management_form }}
-          <table>
-              {% for form in owner_update_formset %}
-              {{ form }}
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Unidad" %}</th>
+                  <th scope="col">{% trans "Solicitar actualización" %}</th>
+                </tr>
+              </thead>
+              {% for owner_form_update in owner_update_formset %}
+                <tr>
+                  <td>
+                    {{ owner_form_update.instance }}
+                    <div class="d-none">{% render_field owner_form_update.unit %}</div>
+                  </td>
+
+                  <td>
+                    {% if owner_form_update.instance.enable_owners_update %}
+                    <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
+                    {% else %}
+                    {% render_field owner_form_update.update %}
+                    {% endif %}
+                  </td>
+                </tr>
               {% endfor %}
-          </table>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
       </form>
     </div>
 

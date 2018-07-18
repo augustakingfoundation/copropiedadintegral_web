@@ -328,6 +328,20 @@ class UnitDataUpdate(models.Model):
         default=False,
     )
 
+    def __str__(self):
+        if self.unit.block:
+            return 'Bloque {0} - Unidad {1}'.format(
+                self.unit.block,
+                self.unit.unit,
+            )
+
+        return '{0}'.format(self.unit)
+
+    class Meta:
+        verbose_name = _('Información de actualización unidad')
+        verbose_name_plural = _('Información de actualización unidades')
+        ordering = ('unit',)
+
 
 class Owner(models.Model):
     """

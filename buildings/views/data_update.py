@@ -1,11 +1,11 @@
-from django.views.generic import TemplateView
 from django.shortcuts import get_object_or_404
-from django.forms import formset_factory
+from django.views.generic import TemplateView
 
 from app.mixins import CustomUserMixin
-from buildings.permissions import BuildingPermissions
+from buildings.forms import ConfirmOwnerUpdateFormSet
 from buildings.models import Building
-from buildings.forms import ConfirmOwnerUpdateForm
+from buildings.models import UnitDataUpdate
+from buildings.permissions import BuildingPermissions
 
 
 class DataUpdateView(CustomUserMixin, TemplateView):
@@ -30,12 +30,13 @@ class DataUpdateView(CustomUserMixin, TemplateView):
         context['building'] = self.get_object()
         context['active_units'] = True
 
-        # Build update owners data formset.
-        OwnersUpdateFormSet = formset_factory(
-            ConfirmOwnerUpdateForm,
-            extra=2,
+        owner_update_formset = ConfirmOwnerUpdateFormSet(
+            prefix='owner',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
         )
 
-        context['owner_update_formset'] = OwnersUpdateFormSet()
+        context['owner_update_formset'] = owner_update_formset
 
         return context
