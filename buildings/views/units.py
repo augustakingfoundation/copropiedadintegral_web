@@ -60,6 +60,11 @@ class UnitsListView(CustomUserMixin, ListView):
             building=self.get_object(),
         )
 
+        context['can_view_update_menu'] = BuildingPermissions.can_edit_building(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
         return context
 
 

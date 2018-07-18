@@ -5,8 +5,17 @@
 {% block title %}{{ building }} - {% trans "Unidades" %}{% endblock %}
 
 {% block building_section %}
-<div class="jumbotron">
+<div class="clearfix">
+  <div class="float-right">
+    {% if can_view_update_menu %}
+    <a href="{% url 'buildings:data_update_view' building.id %}" class="btn btn-info float-right">{% trans "Actualización de datos" %}</a>
+    {% endif %}
+  </div>
+</div>
 
+<br>
+
+<div class="jumbotron">
   {% if can_create_unit %}
   <div class="clearfix">
     <a href="{% url 'buildings:unit_form' building.id %}" class="btn btn-outline-info float-right">{% trans "Crear unidad" %}</a>
