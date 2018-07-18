@@ -11,7 +11,7 @@ from django.views.generic import CreateView
 from app.mixins import CustomUserMixin
 from buildings.models import Building
 from buildings.models import BuildingMembership
-from buildings.permissions import BuildingPermissions
+from buildings.permissions import RolesPermissions
 from buildings.forms import MembershipForm
 from buildings.forms import UserSearchForm
 from app.tasks import send_email
@@ -27,7 +27,7 @@ class MembershipListView(CustomUserMixin, ListView):
     context_object_name = 'memberships_list'
 
     def test_func(self):
-        return BuildingPermissions.can_manage_roles(
+        return RolesPermissions.can_manage_roles(
             user=self.request.user,
             building=self.get_object(),
         )
@@ -60,7 +60,7 @@ class MembershipFormView(CustomUserMixin, CreateView):
     template_name = 'buildings/administrative/roles/membership_form.html'
 
     def test_func(self):
-        return BuildingPermissions.can_manage_roles(
+        return RolesPermissions.can_manage_roles(
             user=self.request.user,
             building=self.get_object(),
         )

@@ -1,6 +1,6 @@
 {% extends "buildings/building_base.html" %}
 
-{% load i18n %}
+{% load i18n roles_tags %}
 
 {% block title %}{{ building }} - Roles{% endblock %}
 
@@ -26,11 +26,16 @@
     <tbody>
       {% for membership in memberships_list %}
       <tr>
-        <td>{{ membership.get_membership_type_display }}</td>
+        <td>{% if membership.is_main_administrator %}<i class="fas fa-crown"></i>{% endif %}{{ membership.get_membership_type_display }}</td>
         <td>{{ membership.user.get_full_name }}</td>
 
         <td>
-          
+          {% get_can_edit_membership user membership as can_edit_membership %}
+          {% if can_edit_membership %}
+            <a href="" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+          {% endif %}
+            <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+
         </td>
       </tr>
       {% endfor %}
