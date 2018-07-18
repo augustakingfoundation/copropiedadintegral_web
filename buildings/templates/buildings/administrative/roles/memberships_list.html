@@ -32,7 +32,7 @@
         <td>
           {% get_can_edit_membership user membership as can_edit_membership %}
           {% if can_edit_membership %}
-            <a href="" class="btn btn-outline-dark">{% trans "Editar" %}</a>
+            <a href="{% url 'buildings:membership_update' membership.building.id membership.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
           {% endif %}
             <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
 

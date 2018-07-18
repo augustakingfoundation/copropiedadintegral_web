@@ -30,6 +30,7 @@ from buildings.views.visitors import VisitorFormView
 from buildings.views.visitors import VisitorUpdateView
 from buildings.views.roles import MembershipListView
 from buildings.views.roles import MembershipFormView
+from buildings.views.roles import MembershipUpdateView
 
 
 urlpatterns = [
@@ -267,15 +268,23 @@ urlpatterns = [
 
     # pk = Building id.
     url(
-        r'^(?P<pk>\d+)/roles/$',
+        r'^(?P<pk>\d+)/membresías/$',
         MembershipListView.as_view(),
         name='memberships_list',
     ),
 
     # pk = Building id.
     url(
-        r'^(?P<pk>\d+)/roles/crear/$',
+        r'^(?P<pk>\d+)/membresías/crear/$',
         MembershipFormView.as_view(),
         name='membership_form',
+    ),
+
+    # b_pk = Building id.
+    # m_pk = Membership id.
+    url(
+        r'^(?P<b_pk>\d+)/roles/(?P<m_pk>\d+)/$',
+        MembershipUpdateView.as_view(),
+        name='membership_update',
     ),
 ]

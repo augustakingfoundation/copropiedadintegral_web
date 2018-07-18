@@ -548,6 +548,7 @@ class MembershipForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.building = kwargs.pop('building')
+        self.update = kwargs.pop('update')
 
         super().__init__(*args, **kwargs)
 
@@ -557,14 +558,15 @@ class MembershipForm(forms.ModelForm):
         # condo.
         value = self.cleaned_data['user']
 
-        if BuildingMembership.objects.filter(
-            building=self.building,
-            user=value,
-        ):
-            raise forms.ValidationError(
-                _('Ya existe una membresía para este '
-                  'usuario en la copropiedad.')
-            )
+        if not self.update:
+            if BuildingMembership.objects.filter(
+                building=self.building,
+                user=value,
+            ):
+                raise forms.ValidationError(
+                    _('Ya existe una membresía para este '
+                      'usuario en la copropiedad.')
+                )
 
         return value
 
@@ -584,9 +586,12 @@ class MembershipForm(forms.ModelForm):
             )
 
         # Each condo can have only one user with accountant membership.
-        if BuildingMembership.objects.filter(
-            building=self.building,
-            membership_type=MEMBERSHIP_TYPE_ACCOUNTANT,
+        if (
+            BuildingMembership.objects.filter(
+                building=self.building,
+                membership_type=MEMBERSHIP_TYPE_ACCOUNTANT,
+            ) and
+            value == MEMBERSHIP_TYPE_ACCOUNTANT
         ):
             raise forms.ValidationError(
                 _('Solo puede existir una membresía de contador activa.')
@@ -594,9 +599,12 @@ class MembershipForm(forms.ModelForm):
 
         # Each condo can have only one user
         # with accounting assistant membership.
-        if BuildingMembership.objects.filter(
-            building=self.building,
-            membership_type=MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT,
+        if (
+            BuildingMembership.objects.filter(
+                building=self.building,
+                membership_type=MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT,
+            ) and
+            value == MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
         ):
             raise forms.ValidationError(
                 _('Solo puede existir una membresía'
@@ -604,9 +612,12 @@ class MembershipForm(forms.ModelForm):
             )
 
         # Each condo can have only one user with fiscal reviewer membership.
-        if BuildingMembership.objects.filter(
-            building=self.building,
-            membership_type=MEMBERSHIP_TYPE_FISCAL_REVIEWER,
+        if (
+            BuildingMembership.objects.filter(
+                building=self.building,
+                membership_type=MEMBERSHIP_TYPE_FISCAL_REVIEWER,
+            ) and
+            value == MEMBERSHIP_TYPE_FISCAL_REVIEWER
         ):
             raise forms.ValidationError(
                 _('Solo puede existir una membresía de revisor fiscal '
