@@ -312,6 +312,23 @@ class Unit(models.Model):
         ordering = ('block', 'unit')
 
 
+class UnitDataUpdate(models.Model):
+    """
+    This model is used to manage permissions on data
+    update functionalities per each registered unit.
+    """
+    unit = models.OneToOneField(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    enable_owners_update = models.BooleanField(
+        verbose_name=_('habilitar actualización de propietarios'),
+        default=False,
+    )
+
+
 class Owner(models.Model):
     """
     This model represents a unit owner. At least one

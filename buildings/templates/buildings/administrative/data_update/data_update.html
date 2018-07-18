@@ -19,11 +19,18 @@
 
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-owners" role="tabpanel">
+      <form method="post">
+          {{ owner_update_formset.management_form }}
+          <table>
+              {% for form in owner_update_formset %}
+              {{ form }}
+              {% endfor %}
+          </table>
+      </form>
     </div>
 
     <div class="tab-pane fade" id="nav-leaseholders" role="tabpanel">
     </div>
   </div>
-
 </div>
 {% endblock %}

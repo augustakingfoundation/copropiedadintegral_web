@@ -625,3 +625,15 @@ class MembershipForm(forms.ModelForm):
             )
 
         return value
+
+
+class ConfirmOwnerUpdateForm(forms.Form):
+    """Form used to confirm if unit owners must be
+    considered for data update.
+    """
+    unit_id = forms.IntegerField()
+
+    update = forms.BooleanField(
+        required=False,
+        initial=True,
+    )
