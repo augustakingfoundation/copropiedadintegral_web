@@ -38,7 +38,7 @@
           {% get_can_delete_membership user membership as can_delete_membership %}
 
           {% if can_delete_membership %}
-            <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+            <a href="{% url 'buildings:membership_delete' membership.building.id membership.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
           {% endif %}
         </td>
       </tr>

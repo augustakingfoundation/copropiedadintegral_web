@@ -31,6 +31,7 @@ from buildings.views.visitors import VisitorUpdateView
 from buildings.views.roles import MembershipListView
 from buildings.views.roles import MembershipFormView
 from buildings.views.roles import MembershipUpdateView
+from buildings.views.roles import MembershipDeleteView
 
 
 urlpatterns = [
@@ -286,5 +287,13 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/roles/(?P<m_pk>\d+)/$',
         MembershipUpdateView.as_view(),
         name='membership_update',
+    ),
+
+    # b_pk = Building id.
+    # m_pk = Membership id.
+    url(
+        r'^(?P<b_pk>\d+)/membresías/(?P<m_pk>\d+)/eliminar/$',
+        MembershipDeleteView.as_view(),
+        name='membership_delete',
     ),
 ]

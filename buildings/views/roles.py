@@ -8,6 +8,7 @@ from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
+from django.views.generic import DeleteView
 from django.urls import reverse
 
 from app.mixins import CustomUserMixin
@@ -130,7 +131,7 @@ class MembershipFormView(CustomUserMixin, CreateView):
 
 class MembershipUpdateView(CustomUserMixin, UpdateView):
     """
-    Form view to update information about an authorized visitor.
+    
     """
     model = BuildingMembership
     form_class = MembershipForm
@@ -184,3 +185,49 @@ class MembershipUpdateView(CustomUserMixin, UpdateView):
         )
 
         return super().form_valid(form)
+
+
+class MembershipDeleteView(CustomUserMixin, DeleteView):
+    """
+
+    """
+    model = BuildingMembership
+    template_name = 'buildings/administrative/roles/membership_delete_confirm.html'
+
+    def test_func(self):
+        return RolesPermissions.can_edit_membership(
+            user=self.request.user,
+            membership=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            BuildingMembership,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['m_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to roles module detail.
+        return reverse(
+            'buildings:memberships_list',
+            args=[self.kwargs['b_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
+        context['active_roles'] = True
+        context['membership_update'] = True
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Membresía eliminada exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)
