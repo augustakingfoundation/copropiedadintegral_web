@@ -77,6 +77,7 @@ class MembershipFormView(CustomUserMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         kwargs['building'] = self.get_object()
+        kwargs['update'] = False
 
         return kwargs
 
@@ -131,7 +132,9 @@ class MembershipFormView(CustomUserMixin, CreateView):
 
 class MembershipUpdateView(CustomUserMixin, UpdateView):
     """
-    
+    Membership update view. Only administrators can manage
+    memberships and the RolesPermissions.can_edit_membership
+    function defines the main rules to access this view.
     """
     model = BuildingMembership
     form_class = MembershipForm
@@ -189,7 +192,9 @@ class MembershipUpdateView(CustomUserMixin, UpdateView):
 
 class MembershipDeleteView(CustomUserMixin, DeleteView):
     """
-
+    Memberhips delete view. Users are redirected to a view
+    in which they will be asked about confirmation for
+    delete a membership definitely.
     """
     model = BuildingMembership
     template_name = 'buildings/administrative/roles/membership_delete_confirm.html'
