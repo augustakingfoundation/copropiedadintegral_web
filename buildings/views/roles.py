@@ -7,11 +7,14 @@ from django.template.loader import render_to_string
 from django.db import transaction
 from django.shortcuts import redirect
 from django.views.generic import CreateView
+from django.views.generic import UpdateView
+from django.views.generic import DeleteView
+from django.urls import reverse
 
 from app.mixins import CustomUserMixin
 from buildings.models import Building
 from buildings.models import BuildingMembership
-from buildings.permissions import BuildingPermissions
+from buildings.permissions import RolesPermissions
 from buildings.forms import MembershipForm
 from buildings.forms import UserSearchForm
 from app.tasks import send_email
@@ -27,7 +30,7 @@ class MembershipListView(CustomUserMixin, ListView):
     context_object_name = 'memberships_list'
 
     def test_func(self):
-        return BuildingPermissions.can_manage_roles(
+        return RolesPermissions.can_manage_roles(
             user=self.request.user,
             building=self.get_object(),
         )
@@ -60,7 +63,7 @@ class MembershipFormView(CustomUserMixin, CreateView):
     template_name = 'buildings/administrative/roles/membership_form.html'
 
     def test_func(self):
-        return BuildingPermissions.can_manage_roles(
+        return RolesPermissions.can_manage_roles(
             user=self.request.user,
             building=self.get_object(),
         )
@@ -124,3 +127,107 @@ class MembershipFormView(CustomUserMixin, CreateView):
             'buildings:memberships_list',
             self.get_object().id,
         )
+
+
+class MembershipUpdateView(CustomUserMixin, UpdateView):
+    """
+    
+    """
+    model = BuildingMembership
+    form_class = MembershipForm
+    template_name = 'buildings/administrative/roles/membership_form.html'
+
+    def test_func(self):
+        return RolesPermissions.can_edit_membership(
+            user=self.request.user,
+            membership=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            BuildingMembership,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['m_pk'],
+        )
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['building'] = self.get_object().building
+        kwargs['update'] = True
+
+        return kwargs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
+        context['active_roles'] = True
+        context['membership_update'] = True
+
+        return context
+
+    def get_success_url(self):
+        # Reverse to unit detail.
+        return reverse(
+            'buildings:memberships_list',
+            args=[self.kwargs['b_pk']]
+        )
+
+    @transaction.atomic
+    def form_valid(self, form):
+        # Update visitor object.
+        form.save()
+
+        messages.success(
+            self.request,
+            _('Membresía actualizada exitosamente.'),
+        )
+
+        return super().form_valid(form)
+
+
+class MembershipDeleteView(CustomUserMixin, DeleteView):
+    """
+
+    """
+    model = BuildingMembership
+    template_name = 'buildings/administrative/roles/membership_delete_confirm.html'
+
+    def test_func(self):
+        return RolesPermissions.can_edit_membership(
+            user=self.request.user,
+            membership=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            BuildingMembership,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['m_pk'],
+        )
+
+    def get_success_url(self):
+        # Reverse to roles module detail.
+        return reverse(
+            'buildings:memberships_list',
+            args=[self.kwargs['b_pk']]
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
+        context['active_roles'] = True
+        context['membership_update'] = True
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Membresía eliminada exitosamente.')
+        )
+
+        return super().delete(request, *args, **kwargs)

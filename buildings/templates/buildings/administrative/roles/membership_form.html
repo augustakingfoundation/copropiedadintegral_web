@@ -7,6 +7,11 @@
 {% block building_section %}
 <div class="jumbotron">
 
+  {% if membership_update %}
+  <p class="h3">{{ object.user.get_full_name }} - {{ object.get_membership_type_display }}.</p>
+  <hr>
+  <p>{% trans 'Cambiar rol.' %}</p>
+  {% else %}
   <form method="post" id="id_search_user_form" data-search-user-url="{% url 'accounts:ax_search_user' %}">
     {% csrf_token %}
     <div class="row">
@@ -38,7 +43,7 @@
     <div class="card-body">
       <div class="alert alert-warning" role="alert">{% trans 'Correo electrónico no registrado.' %}</div>
 
-      <p>{% trans 'La dirección de correo electrónico' %} <span class="jsNotFoundUserName"></span> {% trans 'no se encuentra registrada o la cuenta no está activa en la plataforma. Puede enviarle una invicatión a esta dirección de correo electrónico para crear una cuenta en la plataforma.' %}</p>
+      <p>{% trans 'La dirección de correo electrónico' %} <span class="jsNotFoundUserName"></span> {% trans 'no se encuentra registrada o la cuenta no está activa en la plataforma. Puede enviarle una invitación a esta dirección de correo electrónico para crear una cuenta en la plataforma.' %}</p>
 
       <button type="submit" id="id_send_email_invitation" class="btn btn-outline-info float-right" data-email="" data-send-email-invitation-url="{% url 'accounts:ax_send_invitation_email' %}">{% trans "Enviar invitación" %}</button>
 
@@ -46,6 +51,7 @@
       </div>
     </div>
   </div>
+  {% endif %}
 
   <form method="post">
   {% csrf_token %}
@@ -55,7 +61,7 @@
       </div>
   {% endif %}
 
-      <div class="form-group d-none">
+      <div class="form-group">
           {% render_field form.user class+="form-control" %}
           <p class="font-weight-light">{{ form.user.help_text }}</p>
       </div>
@@ -65,7 +71,7 @@
           {{ form.membership_type.errors }}
       </div>
 
-      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Crear membresía" %}</button>
+      <button type="submit" class="btn btn-outline-info btn-block">{% if membership_update %}Actualizar{% else %}{% trans "Crear membresía" %}{% endif %}</button>
   </form>
 </div>
 {% endblock %}

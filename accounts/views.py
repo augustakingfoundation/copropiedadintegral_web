@@ -213,8 +213,7 @@ class AjaxSendEmailInvitation(LoginRequiredMixin, View):
 
         # Send notification email about new membership
         # to the user.
-        subject = _('Se ha creado una nueva membresía en una copropiedad '
-                    ' para usted.')
+        subject = _('Invitación para crear cuenta.')
 
         body = render_to_string(
             'accounts/signup/email_invitation.html', {

@@ -1,6 +1,6 @@
 {% extends "layout/base.html" %}
 
-{% load i18n %}
+{% load i18n roles_tags %}
 
 {% block content %}
 <section class="buildingBase">
@@ -36,7 +36,11 @@
         <a class="nav-link {% if active_units %}active{% endif %}" href="{% url 'buildings:units_list' building.id %}">{% trans "Unidades" %}</a>
         <a class="nav-link" href="">{% trans "Circulares" %}</a>
         <a class="nav-link" href="">{% trans "Encuestas" %}</a>
+
+        {% get_can_manage_roles user building as can_manage_roles %}
+        {% if can_manage_roles %}
         <a class="nav-link {% if active_roles %}active{% endif %}" href="{% url 'buildings:memberships_list' building.id %}">{% trans "Roles" %}</a>
+        {% endif %}
       </div>
     </div>
 
