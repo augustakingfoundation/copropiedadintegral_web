@@ -34,8 +34,12 @@
           {% if can_edit_membership %}
             <a href="{% url 'buildings:membership_update' membership.building.id membership.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>
           {% endif %}
-            <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
 
+          {% get_can_delete_membership user membership as can_delete_membership %}
+
+          {% if can_delete_membership %}
+            <a href="" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+          {% endif %}
         </td>
       </tr>
       {% endfor %}

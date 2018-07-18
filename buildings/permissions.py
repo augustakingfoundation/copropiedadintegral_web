@@ -134,3 +134,38 @@ class RolesPermissions(object):
         # Only main administrator can edit his own membership.
         if membership.building.created_by == membership.user:
             return False
+
+        return False
+
+    @classmethod
+    def can_delete_membership(self, user, membership):
+        # Validate that authenticated user has administrator membership.
+        if not BuildingMembership.objects.filter(
+            membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
+            user=user,
+            building=membership.building,
+            user__is_active=True,
+            user__is_verified=True,
+            is_active=True,
+        ):
+            return False
+
+        # Main administrator membership can not be deleted.
+        if membership.building.created_by == membership.user:
+            return False
+
+        # Main membership can delete all membership types.
+        if user == membership.building.created_by:
+            return True
+
+        # Common administrators can delete their own membership.
+        if user == membership.user:
+            return True
+
+        # Common administrators can delete all membership types,
+        # excpet administrators memberships, only main administrator
+        # can.
+        if membership.membership_type != MEMBERSHIP_TYPE_ADMINISTRATOR:
+            return True
+
+        return False
