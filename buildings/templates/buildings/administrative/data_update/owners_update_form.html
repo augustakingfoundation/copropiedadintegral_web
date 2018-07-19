@@ -1,0 +1,28 @@
+{% extends "layout/base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{% trans "Actualización de datos" %}{% endblock title %}
+
+{% block content %}
+<section class="owner_data_update">
+  <div class="container">
+    <div class="col-md-8 offset-md-2">
+      <div class="jumbotron">
+        <h2>Copropiedad Integral</h2>
+        <hr>
+        <p>{% trans 'Actualización de datos de propietarios.' %}</p>
+        <hr>
+        <dl class="row">
+            <dt class="col-sm-3">{% trans "Copropiedad:" %}</dt>
+            <dd class="col-sm-9">{{ unit_data.unit.building.name }}</dd>
+
+            <dt class="col-sm-3">{% trans "Unidad" %}</dt>
+            <dd class="col-sm-9">{{ unit_data }}</dd>
+        </dl>
+        <hr>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

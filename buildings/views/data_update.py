@@ -85,12 +85,10 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
                 # will be sent to the unit registered owners.
                 update = form.cleaned_data['update']
 
-                if update:
+                if update and unit_data_object.unit.owner_has_email:
+                    # Owners update form must be available.
                     unit_data_object.enable_owners_update = True
                     unit_data_object.save()
-
-            else:
-                print(form.errors)
 
         messages.success(
             self.request,
@@ -102,3 +100,25 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
             'buildings:data_update_view',
             self.get_object().id,
         )
+
+
+class OwnersUpdateForm(TemplateView):
+    """
+    Owners update form. This form will be available only if
+    administrators have enabled the update post by requesting
+    owners data update.
+    """
+    template_name = 'buildings/administrative/data_update/owners_update_form.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_owners_update=True,
+            pk=self.kwargs['pk'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit_data'] = self.get_object()
+
+        return context
