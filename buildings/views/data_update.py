@@ -8,8 +8,10 @@ from django.db import transaction
 
 from app.mixins import CustomUserMixin
 from buildings.forms import ConfirmOwnerUpdateFormSet
+from buildings.forms import OwnerUpdateFormSet
 from buildings.models import Building
 from buildings.models import UnitDataUpdate
+from buildings.models import Owner
 from buildings.permissions import BuildingPermissions
 
 
@@ -38,14 +40,12 @@ class DataUpdateView(CustomUserMixin, TemplateView):
         context['building'] = self.get_object()
         context['active_units'] = True
 
-        owner_update_formset = ConfirmOwnerUpdateFormSet(
+        context['confirm_owner_update_formset'] = ConfirmOwnerUpdateFormSet(
             prefix='owner_update',
             queryset=UnitDataUpdate.objects.filter(
                 unit__building=self.get_object(),
             ),
         )
-
-        context['owner_update_formset'] = owner_update_formset
 
         return context
 
@@ -120,5 +120,46 @@ class OwnersUpdateForm(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['unit_data'] = self.get_object()
-
         return context
+
+    def get(self, *args, **kwargs):
+        # Owners formset.
+        owner_update_formset = OwnerUpdateFormSet(
+            queryset=Owner.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(owner_update_formset=owner_update_formset)
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        # Emergency contacts formset.
+        owner_update_formset = OwnerUpdateFormSet(
+            self.request.POST,
+            queryset=Owner.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        # Resident and emergency contact form validation.
+        if not owner_update_formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(
+                    owner_update_formset=owner_update_formset,
+                )
+            )
+
+        for form in owner_update_formset:
+            if form.is_valid():
+                # Update owner object.
+                form.save()
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar sus datos.')
+        )
+
+        return redirect('home')

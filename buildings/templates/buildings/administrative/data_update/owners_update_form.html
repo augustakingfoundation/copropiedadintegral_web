@@ -21,6 +21,59 @@
             <dd class="col-sm-9">{{ unit_data }}</dd>
         </dl>
         <hr>
+
+      <form method="post">
+          {% csrf_token %}
+
+          {{ owner_update_formset.management_form }}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Propietario" %}</th>
+                  <th scope="col">{% trans "Información de contacto" %}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for owner_form_update in owner_update_formset %}
+                {% render_field owner_form_update.id %}
+                <tr>
+                  <td>
+                    <strong>{{ owner_form_update.instance.name }} {{ owner_form_update.instance.last_name }}</strong>
+                  </td>
+
+                  <td>
+                    <div class="form-group">
+                      {% render_field owner_form_update.mobile_phone.label %}
+                      {% render_field owner_form_update.mobile_phone class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field owner_form_update.phone_number.label %}
+                      {% render_field owner_form_update.phone_number class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field owner_form_update.correspondence_address.label %}
+                      {% render_field owner_form_update.correspondence_address class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field owner_form_update.email.label %}
+                      {% render_field owner_form_update.email class+="form-control" %}
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario.' %}</p>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+      </form>
       </div>
     </div>
   </div>

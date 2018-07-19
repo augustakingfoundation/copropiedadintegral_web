@@ -100,7 +100,7 @@ class BuildingForm(forms.ModelForm):
 
 class OwnerForm(forms.ModelForm):
     """
-    Unit owner form. It's user to define the
+    Unit owner form. It's used to define the
     OwnerFormSet structure.
     """
     class Meta:
@@ -153,7 +153,7 @@ OwnerFormSet = modelformset_factory(
 
 class LeaseholderForm(forms.ModelForm):
     """
-    Unit leaseholder form. It's user to define the
+    Unit leaseholder form. It's used to define the
     Leaseholder FormSet structure.
     """
     class Meta:
@@ -648,6 +648,32 @@ class ConfirmOwnerUpdateForm(forms.ModelForm):
 ConfirmOwnerUpdateFormSet = modelformset_factory(
     UnitDataUpdate,
     form=ConfirmOwnerUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
+class OwnerUpdateForm(forms.ModelForm):
+    """
+    Unit owner update form. It's used to define the
+    OwnerUpdateFormSet structure, available for update
+    owners data directly from a non-authenticated user.
+    """
+    class Meta:
+        model = Owner
+        fields = (
+            'mobile_phone',
+            'phone_number',
+            'correspondence_address',
+            'email',
+        )
+
+
+OwnerUpdateFormSet = modelformset_factory(
+    Owner,
+    form=OwnerUpdateForm,
     extra=0,
     min_num=0,
     validate_min=False,

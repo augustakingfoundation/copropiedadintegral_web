@@ -3,8 +3,6 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
-from django.views.generic import CreateView
-from django.views.generic import UpdateView
 from django.views.generic import DetailView
 from django.views.generic import TemplateView
 from django.views.generic.edit import DeleteView
