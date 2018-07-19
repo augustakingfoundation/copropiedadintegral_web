@@ -20,7 +20,7 @@
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-owners" role="tabpanel">
 
-      <div class="alert alert-info" role="alert">{% trans 'Se enviará un correo electrónico a los propietarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
+      <div class="alert alert-info text-center" role="alert">{% trans 'Se enviará un correo electrónico a los propietarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
       <form method="post" action="{% url 'buildings:request_owners_update_view' building.id %}">
           {% csrf_token %}
 
@@ -44,6 +44,8 @@
                   <td>
                     {% if owner_form_update.instance.enable_owners_update %}
                     <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
+                    {% elif not owner_form_update.instance.unit.owner_has_email %}
+                    <p>{% trans 'Los propietarios no tienen una cuenta de correo electrónico registrada' %}</p>
                     {% else %}
                     {% render_field owner_form_update.update %}
                     {% endif %}

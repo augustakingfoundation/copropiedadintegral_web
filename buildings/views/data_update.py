@@ -78,20 +78,12 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
         )
 
         for form in owner_update_formset:
-            print("RNTRA")
             if form.is_valid():
-                print("IS VALID")
                 unit_data_object = form.save(commit=False)
 
                 # Get request value. If True, an email
                 # will be sent to the unit registered owners.
                 update = form.cleaned_data['update']
-
-                print("unit_data_object")
-                print(unit_data_object)
-
-                print("update")
-                print(update)
 
                 if update:
                     unit_data_object.enable_owners_update = True

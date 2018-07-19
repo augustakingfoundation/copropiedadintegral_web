@@ -292,6 +292,17 @@ class Unit(models.Model):
         auto_now_add=True,
     )
 
+    @property
+    def owner_has_email(self):
+        has_email = False
+        for owner in self.owner_set.all():
+            print("owner")
+            print(owner)
+            if owner.email:
+                has_email = True
+
+        return has_email
+
     def get_absolute_url(self):
         return reverse(
             'buildings:unit_detail', args=[self.building.id, self.id]
