@@ -121,15 +121,15 @@ class RolesPermissions(object):
         ):
             return False
 
+        # users can't edit their own membership.
+        if membership.user == user:
+            return False
+
         # Return True if authenticated user is main administrator.
         # The creator of the building (condo) object is by default
         # the main administrator and has all permission.
         if membership.building.created_by == user:
             return True
-
-        # users can't edit their own membership.
-        if membership.user == user:
-            return False
 
         # Only main administrator can edit his own membership.
         if membership.building.created_by == membership.user:
