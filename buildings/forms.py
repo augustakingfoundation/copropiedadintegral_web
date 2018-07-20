@@ -577,10 +577,13 @@ class MembershipForm(forms.ModelForm):
 
         # Each condo can have a maximun of two users with
         # administrator memberships.
-        if BuildingMembership.objects.filter(
-            building=self.building,
-            membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
-        ).count() >= 3:
+        if (
+            BuildingMembership.objects.filter(
+                building=self.building,
+                membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
+            ).count() >= 3 and
+            value == MEMBERSHIP_TYPE_ADMINISTRATOR
+        ):
             raise forms.ValidationError(
                 _('El máximo número de membresías de administradores '
                   'por copropiedad es de 3.')
