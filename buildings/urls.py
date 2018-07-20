@@ -302,21 +302,21 @@ urlpatterns = [
 
     # pk = Building id.
     url(
-        r'^(?P<pk>\d+)/actualización-de-datos/$',
+        r'^(?P<pk>\d+)/actualizacion-de-datos/$',
         DataUpdateView.as_view(),
         name='data_update_view',
     ),
 
     # pk = Building id.
     url(
-        r'^(?P<pk>\d+)/actualización-de-datos/propietarios/solicitar/$',
+        r'^(?P<pk>\d+)/actualizacion-de-datos/propietarios/solicitar/$',
         RequestOwnersUpdateView.as_view(),
         name='request_owners_update_view',
     ),
 
     # pk = Unit update object id.
     url(
-        r'^(?P<pk>\d+)/actualización-de-datos/propietarios/formulario/$',
+        r'^(?P<pk>\d+)/actualizacion-de-datos/propietarios/formulario/$',
         OwnersUpdateForm.as_view(),
         name='owners_update_form',
     ),

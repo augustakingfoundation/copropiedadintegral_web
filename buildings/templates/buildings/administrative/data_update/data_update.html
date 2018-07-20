@@ -21,7 +21,7 @@
     <div class="tab-pane fade show active" id="nav-owners" role="tabpanel">
 
       <div class="alert alert-info text-center" role="alert">{% trans 'Se enviará un correo electrónico a los propietarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
-      <form method="post" action="">
+      <form method="post" action="{% url 'buildings:request_owners_update_view' building.id %}">
           {% csrf_token %}
 
           {{ confirm_owner_update_formset.management_form }}

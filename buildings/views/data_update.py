@@ -1,10 +1,13 @@
 from django.contrib import messages
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from django.utils.translation import ugettext as _
 from django.views.generic import View
 from django.shortcuts import redirect
 from django.db import transaction
+from django.template.loader import render_to_string
+from django.urls import reverse
 
 from app.mixins import CustomUserMixin
 from buildings.forms import ConfirmOwnerUpdateFormSet
@@ -13,6 +16,7 @@ from buildings.models import Building
 from buildings.models import UnitDataUpdate
 from buildings.models import Owner
 from buildings.permissions import BuildingPermissions
+from app.tasks import send_email
 
 
 class DataUpdateView(CustomUserMixin, TemplateView):
@@ -90,6 +94,36 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
                     unit_data_object.enable_owners_update = True
                     unit_data_object.save()
 
+                    unit = unit_data_object.unit
+
+                    # Filter owners by email value. Only send
+                    # email if owners have a registered email.
+                    for owner in unit.owner_set.exclude(
+                        email__isnull=True,
+                    ).exclude(email__exact=''):
+                        # Send email.
+                        subject = _('Actualizacón de datos de propietarios')
+
+                        update_url = reverse(
+                            'buildings:owners_update_form',
+                            args=[unit_data_object.id],
+                        )
+
+                        body = render_to_string(
+                            'buildings/administrative/data_update/owners_update_email.html', {
+                                'title': subject,
+                                'unit_data_object': unit_data_object,
+                                'update_url': update_url,
+                                'base_url': settings.BASE_URL,
+                            },
+                        )
+
+                        send_email(
+                            subject=subject,
+                            body=body,
+                            mail_to=[owner.email],
+                        )
+
         messages.success(
             self.request,
             _('Se ha solicitado la actualización de datos a'
@@ -136,11 +170,12 @@ class OwnersUpdateForm(TemplateView):
 
     @transaction.atomic
     def post(self, *args, **kwargs):
+        unit_data_object = self.get_object()
         # Emergency contacts formset.
         owner_update_formset = OwnerUpdateFormSet(
             self.request.POST,
             queryset=Owner.objects.filter(
-                unit=self.get_object().unit,
+                unit=unit_data_object.unit,
             ),
         )
 
@@ -151,6 +186,10 @@ class OwnersUpdateForm(TemplateView):
                     owner_update_formset=owner_update_formset,
                 )
             )
+
+        # Disable update owners data formset.
+        unit_data_object.enable_owners_update = False
+        unit_data_object.save()
 
         for form in owner_update_formset:
             if form.is_valid():

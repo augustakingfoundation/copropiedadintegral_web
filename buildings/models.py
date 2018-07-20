@@ -296,8 +296,6 @@ class Unit(models.Model):
     def owner_has_email(self):
         has_email = False
         for owner in self.owner_set.all():
-            print("owner")
-            print(owner)
             if owner.email:
                 has_email = True
 
