@@ -32,6 +32,9 @@ from buildings.views.roles import MembershipListView
 from buildings.views.roles import MembershipFormView
 from buildings.views.roles import MembershipUpdateView
 from buildings.views.roles import MembershipDeleteView
+from buildings.views.data_update import DataUpdateView
+from buildings.views.data_update import RequestOwnersUpdateView
+from buildings.views.data_update import OwnersUpdateForm
 
 
 urlpatterns = [
@@ -295,5 +298,26 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/membresías/(?P<m_pk>\d+)/eliminar/$',
         MembershipDeleteView.as_view(),
         name='membership_delete',
+    ),
+
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/actualizacion-de-datos/$',
+        DataUpdateView.as_view(),
+        name='data_update_view',
+    ),
+
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/actualizacion-de-datos/propietarios/solicitar/$',
+        RequestOwnersUpdateView.as_view(),
+        name='request_owners_update_view',
+    ),
+
+    # pk = Unit update object id.
+    url(
+        r'^(?P<pk>\d+)/actualizacion-de-datos/propietarios/formulario/$',
+        OwnersUpdateForm.as_view(),
+        name='owners_update_form',
     ),
 ]

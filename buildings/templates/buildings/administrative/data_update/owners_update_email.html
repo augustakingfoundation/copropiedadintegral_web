@@ -1,0 +1,20 @@
+{% extends 'layout/email_base.html' %}
+
+{% load i18n %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Actualización de datos de propietarios." %}</h1>
+
+<p>{% trans "Cordial saludo." %}</p>
+
+<p>{% trans 'Se ha solicitado la actualización de sus datos por parte de la administración de' %} <strong>{{ unit_data_object.unit.building }}</strong>. {% trans 'Por favor, siga el siguiente enlace para actualizar sus datos.' %}</p>
+
+<p><strong>{% trans 'Copropiedad:' %}</strong> {{ unit_data_object.unit.building }}</p>
+<p><strong>{% trans 'Unidad:' %}</strong> {{ unit_data_object }}</p>
+
+<a href="{{ base_url }}{{ update_url }}">{{ base_url }}{{ update_url }}</a>
+
+<p>{% trans 'Este link dejará de estar disponible una vez haya hecho la actualización de datos.' %}</p>
+{% endblock %}

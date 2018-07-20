@@ -292,6 +292,15 @@ class Unit(models.Model):
         auto_now_add=True,
     )
 
+    @property
+    def owner_has_email(self):
+        has_email = False
+        for owner in self.owner_set.all():
+            if owner.email:
+                has_email = True
+
+        return has_email
+
     def get_absolute_url(self):
         return reverse(
             'buildings:unit_detail', args=[self.building.id, self.id]
@@ -310,6 +319,37 @@ class Unit(models.Model):
         verbose_name = _('unidad')
         verbose_name_plural = _('unidades')
         ordering = ('block', 'unit')
+
+
+class UnitDataUpdate(models.Model):
+    """
+    This model is used to manage permissions on data
+    update functionalities per each registered unit.
+    """
+    unit = models.OneToOneField(
+        'buildings.Unit',
+        on_delete=models.CASCADE,
+        verbose_name=_('unidad'),
+    )
+
+    enable_owners_update = models.BooleanField(
+        verbose_name=_('habilitar actualización de propietarios'),
+        default=False,
+    )
+
+    def __str__(self):
+        if self.unit.block:
+            return 'Bloque {0} - Unidad {1}'.format(
+                self.unit.block,
+                self.unit.unit,
+            )
+
+        return '{0}'.format(self.unit)
+
+    class Meta:
+        verbose_name = _('Información de actualización unidad')
+        verbose_name_plural = _('Información de actualización unidades')
+        ordering = ('unit',)
 
 
 class Owner(models.Model):

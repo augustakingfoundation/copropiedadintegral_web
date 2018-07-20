@@ -7,11 +7,11 @@ from django.utils.translation import gettext_lazy as _
 from buildings.data import BUILDING_DOCUMENT_TYPE_CC
 from buildings.data import BUILDING_DOCUMENT_TYPE_NIT
 from buildings.data import MEMBERSHIP_TYPE_ACCOUNTANT
+from buildings.data import MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
 from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATOR
 from buildings.data import MEMBERSHIP_TYPE_FISCAL_REVIEWER
 from buildings.data import VEHICLE_TYPE_CAR
 from buildings.data import VEHICLE_TYPE_MOTORCYCLE
-from buildings.data import MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
 from buildings.models import Building
 from buildings.models import BuildingMembership
 from buildings.models import DomesticWorker
@@ -22,6 +22,7 @@ from buildings.models import ParkingLot
 from buildings.models import Pet
 from buildings.models import Resident
 from buildings.models import Unit
+from buildings.models import UnitDataUpdate
 from buildings.models import Vehicle
 from buildings.models import Visitor
 
@@ -99,7 +100,7 @@ class BuildingForm(forms.ModelForm):
 
 class OwnerForm(forms.ModelForm):
     """
-    Unit owner form. It's user to define the
+    Unit owner form. It's used to define the
     OwnerFormSet structure.
     """
     class Meta:
@@ -152,7 +153,7 @@ OwnerFormSet = modelformset_factory(
 
 class LeaseholderForm(forms.ModelForm):
     """
-    Unit leaseholder form. It's user to define the
+    Unit leaseholder form. It's used to define the
     Leaseholder FormSet structure.
     """
     class Meta:
@@ -625,3 +626,56 @@ class MembershipForm(forms.ModelForm):
             )
 
         return value
+
+
+class ConfirmOwnerUpdateForm(forms.ModelForm):
+    """Form used to confirm if unit owners must be
+    considered for data update.
+    """
+    update = forms.BooleanField(
+        required=False,
+        initial=True,
+    )
+
+    class Meta:
+        model = Owner
+        fields = (
+            'unit',
+            'update',
+        )
+
+
+ConfirmOwnerUpdateFormSet = modelformset_factory(
+    UnitDataUpdate,
+    form=ConfirmOwnerUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
+class OwnerUpdateForm(forms.ModelForm):
+    """
+    Unit owner update form. It's used to define the
+    OwnerUpdateFormSet structure, available for update
+    owners data directly from a non-authenticated user.
+    """
+    class Meta:
+        model = Owner
+        fields = (
+            'mobile_phone',
+            'phone_number',
+            'correspondence_address',
+            'email',
+        )
+
+
+OwnerUpdateFormSet = modelformset_factory(
+    Owner,
+    form=OwnerUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)

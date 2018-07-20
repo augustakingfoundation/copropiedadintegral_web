@@ -17,6 +17,7 @@ from buildings.models import Building
 from buildings.models import Leaseholder
 from buildings.models import Owner
 from buildings.models import Unit
+from buildings.models import UnitDataUpdate
 from buildings.permissions import BuildingPermissions
 from buildings.utils import process_unit_formset
 from buildings.utils import validate_is_main_formset
@@ -56,6 +57,11 @@ class UnitsListView(CustomUserMixin, ListView):
         )
 
         context['can_view_unit_detail'] = BuildingPermissions.can_view_unit_detail(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+        context['can_view_update_menu'] = BuildingPermissions.can_edit_building(
             user=self.request.user,
             building=self.get_object(),
         )
@@ -187,6 +193,8 @@ class UnitFormView(CustomUserMixin, TemplateView):
         unit = form.save(commit=False)
         unit.building = self.get_object()
         unit.save()
+
+        UnitDataUpdate.objects.create(unit=unit)
 
         # Create Owner instances.
         process_unit_formset(owner_formset, unit)

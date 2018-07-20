@@ -1,0 +1,69 @@
+{% extends "buildings/building_base.html" %}
+
+{% load widget_tweaks i18n %}
+
+{% block title %}Actualización de datos - {{ building }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h3 class="text-center">{% trans 'Actualización de datos' %}</h3>
+  <br>
+
+  <nav>
+    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+      <a class="nav-item nav-link active" data-toggle="tab" href="#nav-owners" role="tab" aria-controls="nav-owners" aria-selected="true">{% trans 'Propietarios' %}</a>
+
+      <a class="nav-item nav-link" data-toggle="tab" href="#nav-leaseholders" role="tab" aria-controls="nav-leaseholders" aria-selected="false">{% trans 'Arrendatarios' %}</a>
+    </div>
+  </nav>
+
+  <div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-owners" role="tabpanel">
+
+      <div class="alert alert-info text-center" role="alert">{% trans 'Se enviará un correo electrónico a los propietarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
+      <form method="post" action="{% url 'buildings:request_owners_update_view' building.id %}">
+          {% csrf_token %}
+
+          {{ confirm_owner_update_formset.management_form }}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Unidad" %}</th>
+                  <th scope="col">{% trans "Solicitar actualización" %}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for owner_form_update in confirm_owner_update_formset %}
+                {% render_field owner_form_update.id %}
+                <tr>
+                  <td>
+                    {{ owner_form_update.instance }}
+                    <div class="d-none">{% render_field owner_form_update.unit %}</div>
+                  </td>
+
+                  <td>
+                    {% if owner_form_update.instance.enable_owners_update %}
+                    <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
+                    {% elif not owner_form_update.instance.unit.owner_has_email %}
+                    <p>{% trans 'Los propietarios no tienen una cuenta de correo electrónico registrada' %}</p>
+                    {% else %}
+                    {% render_field owner_form_update.update %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Solicitar actualización" %}</button>
+      </form>
+    </div>
+
+    <div class="tab-pane fade" id="nav-leaseholders" role="tabpanel">
+    </div>
+  </div>
+</div>
+{% endblock %}
