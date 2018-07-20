@@ -996,7 +996,7 @@ msgid ""
 "administración de"
 msgstr ""
 "The updating of your data has been requested by the "
-""administration of 
+"administration of "
 
 #: buildings/templates/buildings/administrative/data_update/owners_update_email.html:12
 msgid "Por favor, siga el siguiente enlace para actualizar sus datos."
