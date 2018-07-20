@@ -131,9 +131,14 @@ class RolesPermissions(object):
         if membership.building.created_by == user:
             return True
 
-        # Only main administrator can edit his own membership.
         if membership.building.created_by == membership.user:
             return False
+
+        # Common administrators can edit all membership types,
+        # excpet administrators memberships, only main administrator
+        # can.
+        if membership.membership_type != MEMBERSHIP_TYPE_ADMINISTRATOR:
+            return True
 
         return False
 
