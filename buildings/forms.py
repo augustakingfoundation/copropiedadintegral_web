@@ -4,6 +4,7 @@ from django import forms
 from django.forms import modelformset_factory
 from django.utils.translation import gettext_lazy as _
 
+from buildings.data import MEMBERSHIP_TYPE_CHOICES
 from buildings.data import BUILDING_DOCUMENT_TYPE_CC
 from buildings.data import BUILDING_DOCUMENT_TYPE_NIT
 from buildings.data import MEMBERSHIP_TYPE_ACCOUNTANT
@@ -550,8 +551,15 @@ class MembershipForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.building = kwargs.pop('building')
         self.update = kwargs.pop('update')
-
+        self.membership = kwargs.pop('membership')
         super().__init__(*args, **kwargs)
+
+        if self.membership.is_main_administrator:
+            # Add administrator to membership type field
+            # if the user is main administrator.
+            self.fields['membership_type'].choices = \
+                MEMBERSHIP_TYPE_CHOICES + (
+                    (MEMBERSHIP_TYPE_ADMINISTRATOR, _('Administrador')),)
 
     def clean_user(self):
         # Validations for the user field. A user

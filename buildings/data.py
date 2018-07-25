@@ -44,7 +44,6 @@ MEMBERSHIP_TYPE_FISCAL_REVIEWER = 5
 
 MEMBERSHIP_TYPE_CHOICES = (
     ('', _('Tipo de membresía')),
-    (MEMBERSHIP_TYPE_ADMINISTRATOR, _('Administrador')),
     (MEMBERSHIP_TYPE_ADMINISTRATIVE_ASSISTANT, _('Asistente administrativo')),
     (MEMBERSHIP_TYPE_ACCOUNTANT, _('Contador')),
     (MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT, _('Asistente contable')),

@@ -56,7 +56,10 @@ class BuildingMembership(models.Model):
 
     @property
     def is_main_administrator(self):
-        if self.building.created_by == self.user:
+        if (
+            self.building.created_by == self.user and
+            self.membership_type == MEMBERSHIP_TYPE_ADMINISTRATOR
+        ):
             return True
         return False
 

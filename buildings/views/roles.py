@@ -75,8 +75,18 @@ class MembershipFormView(CustomUserMixin, CreateView):
         )
 
     def get_form_kwargs(self):
+        # Get building object.
+        building = self.get_object()
+
+        # Get authenticated membership
+        membership = BuildingMembership.objects.get(
+            user=self.request.user,
+            building=building,
+        )
+
         kwargs = super().get_form_kwargs()
-        kwargs['building'] = self.get_object()
+        kwargs['building'] = building
+        kwargs['membership'] = membership
         kwargs['update'] = False
 
         return kwargs
