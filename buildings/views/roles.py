@@ -9,6 +9,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from django.views.generic import FormView
 from django.urls import reverse
 
 from app.mixins import CustomUserMixin
@@ -17,6 +18,8 @@ from buildings.models import BuildingMembership
 from buildings.permissions import RolesPermissions
 from buildings.forms import MembershipForm
 from buildings.forms import UserSearchForm
+from buildings.forms import membershipTransferForm
+from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATOR
 from app.tasks import send_email
 
 
@@ -246,3 +249,73 @@ class MembershipDeleteView(CustomUserMixin, DeleteView):
         )
 
         return super().delete(request, *args, **kwargs)
+
+
+class MembershipTransferView(CustomUserMixin, FormView):
+    form_class = membershipTransferForm
+    template_name = 'buildings/administrative/roles/membership_transfer.html'
+
+    def test_func(self):
+        return RolesPermissions.can_transfer_membership(
+            user=self.request.user,
+            membership=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        # Get vehicle object.
+        return get_object_or_404(
+            BuildingMembership,
+            building_id=self.kwargs['b_pk'],
+            pk=self.kwargs['m_pk'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object().building
+        # Returned to activate the correct tab in the side bar.
+        context['active_roles'] = True
+        # Membership can be transfered only to active administrator
+        # users. If there are not active adimistrators, the membership
+        # can't be transfered.
+        context['display_transfer_form'] = self.get_administrators_queryset()
+
+        return context
+
+    def get_administrators_queryset(self):
+        # Get membership object.
+        membership = self.get_object()
+        # Get building object.
+        building = membership.building
+
+        return BuildingMembership.objects.filter(
+            building=building,
+            membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
+            user__is_active=True,
+            user__is_verified=True,
+            is_active=True,
+        ).exclude(user__id=membership.user.id)
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['administrators_queryset'] = self.get_administrators_queryset()
+        return kwargs
+
+    @transaction.atomic
+    def form_valid(self, form):
+        # Get user to transfer membership.
+        user_to_membership = form.cleaned_data.get('user_to')
+        # Get building.
+        building = self.get_object().building
+        # Assign new user as main administrator.
+        building.created_by = user_to_membership.user
+        building.save()
+
+        messages.success(
+            self.request,
+            _('Su membresía ha sido transferida exitosamente'),
+        )
+
+        return redirect(
+            'buildings:memberships_list',
+            self.get_object().building.id,
+        )

@@ -1,0 +1,42 @@
+{% extends "buildings/building_base.html" %}
+
+{% load static widget_tweaks i18n %}
+
+{% block title %}{{ building }}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h3>{% trans "Transferir membresía principal" %}</h3>
+  <hr>
+
+  {% trans "Su membresía solo puede ser transferida a usuarios administradores activos en la copropiedad" %} <strong>{{ building.name }}</strong>.
+
+  {% if display_transfer_form %}
+  <form method="post">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+      <div class="form-group">
+          {{ form.non_field_errors }}
+      </div>
+  {% endif %}
+
+      <div class="form-group">
+          {% render_field form.user_to class+="form-control" %}
+          {{ form.user_to.errors }}
+      </div>
+      <hr>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Transferir" %}</button>
+
+      <p>{% trans "Al transferir la membresía principal a otro usuario, conservará una membresía como administrador común en la copropiedad." %}</p>
+  </form>
+  {% else %}
+  <hr>
+  <p>{% trans "No hay otros usuarios administradores registrados en la copropiedad. Para poder transferir su membresía, debe asignar el rol de administrador a otro usuario previamente." %}</p>
+  <div class="clearfix">
+    <a href="{% url 'buildings:membership_form' building.id %}" class="btn btn-outline-info float-right">{% trans "Crear membresía" %}</a>
+  </div>
+  <hr>
+  {% endif %}
+</div>
+{% endblock %}

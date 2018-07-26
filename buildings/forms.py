@@ -701,3 +701,21 @@ OwnerUpdateFormSet = modelformset_factory(
     validate_min=False,
     can_delete=False,
 )
+
+
+class membershipTransferForm(forms.Form):
+    """
+    Transfer membership form. Only main administrators can
+    transfer their own membership and only can transfer
+    memberships to users with active administrator membership
+    in the condo.
+    """
+    user_to = forms.ModelChoiceField(
+        queryset=BuildingMembership.objects.none()
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.administrators_queryset = kwargs.pop('administrators_queryset')
+        super().__init__(*args, **kwargs)
+
+        self.fields['user_to'].queryset = self.administrators_queryset

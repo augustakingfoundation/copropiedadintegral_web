@@ -89,11 +89,7 @@ class BuildingMembership(models.Model):
         return self.membership_type == MEMBERSHIP_TYPE_FISCAL_REVIEWER
 
     def __str__(self):
-        return '{0} - {1} - {2}'.format(
-            self.user,
-            self.building,
-            self.get_membership_type_display(),
-        )
+        return '{0}'.format(self.user)
 
     class Meta:
         verbose_name = _('membresía')
