@@ -34,6 +34,10 @@
             {% for membership in memberships %}
             <tr>
               <td>
+                {% if membership.is_main_administrator %}
+                <p>{% trans "Administrador principal" %}</p>
+                {% endif %}
+
                 {% if membership.is_administrator %}
                 <p>{% trans "Administrador" %}</p>
                 {% endif %}
