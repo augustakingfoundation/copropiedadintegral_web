@@ -18,12 +18,12 @@ def expire_owner_data_update_links():
     This task run everydays, and it checks update links with more
     than 30 days of creation.
     """
-    for owner_data_object in UnitDataUpdate.objects.filter(
+    for unit_data_object in UnitDataUpdate.objects.filter(
         enable_owners_update=True,
         created_at__lt=timezone.now() - timedelta(days=30)
     ):
         # Disable owners update link.
-        owner_data_object.enable_owners_update = False
-        owner_data_object.save()
+        unit_data_object.enable_owners_update = False
+        unit_data_object.save()
 
         logger.info('Update link successfully disabled')

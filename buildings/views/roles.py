@@ -192,12 +192,31 @@ class MembershipUpdateView(CustomUserMixin, UpdateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Update visitor object.
-        form.save()
+        # Update membership object.
+        membership = form.save()
 
         messages.success(
             self.request,
             _('Membresía actualizada exitosamente.'),
+        )
+
+        # Send email to user about the update in his membership
+        subject = _('Su membresía ha sido editada')
+
+        body = render_to_string(
+            'buildings/administrative/roles/membership_email.html', {
+                'title': subject,
+                'from': self.request.user,
+                'membership': membership,
+                'update': True,
+                'base_url': settings.BASE_URL,
+            },
+        )
+
+        send_email(
+            subject=subject,
+            body=body,
+            mail_to=[membership.user.email],
         )
 
         return super().form_valid(form)

@@ -5,11 +5,21 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+{% if update %}
+{% blocktrans %}
+<h1>Su membresía en la copropiedad {{ membership.building }} ha sido editada.</h1>
+{% endblocktrans %}
+{% else %}
 <h1>{% trans "Notificación de nueva membresía en una copropiedad." %}</h1>
+{% endif %}
 
+{% if update %}
+<p>{{ from.get_full_name }} {% trans "ha editado su membresía." %}</p>
+{% else %}
 <p>{{ from.get_full_name }} {% trans "ha creado una nueva membresía a su nombre." %}</p>
+{% endif %}
 
-<p><strong>Tipo de membersía:</strong> {{ membership.get_membership_type_display }}.</p>
+<p><strong>{% if update %}Nuevo tipo de membresía:{% else %}Tipo de membersía:{% endif %}</strong> {{ membership.get_membership_type_display }}.</p>
 <p><strong>Copropiedad:</strong> {{ membership.building }}.</p>
 
 <p>{% trans 'Diríjase a la aplicación para desempeñar su nuevo rol en esta copropiedad.' %}</p>
