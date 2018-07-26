@@ -27,3 +27,11 @@ def get_can_delete_membership(user, membership):
         user=user,
         membership=membership,
     )
+
+
+@register.simple_tag
+def get_can_transfer_membership(user, membership):
+    return RolesPermissions.can_transfer_membership(
+        user=user,
+        membership=membership,
+    )

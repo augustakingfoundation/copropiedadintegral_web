@@ -32,6 +32,7 @@ from buildings.views.roles import MembershipListView
 from buildings.views.roles import MembershipFormView
 from buildings.views.roles import MembershipUpdateView
 from buildings.views.roles import MembershipDeleteView
+from buildings.views.roles import MembershipTransferView
 from buildings.views.data_update import DataUpdateView
 from buildings.views.data_update import RequestOwnersUpdateView
 from buildings.views.data_update import OwnersUpdateForm
@@ -287,7 +288,7 @@ urlpatterns = [
     # b_pk = Building id.
     # m_pk = Membership id.
     url(
-        r'^(?P<b_pk>\d+)/roles/(?P<m_pk>\d+)/$',
+        r'^(?P<b_pk>\d+)/roles/(?P<m_pk>\d+)/actualizar/$',
         MembershipUpdateView.as_view(),
         name='membership_update',
     ),
@@ -298,6 +299,14 @@ urlpatterns = [
         r'^(?P<b_pk>\d+)/membresías/(?P<m_pk>\d+)/eliminar/$',
         MembershipDeleteView.as_view(),
         name='membership_delete',
+    ),
+
+    # b_pk = Building id.
+    # m_pk = Membership id.
+    url(
+        r'^(?P<b_pk>\d+)/roles/(?P<m_pk>\d+)/transferir/$',
+        MembershipTransferView.as_view(),
+        name='membership_transfer',
     ),
 
     # pk = Building id.
@@ -315,8 +324,9 @@ urlpatterns = [
     ),
 
     # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update owners form.
     url(
-        r'^(?P<pk>\d+)/actualizacion-de-datos/propietarios/formulario/$',
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/propietarios/formulario/$',
         OwnersUpdateForm.as_view(),
         name='owners_update_form',
     ),

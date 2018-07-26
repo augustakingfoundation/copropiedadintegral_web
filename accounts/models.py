@@ -109,6 +109,12 @@ class User(AbstractBaseUser, PermissionsMixin):
         hashids = Hashids(salt=settings.SECRET_KEY, min_length=50)
         return hashids.encode(self.id)
 
+    def __str__(self):
+        return '{0} {1}'.format(
+            self.first_name,
+            self.last_name,
+        )
+
     class Meta:
         verbose_name = _('usuario')
         verbose_name_plural = _('usuarios')

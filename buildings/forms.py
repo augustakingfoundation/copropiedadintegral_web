@@ -8,6 +8,7 @@ from buildings.data import BUILDING_DOCUMENT_TYPE_CC
 from buildings.data import BUILDING_DOCUMENT_TYPE_NIT
 from buildings.data import MEMBERSHIP_TYPE_ACCOUNTANT
 from buildings.data import MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT
+from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATIVE_ASSISTANT
 from buildings.data import MEMBERSHIP_TYPE_ADMINISTRATOR
 from buildings.data import MEMBERSHIP_TYPE_FISCAL_REVIEWER
 from buildings.data import VEHICLE_TYPE_CAR
@@ -550,8 +551,26 @@ class MembershipForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.building = kwargs.pop('building')
         self.update = kwargs.pop('update')
-
+        self.membership = kwargs.pop('membership')
         super().__init__(*args, **kwargs)
+
+        if self.membership.is_administrator:
+            choices = (
+                ('', _('Tipo de membresía')),
+                (
+                    MEMBERSHIP_TYPE_ADMINISTRATIVE_ASSISTANT,
+                    _('Asistente administrativo')
+                ),
+                (MEMBERSHIP_TYPE_ACCOUNTANT, _('Contador')),
+                (
+                    MEMBERSHIP_TYPE_ACCOUNTING_ASSISTANT,
+                    _('Asistente contable')
+                ),
+                (MEMBERSHIP_TYPE_FISCAL_REVIEWER, _('Revisor fiscal')),
+            )
+            # Remove administrator from membership type field
+            # if the user is common administrator.
+            self.fields['membership_type'].choices = choices
 
     def clean_user(self):
         # Validations for the user field. A user
@@ -682,3 +701,21 @@ OwnerUpdateFormSet = modelformset_factory(
     validate_min=False,
     can_delete=False,
 )
+
+
+class membershipTransferForm(forms.Form):
+    """
+    Transfer membership form. Only main administrators can
+    transfer their own membership and only can transfer
+    memberships to users with active administrator membership
+    in the condo.
+    """
+    user_to = forms.ModelChoiceField(
+        queryset=BuildingMembership.objects.none()
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.administrators_queryset = kwargs.pop('administrators_queryset')
+        super().__init__(*args, **kwargs)
+
+        self.fields['user_to'].queryset = self.administrators_queryset

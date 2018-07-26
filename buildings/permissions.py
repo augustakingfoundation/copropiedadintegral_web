@@ -174,3 +174,22 @@ class RolesPermissions(object):
             return True
 
         return False
+
+    @classmethod
+    def can_transfer_membership(self, user, membership):
+        # Only main administrators can transfer their own membership.
+        if (
+            BuildingMembership.objects.filter(
+                membership_type=MEMBERSHIP_TYPE_ADMINISTRATOR,
+                user=user,
+                building=membership.building,
+                user__is_active=True,
+                user__is_verified=True,
+                is_active=True,
+            ) and
+            user == membership.building.created_by and
+            user == membership.user
+        ):
+            return True
+
+        return False

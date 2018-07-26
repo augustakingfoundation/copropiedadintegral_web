@@ -30,6 +30,11 @@
         <td>{{ membership.user.get_full_name }}</td>
 
         <td>
+          {% get_can_transfer_membership user membership as can_transfer_membership %}
+          {% if can_transfer_membership %}
+            <a href="{% url 'buildings:membership_transfer' membership.building.id membership.id %}" class="btn btn-outline-warning">{% trans "Transferir membersía principal" %}</a>
+          {% endif %}
+
           {% get_can_edit_membership user membership as can_edit_membership %}
           {% if can_edit_membership %}
             <a href="{% url 'buildings:membership_update' membership.building.id membership.id %}" class="btn btn-outline-dark">{% trans "Editar" %}</a>

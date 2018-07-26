@@ -1,3 +1,5 @@
+from hashids import Hashids
+
 from datetime import date
 from django.core.validators import MinLengthValidator
 from django.core.validators import RegexValidator
@@ -56,13 +58,21 @@ class BuildingMembership(models.Model):
 
     @property
     def is_main_administrator(self):
-        if self.building.created_by == self.user:
+        if (
+            self.building.created_by == self.user and
+            self.membership_type == MEMBERSHIP_TYPE_ADMINISTRATOR
+        ):
             return True
         return False
 
     @property
     def is_administrator(self):
-        return self.membership_type == MEMBERSHIP_TYPE_ADMINISTRATOR
+        if (
+            self.membership_type == MEMBERSHIP_TYPE_ADMINISTRATOR and
+            not self.building.created_by == self.user
+        ):
+            return True
+        return False
 
     @property
     def is_administrative_assistant(self):
@@ -81,11 +91,7 @@ class BuildingMembership(models.Model):
         return self.membership_type == MEMBERSHIP_TYPE_FISCAL_REVIEWER
 
     def __str__(self):
-        return '{0} - {1} - {2}'.format(
-            self.user,
-            self.building,
-            self.get_membership_type_display(),
-        )
+        return '{0}'.format(self.user)
 
     class Meta:
         verbose_name = _('membresía')
@@ -336,6 +342,22 @@ class UnitDataUpdate(models.Model):
         verbose_name=_('habilitar actualización de propietarios'),
         default=False,
     )
+
+    owners_update_key = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        verbose_name=_('clave actualizar propietarios'),
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    @property
+    def owners_data_key(self):
+        hashids = Hashids(salt=self.owners_update_key, min_length=50)
+        return hashids.encode(self.id)
 
     def __str__(self):
         if self.unit.block:

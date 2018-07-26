@@ -2,7 +2,7 @@ version: '3'
 services:
   web:
     build: .
-    image: djangobase
+    image: copropiedad
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "3000:3000"
@@ -20,7 +20,7 @@ services:
   redis:
     image: redis:3.2.8
   migration:
-    image: djangobase
+    image: copropiedad
     command: python manage.py migrate --noinput
     volumes:
       - .:/code
