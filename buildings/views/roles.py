@@ -200,7 +200,7 @@ class MembershipUpdateView(CustomUserMixin, UpdateView):
             _('Membresía actualizada exitosamente.'),
         )
 
-        # Send email to user about the update in his membership
+        # Send email to user about his membership update.
         subject = _('Su membresía ha sido editada')
 
         body = render_to_string(
@@ -265,6 +265,25 @@ class MembershipDeleteView(CustomUserMixin, DeleteView):
         messages.success(
             self.request,
             _('Membresía eliminada exitosamente.')
+        )
+
+        # Send email to user about his membership delete.
+        subject = _('Su membresía ha sido eliminada')
+
+        body = render_to_string(
+            'buildings/administrative/roles/membership_email.html', {
+                'title': subject,
+                'from': self.request.user,
+                'membership': self.get_object(),
+                'delete': True,
+                'base_url': settings.BASE_URL,
+            },
+        )
+
+        send_email(
+            subject=subject,
+            body=body,
+            mail_to=[self.get_object().user.email],
         )
 
         return super().delete(request, *args, **kwargs)
