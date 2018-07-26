@@ -1,3 +1,5 @@
+from hashids import Hashids
+
 from datetime import date
 from django.core.validators import MinLengthValidator
 from django.core.validators import RegexValidator
@@ -341,9 +343,21 @@ class UnitDataUpdate(models.Model):
         default=False,
     )
 
+    owners_update_key = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        verbose_name=_('clave actualizar propietarios'),
+    )
+
     created_at = models.DateTimeField(
         auto_now_add=True,
     )
+
+    @property
+    def owners_data_key(self):
+        hashids = Hashids(salt=self.owners_update_key, min_length=50)
+        return hashids.encode(self.id)
 
     def __str__(self):
         if self.unit.block:

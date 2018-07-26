@@ -1,18 +1,23 @@
-from django.contrib import messages
+from hashids import Hashids
+
 from django.conf import settings
-from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
-from django.utils.translation import ugettext as _
-from django.views.generic import View
-from django.shortcuts import redirect
+from django.contrib import messages
 from django.db import transaction
+from django.shortcuts import get_object_or_404
+from django.http import Http404
+from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils.crypto import get_random_string
+from django.utils.translation import ugettext as _
+from django.views.generic import TemplateView
+from django.views.generic import View
 
 from app.mixins import CustomUserMixin
 from buildings.forms import ConfirmOwnerUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
 from buildings.models import Building
+from buildings.models import Unit
 from buildings.models import UnitDataUpdate
 from buildings.models import Owner
 from buildings.permissions import BuildingPermissions
@@ -92,6 +97,13 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
                 if update and unit_data_object.unit.owner_has_email:
                     # Owners update form must be available.
                     unit_data_object.enable_owners_update = True
+
+                    # Generate random string to add security to the
+                    # owners update link.
+                    key = get_random_string(length=30)
+                    # This key is used to decrypt the generated url
+                    # to activate the update owners data form.
+                    unit_data_object.owners_update_key = key
                     unit_data_object.save()
 
                     unit = unit_data_object.unit
@@ -106,7 +118,10 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
 
                         update_url = reverse(
                             'buildings:owners_update_form',
-                            args=[unit_data_object.id],
+                            args=[
+                                unit_data_object.id,
+                                unit_data_object.owners_data_key,
+                            ],
                         )
 
                         body = render_to_string(
@@ -145,10 +160,28 @@ class OwnersUpdateForm(TemplateView):
     template_name = 'buildings/administrative/data_update/owners_update_form.html'
 
     def get_object(self, queryset=None):
+        # Get unit object.
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        # Get data update object from the unit object instance.
+        data_update = unit.unitdataupdate
+
+        # Used hashids library to decrypt the url verify key.
+        hashids = Hashids(salt=data_update.owners_update_key, min_length=50)
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
         return get_object_or_404(
             UnitDataUpdate,
             enable_owners_update=True,
-            pk=self.kwargs['pk'],
+            pk=verify_key[0],
         )
 
     def get_context_data(self, **kwargs):
