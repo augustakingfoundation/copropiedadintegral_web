@@ -552,6 +552,7 @@ class MembershipForm(forms.ModelForm):
         self.building = kwargs.pop('building')
         self.update = kwargs.pop('update')
         self.membership = kwargs.pop('membership')
+
         super().__init__(*args, **kwargs)
 
         if self.membership.is_administrator:
