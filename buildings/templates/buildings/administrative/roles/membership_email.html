@@ -6,18 +6,16 @@
 
 {% block content %}
 {% if update %}
-    {% blocktrans %}
-    <h1>Su membresía en la copropiedad {{ membership.building }} ha sido editada.</h1>
-    {% endblocktrans %}
+    
+    <h1>{% blocktrans %}Su membresía en la copropiedad {{ membership.building }} ha sido editada.{% endblocktrans %}
+    </h1>
 
     <p>{{ from.get_full_name }} {% trans "ha editado su membresía." %}</p>
 
     <p><strong>{% trans "Nuevo tipo de membresía:" %}</strong> {{ membership.get_membership_type_display }}.</p>
     <p><strong>{% trans "Copropiedad:" %}</strong> {{ membership.building }}.</p>
 {% elif delete %}
-    {% blocktrans %}
-    <h1>Su membresía en la copropiedad {{ membership.building }} ha sido eliminada.</h1>
-    {% endblocktrans %}
+    <h1>{% blocktrans %}Su membresía en la copropiedad {{ membership.building }} ha sido eliminada.{% endblocktrans %}</h1>
 
     <p>{{ from.get_full_name }} {% trans "ha eliminado su membresía." %}</p>
 {% else %}
