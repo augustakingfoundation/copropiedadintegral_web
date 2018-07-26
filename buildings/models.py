@@ -341,6 +341,10 @@ class UnitDataUpdate(models.Model):
         default=False,
     )
 
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
     def __str__(self):
         if self.unit.block:
             return 'Bloque {0} - Unidad {1}'.format(
