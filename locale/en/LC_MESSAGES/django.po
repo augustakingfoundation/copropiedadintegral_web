@@ -1446,7 +1446,7 @@ msgid ""
 "poder transferir su membresía, debe asignar el rol de administrador a otro "
 "usuario previamente."
 msgstr ""
-"There are not more administrators registered in the condominium. To be able"
+"There are not more administrators registered in the condominium. To be able "
 "to transfer yout membership, you must assign the administrator role to another "
 "user previously."
 
