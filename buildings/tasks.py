@@ -20,7 +20,7 @@ def expire_owner_data_update_links():
     """
     for unit_data_object in UnitDataUpdate.objects.filter(
         enable_owners_update=True,
-        created_at__lt=timezone.now() - timedelta(days=30)
+        activated_at__lt=timezone.now() - timedelta(days=30)
     ):
         # Disable owners update link.
         unit_data_object.enable_owners_update = False

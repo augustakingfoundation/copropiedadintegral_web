@@ -1,5 +1,6 @@
 from hashids import Hashids
 
+from django.utils import timezone
 from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
@@ -97,6 +98,7 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
                 if update and unit_data_object.unit.owner_has_email:
                     # Owners update form must be available.
                     unit_data_object.enable_owners_update = True
+                    unit_data_object.activated_at = timezone.now()
 
                     # Generate random string to add security to the
                     # owners update link.

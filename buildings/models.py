@@ -350,8 +350,9 @@ class UnitDataUpdate(models.Model):
         verbose_name=_('clave actualizar propietarios'),
     )
 
-    created_at = models.DateTimeField(
-        auto_now_add=True,
+    activated_at = models.DateTimeField(
+        null=True,
+        blank=True,
     )
 
     @property
