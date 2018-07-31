@@ -93,7 +93,7 @@
                 <button type="button" class="btn btn-outline-info jsResidentFormsetButton">
                   {% trans 'Si, es residente' %}
                 </button>
-                {% render_field owner_form.is_resident class+="ci-resident-formset-input" %}
+                {% render_field owner_form.is_resident class+="ci-resident-formset-input d-none" %}
               </div>
               <p>{{ owner_form.is_resident.errors }}</p>
 

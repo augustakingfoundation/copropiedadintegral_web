@@ -134,21 +134,29 @@ $(function() {
 
       if (set_resident_input.is(':checked')) {
         // Add active class to indicate that the owner is resident of the unit.
-        main_button.removeClass('btn-info').addClass('btn-outline-info');
+        main_button.addClass('btn-info').removeClass('btn-outline-info');
 
         // Hide leaseholders formset. If the owner is resident of the unit, the user can't add leaseholders.
         $("#leaseholder_formset").hide();
         $("#disabled_leaseholers_formset").show();
 
       } else {
-        // Remove active class to indicate that the owner is resident of the unit.
-        main_button.addClass('btn-info').removeClass('btn-outline-info');
+        // Remove active class to indicate that the owner is not resident of the unit.
+        main_button.removeClass('btn-info').addClass('btn-outline-info');
 
-        // Show leaseholders formset. If the residents are not residents of the unit, the user can add leaseholder.
-        $("#leaseholder_formset").show();
-        $("#disabled_leaseholers_formset").hide();
+        // Show leaseholders formset. If the owners are not residents of the unit, the user can add leaseholder.
+        var resident_owners = 0
+        $('.ci_UnitFormFormset .ci-resident-formset-input').each(function(idx, element) {
+          if (element.checked) {
+            resident_owners = resident_owners + 1;
+          }
+        });
+
+        if (resident_owners === 0) {
+          $("#leaseholder_formset").show();
+          $("#disabled_leaseholers_formset").hide();
+        }
       }
-
     });
 
     // Action to change delete checkbox value on owner and leaseholder form.
