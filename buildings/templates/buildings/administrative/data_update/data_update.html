@@ -14,6 +14,8 @@
       <a class="nav-item nav-link active" data-toggle="tab" href="#nav-owners" role="tab" aria-controls="nav-owners" aria-selected="true">{% trans 'Propietarios' %}</a>
 
       <a class="nav-item nav-link" data-toggle="tab" href="#nav-leaseholders" role="tab" aria-controls="nav-leaseholders" aria-selected="false">{% trans 'Arrendatarios' %}</a>
+
+      <a class="nav-item nav-link" data-toggle="tab" href="#nav-residents" role="tab" aria-controls="nav-residents" aria-selected="false">{% trans 'Residentes' %}</a>
     </div>
   </nav>
 
@@ -27,7 +29,7 @@
           {{ confirm_owner_update_formset.management_form }}
 
 
-          <p>hola {{ confirm_owner_update_formset }}</p>
+          {% if confirm_owner_update_formset|length %}
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -62,10 +64,16 @@
           </div>
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Solicitar actualización" %}</button>
+          {% else %}
+          {% trans "No hay unidades registradas." %}
+          {% endif %}
       </form>
     </div>
 
     <div class="tab-pane fade" id="nav-leaseholders" role="tabpanel">
+    </div>
+
+    <div class="tab-pane fade" id="nav-residents" role="tabpanel">
     </div>
   </div>
 </div>

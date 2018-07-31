@@ -350,6 +350,18 @@ class UnitDataUpdate(models.Model):
         verbose_name=_('clave actualizar propietarios'),
     )
 
+    enable_leaseholders_update = models.BooleanField(
+        verbose_name=_('habilitar actualización de arrendatarios'),
+        default=False,
+    )
+
+    leaseholders_update_key = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        verbose_name=_('clave actualizar residentes'),
+    )
+
     activated_at = models.DateTimeField(
         null=True,
         blank=True,
@@ -358,6 +370,11 @@ class UnitDataUpdate(models.Model):
     @property
     def owners_data_key(self):
         hashids = Hashids(salt=self.owners_update_key, min_length=50)
+        return hashids.encode(self.id)
+
+    @property
+    def leaseholders_data_key(self):
+        hashids = Hashids(salt=self.leaseholders_update_key, min_length=50)
         return hashids.encode(self.id)
 
     def __str__(self):
