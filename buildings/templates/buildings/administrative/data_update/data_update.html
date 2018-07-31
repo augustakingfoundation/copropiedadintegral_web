@@ -71,6 +71,53 @@
     </div>
 
     <div class="tab-pane fade" id="nav-leaseholders" role="tabpanel">
+      <div class="alert alert-info text-center" role="alert">{% trans 'Se enviará un correo electrónico a los arrendatarios disponibles para solicitar la actualización de sus datos de contacto.' %}</div>
+      <form method="post" action="{% url 'buildings:request_leaseholders_update_view' building.id %}">
+          {% csrf_token %}
+
+          {{ confirm_leaseholder_update_formset.management_form }}
+
+          {% if confirm_leaseholder_update_formset|length %}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Unidad" %}</th>
+                  <th scope="col">{% trans "Solicitar actualización" %}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for leaseholder_form_update in confirm_leaseholder_update_formset %}
+                {% render_field leaseholder_form_update.id %}
+                <tr>
+                  <td>
+                    {{ leaseholder_form_update.instance }}
+                    <div class="d-none">{% render_field leaseholder_form_update.unit %}</div>
+                  </td>
+
+                  <td>
+                    {% if leaseholder_form_update.instance.enable_leaseholders_update %}
+                    <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
+                    {% elif not leaseholder_form_update.instance.unit.leaseholder_set.all %}
+                    <p>{% trans 'Ho hay arrendatarios registrados en la unidad.' %}</p>
+                    {% elif not leaseholder_form_update.instance.unit.leaseholder_has_email %}
+                    <p>{% trans 'Los arrendatarios no tienen una cuenta de correo electrónico registrada.' %}</p>
+                    {% else %}
+                    {% render_field leaseholder_form_update.update %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Solicitar actualización" %}</button>
+          {% else %}
+          {% trans "No hay unidades registradas." %}
+          {% endif %}
+      </form>
     </div>
 
     <div class="tab-pane fade" id="nav-residents" role="tabpanel">

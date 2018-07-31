@@ -307,6 +307,15 @@ class Unit(models.Model):
 
         return has_email
 
+    @property
+    def leaseholder_has_email(self):
+        has_email = False
+        for leaseholder in self.leaseholder_set.all():
+            if leaseholder.email:
+                has_email = True
+
+        return has_email
+
     def get_absolute_url(self):
         return reverse(
             'buildings:unit_detail', args=[self.building.id, self.id]
@@ -350,6 +359,11 @@ class UnitDataUpdate(models.Model):
         verbose_name=_('clave actualizar propietarios'),
     )
 
+    owners_update_activated_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
     enable_leaseholders_update = models.BooleanField(
         verbose_name=_('habilitar actualización de arrendatarios'),
         default=False,
@@ -359,10 +373,10 @@ class UnitDataUpdate(models.Model):
         max_length=30,
         null=True,
         blank=True,
-        verbose_name=_('clave actualizar residentes'),
+        verbose_name=_('clave actualizar arrendatarios'),
     )
 
-    activated_at = models.DateTimeField(
+    leaseholders_update_activated_at = models.DateTimeField(
         null=True,
         blank=True,
     )
