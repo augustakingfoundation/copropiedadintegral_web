@@ -115,6 +115,7 @@ class OwnerForm(forms.ModelForm):
             'phone_number',
             'correspondence_address',
             'email',
+            'is_resident',
             'is_main',
         )
 

@@ -65,9 +65,9 @@
 
         <hr>
         <div class="row">
-          <div class="form-group clearfix col-md-6">
+          <div class="form-group col-md-6">
             <div class="clearfix">
-            <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
+              <p class="float-right">{% trans '¿Es el propietario principal de la unidad?' %}</p>
             </div>
 
             <div class="clearfix">
@@ -78,10 +78,26 @@
                 {% render_field owner_form.is_main class+="ci-main-formset-input d-none" %}
               </div>
               <p>{{ owner_form.is_main.errors }}</p>
+
+              <p class="font-weight-light float-left">{% trans 'El propietario principal recibirá las notificaciones para realizar la actualización de datos de la unidad.' %}</p>
+            </div>
+
+            <hr>
+
+            <div class="clearfix">
+              <p class="float-right">{% trans '¿El propietario reside en la unidad?' %}</p>
             </div>
 
             <div class="clearfix">
-            <p class="font-weight-light float-right">{% trans 'El propietario principal recibirá las notificaciones para realizar la actualización de datos de la unidad.' %}</p>
+              <div class="float-right">
+                <button type="button" class="btn btn-outline-info jsResidentFormsetButton">
+                  {% trans 'Si, es residente' %}
+                </button>
+                {% render_field owner_form.is_resident class+="ci-resident-formset-input d-none" %}
+              </div>
+              <p>{{ owner_form.is_resident.errors }}</p>
+
+              <p class="font-weight-light float-left text-justify">{% trans 'Si es quien reside o hace uso de la unidad, es decir, si esta no está arrendada, el propietario recibirá notificaciones para realizar actualización de datos de los residentes de la unidad.' %}</p>
             </div>
           </div>
 

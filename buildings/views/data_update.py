@@ -162,13 +162,11 @@ class OwnersUpdateForm(TemplateView):
     template_name = 'buildings/administrative/data_update/owners_update_form.html'
 
     def get_object(self, queryset=None):
-        # Get unit object.
         unit = get_object_or_404(
             Unit,
             pk=self.kwargs['pk'],
         )
 
-        # Get data update object from the unit object instance.
         data_update = unit.unitdataupdate
 
         # Used hashids library to decrypt the url verify key.

@@ -467,6 +467,11 @@ class Owner(models.Model):
         default=False,
     )
 
+    is_resident = models.BooleanField(
+        verbose_name=_('es residente'),
+        default=False,
+    )
+
     unit = models.ForeignKey(
         'buildings.Unit',
         on_delete=models.CASCADE,
