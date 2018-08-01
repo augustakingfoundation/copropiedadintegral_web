@@ -47,7 +47,6 @@ class ParkingLotFormView(CustomUserMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Get unit instance.
         unit = self.get_object()
         # Create parking lot object.
         parking_lot = form.save(commit=False)
@@ -77,7 +76,6 @@ class ParkingLotUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get parking lot object.
         return get_object_or_404(
             ParkingLot,
             unit_id=self.kwargs['u_pk'],
@@ -131,7 +129,6 @@ class ParkingLotDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get parking lot object.
         return get_object_or_404(
             ParkingLot,
             unit_id=self.kwargs['u_pk'],

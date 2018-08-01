@@ -47,7 +47,6 @@ class VisitorFormView(CustomUserMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Get unit instance.
         unit = self.get_object()
         # Create authorized visitor object.
         visitor = form.save(commit=False)
@@ -77,7 +76,6 @@ class VisitorUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             Visitor,
             unit_id=self.kwargs['u_pk'],
@@ -131,7 +129,6 @@ class VisitorDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get authorized visitor object.
         return get_object_or_404(
             Visitor,
             unit_id=self.kwargs['u_pk'],

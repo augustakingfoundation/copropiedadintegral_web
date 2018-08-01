@@ -31,7 +31,6 @@ class PetFormView(CustomUserMixin, CreateView):
         )
 
     def get_object(self, queryset=None):
-        # Get unit object.
         return get_object_or_404(
             Unit,
             building_id=self.kwargs['b_pk'],
@@ -106,7 +105,6 @@ class PetUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             Pet,
             unit_id=self.kwargs['u_pk'],
@@ -160,7 +158,6 @@ class PetDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get pet object.
         return get_object_or_404(
             Pet,
             unit_id=self.kwargs['u_pk'],
