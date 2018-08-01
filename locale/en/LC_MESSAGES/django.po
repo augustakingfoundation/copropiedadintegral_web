@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-26 15:22-0500\n"
+"POT-Creation-Date: 2018-07-31 19:43-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,14 +61,14 @@ msgstr "An email address is required"
 msgid "nombres"
 msgstr "name"
 
-#: accounts/models.py:56 buildings/models.py:390 buildings/models.py:501
-#: buildings/models.py:601 buildings/models.py:655 buildings/models.py:841
-#: buildings/models.py:948
+#: accounts/models.py:56 buildings/models.py:422 buildings/models.py:538
+#: buildings/models.py:638 buildings/models.py:692 buildings/models.py:878
+#: buildings/models.py:985
 msgid "apellidos"
 msgstr "last name"
 
-#: accounts/models.py:65 buildings/forms.py:520 buildings/models.py:150
-#: buildings/models.py:461 buildings/models.py:562
+#: accounts/models.py:65 buildings/forms.py:521 buildings/models.py:150
+#: buildings/models.py:493 buildings/models.py:599
 msgid "correo electrónico"
 msgstr "email"
 
@@ -112,7 +112,7 @@ msgstr "Do not have an account yet?"
 msgid "Crear cuenta."
 msgstr "Create account."
 
-#: accounts/templates/accounts/auth/login.html:31 buildings/forms.py:523
+#: accounts/templates/accounts/auth/login.html:31 buildings/forms.py:524
 #: buildings/templates/buildings/administrative/building_detail.html:32
 #: buildings/templates/buildings/administrative/units/unit_detail.html:56
 #: buildings/templates/buildings/administrative/units/unit_detail.html:90
@@ -139,6 +139,7 @@ msgstr "Recover password"
 
 #: accounts/templates/accounts/auth/password_reset_confirm.html:36
 #: accounts/templates/accounts/profile_form.html:72
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:70
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:75
 #: buildings/templates/buildings/administrative/domestic_workers/domestic_worker_form.html:50
 #: buildings/templates/buildings/administrative/parking_lots/parkinglot_form.html:32
@@ -376,31 +377,37 @@ msgstr "Name"
 msgid "Identificación"
 msgstr "Identification"
 
-#: app/templates/dashboard.html:38 buildings/data.py:47
+#: app/templates/dashboard.html:38
+#, fuzzy
+#| msgid "Administrador"
+msgid "Administrador principal"
+msgstr "Administrator"
+
+#: app/templates/dashboard.html:42 buildings/data.py:47
 msgid "Administrador"
 msgstr "Administrator"
 
-#: app/templates/dashboard.html:42 buildings/data.py:48 buildings/forms.py:562
+#: app/templates/dashboard.html:46 buildings/data.py:48 buildings/forms.py:564
 msgid "Asistente administrativo"
 msgstr "Administrative assistant"
 
-#: app/templates/dashboard.html:46 buildings/data.py:49 buildings/forms.py:564
+#: app/templates/dashboard.html:50 buildings/data.py:49 buildings/forms.py:566
 msgid "Contador"
 msgstr "Accountant"
 
-#: app/templates/dashboard.html:50
+#: app/templates/dashboard.html:54
 msgid "Asistente Contable"
 msgstr "Accounting assistant"
 
-#: app/templates/dashboard.html:54 buildings/data.py:51 buildings/forms.py:569
+#: app/templates/dashboard.html:58 buildings/data.py:51 buildings/forms.py:571
 msgid "Revisor fiscal"
 msgstr "Fiscal Auditor"
 
-#: app/templates/dashboard.html:61
+#: app/templates/dashboard.html:65
 msgid "Ver copropiedad"
 msgstr "View condo"
 
-#: app/templates/dashboard.html:69
+#: app/templates/dashboard.html:73
 msgid "No hay copropiedades activas aún."
 msgstr "There are no active co-properties yet."
 
@@ -509,13 +516,13 @@ msgstr "Motorcycle"
 msgid "Bicicleta"
 msgstr "Bicycle"
 
-#: buildings/data.py:46 buildings/forms.py:559
+#: buildings/data.py:46 buildings/forms.py:561
 #, fuzzy
 #| msgid "membresía"
 msgid "Tipo de membresía"
 msgstr "membership"
 
-#: buildings/data.py:50 buildings/forms.py:567
+#: buildings/data.py:50 buildings/forms.py:569
 #, fuzzy
 #| msgid "asistente contable"
 msgid "Asistente contable"
@@ -534,19 +541,19 @@ msgstr "The entered NIT is not valid. Ex: 12345678-1"
 msgid "El documento ingresado solo debe contener números"
 msgstr "The entered document should only contain numbers"
 
-#: buildings/forms.py:249
+#: buildings/forms.py:250
 msgid "El coeficiente debe ser un valor entre 0 y 100"
 msgstr "The coefficient must be a value between 0 and 100"
 
-#: buildings/forms.py:272
+#: buildings/forms.py:273
 msgid "Número/ID"
 msgstr "Number - ID"
 
-#: buildings/forms.py:318
+#: buildings/forms.py:319
 msgid "Para carros y motocicletas la placa es requerida."
 msgstr "For cars and motorcycles the plate is required."
 
-#: buildings/forms.py:527
+#: buildings/forms.py:528
 msgid ""
 "Ingrese la dirección de correo electrónico de un usuario registrado en la "
 "aplicación para crear una membresía en esta copropiedad. Si el correo "
@@ -557,26 +564,26 @@ msgstr ""
 "membership in this condo. If the mail address is not registered, you will be "
 "able to send an an invitation to create an account in the application."
 
-#: buildings/forms.py:587
+#: buildings/forms.py:589
 msgid "Ya existe una membresía para este usuario en la copropiedad."
 msgstr "There is already a membership for this user in the condo."
 
-#: buildings/forms.py:607
+#: buildings/forms.py:609
 msgid ""
 "El máximo número de membresías de administradores por copropiedad es de 3."
 msgstr "The maximum number of memberships of administrators per condo is 3."
 
-#: buildings/forms.py:620
+#: buildings/forms.py:622
 msgid "Solo puede existir una membresía de contador activa."
 msgstr "Only can exists one active accountant membership."
 
-#: buildings/forms.py:633
+#: buildings/forms.py:635
 #, fuzzy
 #| msgid "Solo puede existir una membresía de contador activa."
 msgid "Solo puede existir una membresía de asistente contable activa."
 msgstr "Only can exists one active accountant membership."
 
-#: buildings/forms.py:646
+#: buildings/forms.py:648
 msgid "Solo puede existir una membresía de revisor fiscal activa."
 msgstr "Only can exists one active fiscal reviewer membership."
 
@@ -584,9 +591,9 @@ msgstr "Only can exists one active fiscal reviewer membership."
 msgid "copropiedad"
 msgstr "condo"
 
-#: buildings/models.py:47 buildings/models.py:119 buildings/models.py:395
-#: buildings/models.py:506 buildings/models.py:664 buildings/models.py:846
-#: buildings/models.py:953
+#: buildings/models.py:47 buildings/models.py:119 buildings/models.py:427
+#: buildings/models.py:543 buildings/models.py:701 buildings/models.py:883
+#: buildings/models.py:990
 msgid "tipo de documento"
 msgstr "document type"
 
@@ -602,9 +609,9 @@ msgstr "membership"
 msgid "membresías"
 msgstr "memberships"
 
-#: buildings/models.py:114 buildings/models.py:385 buildings/models.py:496
-#: buildings/models.py:596 buildings/models.py:650 buildings/models.py:836
-#: buildings/models.py:896 buildings/models.py:943 place/models.py:9
+#: buildings/models.py:114 buildings/models.py:417 buildings/models.py:533
+#: buildings/models.py:633 buildings/models.py:687 buildings/models.py:873
+#: buildings/models.py:933 buildings/models.py:980 place/models.py:9
 #: place/models.py:34
 msgid "nombre"
 msgstr "name"
@@ -622,13 +629,13 @@ msgstr "city"
 msgid "dirección"
 msgstr "address"
 
-#: buildings/models.py:155 buildings/models.py:405 buildings/models.py:516
-#: buildings/models.py:606 buildings/models.py:674
+#: buildings/models.py:155 buildings/models.py:437 buildings/models.py:553
+#: buildings/models.py:643 buildings/models.py:711
 msgid "número celular"
 msgstr "mobile phone"
 
-#: buildings/models.py:158 buildings/models.py:408 buildings/models.py:519
-#: buildings/models.py:607 buildings/models.py:677
+#: buildings/models.py:158 buildings/models.py:440 buildings/models.py:556
+#: buildings/models.py:644 buildings/models.py:714
 msgid ""
 "Si desea ingresar más de un número celular, estos deben ir separados por "
 "coma (,)."
@@ -636,9 +643,9 @@ msgstr ""
 "If you want to enter more than one cell number, they must be separated by "
 "comma (,)."
 
-#: buildings/models.py:164 buildings/models.py:187 buildings/models.py:414
-#: buildings/models.py:436 buildings/models.py:524 buildings/models.py:546
-#: buildings/models.py:612 buildings/models.py:682
+#: buildings/models.py:164 buildings/models.py:187 buildings/models.py:446
+#: buildings/models.py:468 buildings/models.py:561 buildings/models.py:583
+#: buildings/models.py:649 buildings/models.py:719
 msgid ""
 "El dato no es válido, sólo debe ingresar números. Si desea ingresar más de "
 "un número celular, estos deben estar separados por coma (,)."
@@ -646,11 +653,11 @@ msgstr ""
 "The data is not valid, you only have to enter numbers. If you want to enter "
 "more than a mobile phone number, these must be separated by a comma (,)."
 
-#: buildings/models.py:179 buildings/models.py:429 buildings/models.py:539
+#: buildings/models.py:179 buildings/models.py:461 buildings/models.py:576
 msgid "número telefónico"
 msgstr "phone number"
 
-#: buildings/models.py:180 buildings/models.py:540
+#: buildings/models.py:180 buildings/models.py:577
 msgid ""
 "Si desea ingresar más de un número telefónico,estos deben ir separados por "
 "coma (,)."
@@ -709,41 +716,53 @@ msgstr "This value must be a percentage between 0 and 100"
 msgid "observaciones"
 msgstr "observations"
 
-#: buildings/models.py:325 buildings/models.py:338 buildings/models.py:472
-#: buildings/models.py:573 buildings/models.py:698 buildings/models.py:757
-#: buildings/models.py:802 buildings/models.py:862 buildings/models.py:914
-#: buildings/models.py:970
+#: buildings/models.py:334 buildings/models.py:347 buildings/models.py:509
+#: buildings/models.py:610 buildings/models.py:735 buildings/models.py:794
+#: buildings/models.py:839 buildings/models.py:899 buildings/models.py:951
+#: buildings/models.py:1007
 msgid "unidad"
 msgstr "unit"
 
-#: buildings/models.py:326
+#: buildings/models.py:335
 msgid "unidades"
 msgstr "units"
 
-#: buildings/models.py:342
+#: buildings/models.py:351
 msgid "habilitar actualización de propietarios"
 msgstr "Enable owners data update"
 
-#: buildings/models.py:350
+#: buildings/models.py:359
 #, fuzzy
 #| msgid "habilitar actualización de propietarios"
 msgid "clave actualizar propietarios"
 msgstr "Enable owners data update"
 
-#: buildings/models.py:372
+#: buildings/models.py:368
+#, fuzzy
+#| msgid "habilitar actualización de propietarios"
+msgid "habilitar actualización de arrendatarios"
+msgstr "Enable owners data update"
+
+#: buildings/models.py:376
+#, fuzzy
+#| msgid "habilitar actualización de propietarios"
+msgid "clave actualizar arrendatarios"
+msgstr "Enable owners data update"
+
+#: buildings/models.py:404
 msgid "Información de actualización unidad"
 msgstr "Unit update info"
 
-#: buildings/models.py:373
+#: buildings/models.py:405
 msgid "Información de actualización unidades"
 msgstr "Units update info"
 
-#: buildings/models.py:400 buildings/models.py:511 buildings/models.py:669
-#: buildings/models.py:851 buildings/models.py:958
+#: buildings/models.py:432 buildings/models.py:548 buildings/models.py:706
+#: buildings/models.py:888 buildings/models.py:995
 msgid "número de documento"
 msgstr "document number"
 
-#: buildings/models.py:430
+#: buildings/models.py:462
 msgid ""
 "Si desea ingresar más de un número telefónico, estos deben ir separados por "
 "coma (,)."
@@ -751,166 +770,172 @@ msgstr ""
 "If you wish to enter more than one telephone number, these must be separated "
 "by comma (,)."
 
-#: buildings/models.py:453
+#: buildings/models.py:485
 msgid "dirección de correspondencia"
 msgstr "Correspondence Address"
 
-#: buildings/models.py:454
+#: buildings/models.py:486
 msgid ""
 "Dirección alternativa para enviar correspondencia al propietario de la unidad"
 msgstr "Alternative address to send correspondence to the unit owner"
 
-#: buildings/models.py:465
+#: buildings/models.py:497
 #, fuzzy
 #| msgid "propietario"
 msgid "propietario principal"
 msgstr "owner"
 
-#: buildings/models.py:483
+#: buildings/models.py:502
+#, fuzzy
+#| msgid "Coeficiente"
+msgid "es residente"
+msgstr "Coefficient"
+
+#: buildings/models.py:520
 msgid "propietario"
 msgstr "owner"
 
-#: buildings/models.py:484
+#: buildings/models.py:521
 msgid "propietarios"
 msgstr "owners"
 
-#: buildings/models.py:566
+#: buildings/models.py:603
 #, fuzzy
 #| msgid "arrendatario"
 msgid "arrendatario principal"
 msgstr "leaseholder"
 
-#: buildings/models.py:584
+#: buildings/models.py:621
 msgid "arrendatario"
 msgstr "leaseholder"
 
-#: buildings/models.py:585
+#: buildings/models.py:622
 msgid "arrendatarios"
 msgstr "leaseholders"
 
-#: buildings/models.py:628 buildings/models.py:733
+#: buildings/models.py:665 buildings/models.py:770
 #, fuzzy
 #| msgid "Coeficiente"
 msgid "residente"
 msgstr "Coefficient"
 
-#: buildings/models.py:638
+#: buildings/models.py:675
 msgid "contacto de emergencia"
 msgstr "emergency contact"
 
-#: buildings/models.py:639
+#: buildings/models.py:676
 msgid "contactos de emergencia"
 msgstr "emergency contacts"
 
-#: buildings/models.py:659
+#: buildings/models.py:696
 #, fuzzy
 #| msgid "Fecha de creación"
 msgid "fecha de nacimiento"
 msgstr "Creation date"
 
-#: buildings/models.py:734
+#: buildings/models.py:771
 #, fuzzy
 #| msgid "parentesco"
 msgid "residentes"
 msgstr "relationship"
 
-#: buildings/models.py:746
+#: buildings/models.py:783
 #, fuzzy
 #| msgid "número celular"
 msgid "número"
 msgstr "mobile phone"
 
-#: buildings/models.py:751
+#: buildings/models.py:788
 #, fuzzy
 #| msgid "tipo de documento"
 msgid "tipo de parqueadero"
 msgstr "document type"
 
-#: buildings/models.py:767
+#: buildings/models.py:804
 msgid "parqueadero"
 msgstr "parking lot"
 
-#: buildings/models.py:768
+#: buildings/models.py:805
 msgid "parqueaderos"
 msgstr "parking lots"
 
-#: buildings/models.py:779
+#: buildings/models.py:816
 msgid "marca"
 msgstr "brand"
 
-#: buildings/models.py:784
+#: buildings/models.py:821
 #, fuzzy
 #| msgid "tipo de documento"
 msgid "tipo de vehículo"
 msgstr "document type"
 
-#: buildings/models.py:791
+#: buildings/models.py:828
 msgid "placa"
 msgstr "license_plate"
 
-#: buildings/models.py:796 buildings/models.py:901
+#: buildings/models.py:833 buildings/models.py:938
 msgid "color"
 msgstr "color"
 
-#: buildings/models.py:824
+#: buildings/models.py:861
 msgid "vehículo"
 msgstr "vehicle"
 
-#: buildings/models.py:825
+#: buildings/models.py:862
 msgid "vehículos"
 msgstr "vehicles"
 
-#: buildings/models.py:855
+#: buildings/models.py:892
 msgid "horario"
 msgstr "schedule"
 
-#: buildings/models.py:856
+#: buildings/models.py:893
 msgid "Días y horarios en los que va a trabajar."
 msgstr "What days and time are he/she goind to work?"
 
-#: buildings/models.py:873
+#: buildings/models.py:910
 msgid "trabajador doméstico"
 msgstr "domestic worker"
 
-#: buildings/models.py:874
+#: buildings/models.py:911
 msgid "trabajadores domésticos"
 msgstr "domestic workers"
 
-#: buildings/models.py:885
+#: buildings/models.py:922
 #, fuzzy
 #| msgid "tipo de documento"
 msgid "tipo de mascota"
 msgstr "document type"
 
-#: buildings/models.py:886
+#: buildings/models.py:923
 msgid "perro, gato, etc."
 msgstr "dog, cat, etc."
 
-#: buildings/models.py:891
+#: buildings/models.py:928
 msgid "raza"
 msgstr "breed"
 
-#: buildings/models.py:931
+#: buildings/models.py:968
 msgid "mascota"
 msgstr "pet"
 
-#: buildings/models.py:932
+#: buildings/models.py:969
 msgid "mascotas"
 msgstr "pets"
 
-#: buildings/models.py:963
+#: buildings/models.py:1000
 msgid "parentesco"
 msgstr "relationship"
 
-#: buildings/models.py:964
+#: buildings/models.py:1001
 msgid "Amigo, familiar, etc"
 msgstr "Friend, relative, etc."
 
-#: buildings/models.py:982
+#: buildings/models.py:1019
 msgid "visitante autorizado"
 msgstr "Authorized visitor"
 
-#: buildings/models.py:983
+#: buildings/models.py:1020
 msgid "visitantes autorizados"
 msgstr "Authorized visitors"
 
@@ -933,6 +958,7 @@ msgid "Número telefónico"
 msgstr "Phone number"
 
 #: buildings/templates/buildings/administrative/data_update/data_update.html:9
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:5
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:5
 #: buildings/templates/buildings/administrative/units/units_list.html:11
 msgid "Actualización de datos"
@@ -950,14 +976,21 @@ msgstr "Owner"
 msgid "Arrendatarios"
 msgstr "Leaseholder"
 
-#: buildings/templates/buildings/administrative/data_update/data_update.html:23
+#: buildings/templates/buildings/administrative/data_update/data_update.html:18
+#: buildings/templates/buildings/administrative/units/unit_detail.html:100
+msgid "Residentes"
+msgstr "Residents"
+
+#: buildings/templates/buildings/administrative/data_update/data_update.html:25
 msgid ""
 "Se enviará un correo electrónico a los propietarios disponibles para "
 "solicitar la actualización de sus datos de contacto."
 msgstr ""
 "An email will be sent to available owners to request contact data update."
 
-#: buildings/templates/buildings/administrative/data_update/data_update.html:32
+#: buildings/templates/buildings/administrative/data_update/data_update.html:37
+#: buildings/templates/buildings/administrative/data_update/data_update.html:85
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:20
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:20
 #: buildings/templates/buildings/administrative/units/unit_detail.html:22
 #: buildings/templates/buildings/administrative/units/unit_header.html:4
@@ -965,48 +998,68 @@ msgstr ""
 msgid "Unidad"
 msgstr "Unit"
 
-#: buildings/templates/buildings/administrative/data_update/data_update.html:33
-#: buildings/templates/buildings/administrative/data_update/data_update.html:61
+#: buildings/templates/buildings/administrative/data_update/data_update.html:38
+#: buildings/templates/buildings/administrative/data_update/data_update.html:66
+#: buildings/templates/buildings/administrative/data_update/data_update.html:86
+#: buildings/templates/buildings/administrative/data_update/data_update.html:116
 msgid "Solicitar actualización"
 msgstr "Request data update"
 
-#: buildings/templates/buildings/administrative/data_update/data_update.html:48
+#: buildings/templates/buildings/administrative/data_update/data_update.html:53
+#: buildings/templates/buildings/administrative/data_update/data_update.html:101
 #, fuzzy
 #| msgid "Fecha de solicitud de activación de cuenta"
 msgid "La solicitud de actualización se ha enviado recientemente."
 msgstr "Account activation request date"
 
-#: buildings/templates/buildings/administrative/data_update/data_update.html:50
+#: buildings/templates/buildings/administrative/data_update/data_update.html:55
 #, fuzzy
 #| msgid "Su dirección de correo electrónico registrada es:"
 msgid "Los propietarios no tienen una cuenta de correo electrónico registrada"
 msgstr "Your registered email is:"
 
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:8
-#: buildings/templates/buildings/administrative/data_update/owners_update_form.html:14
+#: buildings/templates/buildings/administrative/data_update/data_update.html:68
+#: buildings/templates/buildings/administrative/data_update/data_update.html:118
+#, fuzzy
+#| msgid "No hay unidades registradas aún."
+msgid "No hay unidades registradas."
+msgstr "No units registered yet."
+
+#: buildings/templates/buildings/administrative/data_update/data_update.html:74
+#, fuzzy
+#| msgid ""
+#| "Se enviará un correo electrónico a los propietarios disponibles para "
+#| "solicitar la actualización de sus datos de contacto."
+msgid ""
+"Se enviará un correo electrónico a los arrendatarios disponibles para "
+"solicitar la actualización de sus datos de contacto."
+msgstr ""
+"An email will be sent to available owners to request contact data update."
+
+#: buildings/templates/buildings/administrative/data_update/data_update.html:103
+#, fuzzy
+#| msgid "No hay unidades registradas aún."
+msgid "Ho hay arrendatarios registrados en la unidad."
+msgstr "No units registered yet."
+
+#: buildings/templates/buildings/administrative/data_update/data_update.html:105
+#, fuzzy
+#| msgid "Su dirección de correo electrónico registrada es:"
+msgid ""
+"Los arrendatarios no tienen una cuenta de correo electrónico registrada."
+msgstr ""
+"Leaseholders do not have a registered email address."
+
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:14
+#: buildings/templates/buildings/administrative/data_update/update_email.html:11
 #, fuzzy
 #| msgid "Datos del propietario"
-msgid "Actualización de datos de propietarios."
+msgid "Actualización de datos de arrendatarios."
 msgstr "Owner data"
 
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:10
-#, fuzzy
-#| msgid "Cordial saludo"
-msgid "Cordial saludo."
-msgstr "Best regard"
-
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:12
-msgid ""
-"Se ha solicitado la actualización de sus datos por parte de la "
-"administración de"
-msgstr "The updating of your data has been requested by the administration of "
-
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:12
-msgid "Por favor, siga el siguiente enlace para actualizar sus datos."
-msgstr "Please, follow the following link to update your information."
-
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:14
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:17
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:17
+#: buildings/templates/buildings/administrative/data_update/update_email.html:18
 #: buildings/templates/buildings/administrative/roles/membership_email.html:16
 #: buildings/templates/buildings/administrative/roles/membership_email.html:27
 #, fuzzy
@@ -1014,34 +1067,21 @@ msgstr "Please, follow the following link to update your information."
 msgid "Copropiedad:"
 msgstr "condo"
 
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:15
-#, fuzzy
-#| msgid "Unidad"
-msgid "Unidad:"
-msgstr "Unit"
-
-#: buildings/templates/buildings/administrative/data_update/owners_update_email.html:19
-#, fuzzy
-#| msgid ""
-#| "Este link dejará de estar disponible una vez haya hecho la actualización "
-#| "de datos."
-msgid ""
-"Este link dejará de estar disponible una vez haya hecho la actualización de "
-"datos o 30 días después del envío de este correo."
-msgstr "This link will no longer be available once the data update is done"
-
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:33
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:33
 #: buildings/templates/buildings/administrative/residents/resident_form.html:66
 #: buildings/templates/buildings/administrative/units/inc_owner_formset.html:11
 msgid "Propietario"
 msgstr "Owner"
 
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:34
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:34
 #, fuzzy
 #| msgid "Recuperación de contraseña"
 msgid "Información de contacto"
 msgstr "Password recovery"
 
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:68
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:73
 #, fuzzy
 #| msgid ""
@@ -1053,6 +1093,45 @@ msgid ""
 "actualización de datos."
 msgstr ""
 "This link will no longer be available when you have completed this form."
+
+#: buildings/templates/buildings/administrative/data_update/owners_update_form.html:14
+#: buildings/templates/buildings/administrative/data_update/update_email.html:9
+#, fuzzy
+#| msgid "Datos del propietario"
+msgid "Actualización de datos de propietarios."
+msgstr "Owner data"
+
+#: buildings/templates/buildings/administrative/data_update/update_email.html:14
+#, fuzzy
+#| msgid "Cordial saludo"
+msgid "Cordial saludo."
+msgstr "Best regard"
+
+#: buildings/templates/buildings/administrative/data_update/update_email.html:16
+msgid ""
+"Se ha solicitado la actualización de sus datos por parte de la "
+"administración de"
+msgstr "The updating of your data has been requested by the administration of "
+
+#: buildings/templates/buildings/administrative/data_update/update_email.html:16
+msgid "Por favor, siga el siguiente enlace para actualizar sus datos."
+msgstr "Please, follow the following link to update your information."
+
+#: buildings/templates/buildings/administrative/data_update/update_email.html:19
+#, fuzzy
+#| msgid "Unidad"
+msgid "Unidad:"
+msgstr "Unit"
+
+#: buildings/templates/buildings/administrative/data_update/update_email.html:23
+#, fuzzy
+#| msgid ""
+#| "Este link dejará de estar disponible una vez haya hecho la actualización "
+#| "de datos."
+msgid ""
+"Este link dejará de estar disponible una vez haya hecho la actualización de "
+"datos o 30 días después del envío de este correo."
+msgstr "This link will no longer be available once the data update is done"
 
 #: buildings/templates/buildings/administrative/domestic_workers/domestic_worker_delete_confirm.html:12
 msgid "Eliminar trabajador doméstico"
@@ -1159,10 +1238,10 @@ msgstr "Edit profile"
 #: buildings/templates/buildings/administrative/residents/resident_form.html:89
 #: buildings/templates/buildings/administrative/residents/resident_form.html:120
 #: buildings/templates/buildings/administrative/roles/memberships_list.html:46
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:87
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:172
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:91
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:184
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:89
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:174
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:107
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:216
 #: buildings/templates/buildings/administrative/units/unit_detail.html:130
 #: buildings/templates/buildings/administrative/units/unit_detail.html:174
 #: buildings/templates/buildings/administrative/units/unit_detail.html:217
@@ -1306,7 +1385,8 @@ msgstr "No, go back to the unit detail"
 #: buildings/templates/buildings/administrative/roles/membership_email.html:10
 #, python-format
 msgid "Su membresía en la copropiedad %(membership.building)s ha sido editada."
-msgstr "Your membership in the condominium %(membership.building)s has been edited."
+msgstr ""
+"Your membership in the condominium %(membership.building)s has been edited."
 
 #: buildings/templates/buildings/administrative/roles/membership_email.html:13
 #, fuzzy
@@ -1324,7 +1404,8 @@ msgstr "membership"
 #, python-format
 msgid ""
 "Su membresía en la copropiedad %(membership.building)s ha sido eliminada."
-msgstr "Your membership in the condominium %(membership.building)s has been deleted."
+msgstr ""
+"Your membership in the condominium %(membership.building)s has been deleted."
 
 #: buildings/templates/buildings/administrative/roles/membership_email.html:20
 #, fuzzy
@@ -1425,8 +1506,8 @@ msgid ""
 "Su membresía solo puede ser transferida a usuarios administradores activos "
 "en la copropiedad"
 msgstr ""
-"Your membership only can be transtared to active administrator users "
-"in the condominium"
+"Your membership only can be transtared to active administrator users in the "
+"condominium"
 
 #: buildings/templates/buildings/administrative/roles/membership_transfer.html:29
 msgid "Transferir"
@@ -1437,8 +1518,8 @@ msgid ""
 "Al transferir la membresía principal a otro usuario, conservará una "
 "membresía como administrador común en la copropiedad."
 msgstr ""
-"When transfer your main membership to another user, you will keep "
-"your administrator membership in the condominium."
+"When transfer your main membership to another user, you will keep your "
+"administrator membership in the condominium."
 
 #: buildings/templates/buildings/administrative/roles/membership_transfer.html:35
 msgid ""
@@ -1447,8 +1528,8 @@ msgid ""
 "usuario previamente."
 msgstr ""
 "There are not more administrators registered in the condominium. To be able "
-"to transfer yout membership, you must assign the administrator role to another "
-"user previously."
+"to transfer yout membership, you must assign the administrator role to "
+"another user previously."
 
 #: buildings/templates/buildings/administrative/roles/memberships_list.html:21
 #, fuzzy
@@ -1465,65 +1546,97 @@ msgstr "Transfer main membership"
 msgid "No hay unidades registradas aún."
 msgstr "No units registered yet."
 
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:12
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:3
+msgid ""
+"No puede agregar arrendatarios si los propietarios residen en la unidad."
+msgstr ""
+"You can't add leaseholders if the owners reside in the unit."
+
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:14
 msgid "Arrendatario"
 msgstr "Leaseholder"
 
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:65
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:150
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:67
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:152
 #, fuzzy
 #| msgid "arrendatario"
 msgid "¿Es el arrendatario principal de la unidad?"
 msgstr "leaseholder"
 
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:71
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:156
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:73
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:158
 #, fuzzy
 #| msgid "arrendatario"
 msgid "Arrendatario principal"
 msgstr "leaseholder"
 
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:79
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:164
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:81
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:166
 msgid ""
 "El arrendatario principal recibirá las notificaciones para realizar la "
 "actualización de datos."
 msgstr "Main leaseholder will receive notifications to make data update."
 
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:100
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:102
 msgid "Otro arrendatario"
 msgstr "Other leaseholder"
 
-#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:183
+#: buildings/templates/buildings/administrative/units/inc_leaseholder_formset.html:185
 msgid "Agregar arrendatario"
 msgstr "Add leaseholder"
 
 #: buildings/templates/buildings/administrative/units/inc_owner_formset.html:70
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:162
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:178
 #, fuzzy
 #| msgid "propietario"
 msgid "¿Es el propietario principal de la unidad?"
 msgstr "owner"
 
 #: buildings/templates/buildings/administrative/units/inc_owner_formset.html:76
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:168
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:184
 #, fuzzy
 #| msgid "propietario"
 msgid "Propietario principal"
 msgstr "owner"
 
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:84
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:176
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:82
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:190
 msgid ""
 "El propietario principal recibirá las notificaciones para realizar la "
 "actualización de datos de la unidad."
 msgstr "main owner will receive notifications to make data update."
 
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:104
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:88
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:196
+#, fuzzy
+#| msgid "propietario"
+msgid "¿El propietario reside en la unidad?"
+msgstr "owner"
+
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:94
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:202
+#, fuzzy
+#| msgid "Coeficiente"
+msgid "Si, es residente"
+msgstr "Coefficient"
+
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:100
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:208
+#, fuzzy
+#| msgid ""
+#| "El propietario principal recibirá las notificaciones para realizar la "
+#| "actualización de datos de la unidad."
+msgid ""
+"Si es quien reside o hace uso de la unidad, es decir, si esta no está "
+"arrendada, el propietario recibirá notificaciones para realizar "
+"actualización de datos de los residentes de la unidad."
+msgstr "main owner will receive notifications to make data update."
+
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:120
 msgid "Otro propietario"
 msgstr "Other owner"
 
-#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:195
+#: buildings/templates/buildings/administrative/units/inc_owner_formset.html:227
 msgid "Agregar propietario"
 msgstr "Add owner"
 
@@ -1612,10 +1725,6 @@ msgstr "Name:"
 #| msgid "No hay unidades registradas aún."
 msgid "No hay arrendatarios registrados."
 msgstr "No units registered yet."
-
-#: buildings/templates/buildings/administrative/units/unit_detail.html:100
-msgid "Residentes"
-msgstr "Residents"
 
 #: buildings/templates/buildings/administrative/units/unit_detail.html:126
 #: buildings/templates/buildings/administrative/units/unit_detail.html:352
@@ -1845,13 +1954,13 @@ msgstr "Condo created successfully."
 msgid "Copropiedad actualizada correctamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/data_update.py:117
+#: buildings/views/data_update.py:129
 #, fuzzy
 #| msgid "Datos del propietario"
 msgid "Actualizacón de datos de propietarios"
 msgstr "Owner data"
 
-#: buildings/views/data_update.py:144
+#: buildings/views/data_update.py:157
 #, fuzzy
 #| msgid ""
 #| "Hemos enviado suficientes correos de confirmación a su correo electrónico "
@@ -1861,59 +1970,75 @@ msgid ""
 "electrónico registrado."
 msgstr "We have sent enough confirmation emails to your email registered."
 
-#: buildings/views/data_update.py:234
-msgid "Gracias por actualizar sus datos."
-msgstr ""
+#: buildings/views/data_update.py:222
+#, fuzzy
+#| msgid "Datos del propietario"
+msgid "Actualizacón de datos de arrendatarios"
+msgstr "Owner data"
 
-#: buildings/views/domestic_workers.py:60
+#: buildings/views/data_update.py:251
+#, fuzzy
+#| msgid ""
+#| "Hemos enviado suficientes correos de confirmación a su correo electrónico "
+#| "registrado."
+msgid ""
+"Se ha solicitado la actualización de datos a los arrendatarios con correo "
+"electrónico registrado."
+msgstr "We have sent enough confirmation emails to your email registered."
+
+#: buildings/views/data_update.py:336 buildings/views/data_update.py:423
+msgid "Gracias por actualizar sus datos."
+msgstr "Thanks for updating your data."
+
+#: buildings/views/domestic_workers.py:58
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Trabajador doméstico creado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/domestic_workers.py:113
+#: buildings/views/domestic_workers.py:110
 #, fuzzy
 #| msgid "Copropiedad actualizada correctamente."
 msgid "Trabajador doméstico actualizado exitosamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/domestic_workers.py:161
+#: buildings/views/domestic_workers.py:157
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Trabajador doméstico eliminado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/parking_lots.py:59
+#: buildings/views/parking_lots.py:58
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Parqueadero creado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/parking_lots.py:112
+#: buildings/views/parking_lots.py:110
 #, fuzzy
 #| msgid "Copropiedad actualizada correctamente."
 msgid "Parqueadero actualizado exitosamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/parking_lots.py:160
+#: buildings/views/parking_lots.py:157
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Parqueadero eliminado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/pets.py:59
+#: buildings/views/pets.py:58
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Mascota creada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/pets.py:141
+#: buildings/views/pets.py:139
 #, fuzzy
 #| msgid "Copropiedad actualizada correctamente."
 msgid "Mascota actualizado exitosamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/pets.py:189
+#: buildings/views/pets.py:186
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Mascota eliminada exitosamente."
@@ -1931,95 +2056,95 @@ msgstr "Unit craeted successfully"
 msgid "Residente actualizado exitosamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/residents.py:246
+#: buildings/views/residents.py:245
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Residente eliminado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/roles.py:117
+#: buildings/views/roles.py:116
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Membersía creada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/roles.py:122
+#: buildings/views/roles.py:121
 msgid "Se ha creado una nueva membresía en una copropiedad  para usted."
 msgstr "A new condominium membership has been created for you."
 
-#: buildings/views/roles.py:200
+#: buildings/views/roles.py:206
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Membresía actualizada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/roles.py:204
+#: buildings/views/roles.py:210
 #, fuzzy
 #| msgid "membresía activa"
 msgid "Su membresía ha sido editada"
 msgstr "Active membership"
 
-#: buildings/views/roles.py:267
+#: buildings/views/roles.py:272
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Membresía eliminada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/roles.py:271
+#: buildings/views/roles.py:276
 msgid "Su membresía ha sido eliminada"
 msgstr "Your membership has been deleted"
 
-#: buildings/views/roles.py:353
+#: buildings/views/roles.py:354
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Su membresía ha sido transferida exitosamente"
 msgstr "Unit craeted successfully"
 
-#: buildings/views/units.py:206
+#: buildings/views/units.py:210
 msgid "Unidad creada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/units.py:344
+#: buildings/views/units.py:352
 msgid "Unidad actualizada correctamente."
 msgstr "Unit updated correctly."
 
-#: buildings/views/units.py:432
+#: buildings/views/units.py:440
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Unidad eliminado exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/vehicles.py:59
+#: buildings/views/vehicles.py:58
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Vehículo creado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/vehicles.py:112
+#: buildings/views/vehicles.py:110
 #, fuzzy
 #| msgid "Copropiedad actualizada correctamente."
 msgid "Vehículo actualizado exitosamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/vehicles.py:160
+#: buildings/views/vehicles.py:157
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Vehículo eliminado exitosamente."
 msgstr "Condo created successfully."
 
-#: buildings/views/visitors.py:59
+#: buildings/views/visitors.py:58
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Visitante creado exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/visitors.py:112
+#: buildings/views/visitors.py:110
 #, fuzzy
 #| msgid "Copropiedad actualizada correctamente."
 msgid "Visitante actualizado exitosamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/visitors.py:160
+#: buildings/views/visitors.py:157
 #, fuzzy
 #| msgid "Copropiedad creada exitosamente."
 msgid "Visitante eliminado exitosamente."
