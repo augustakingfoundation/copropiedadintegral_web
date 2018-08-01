@@ -182,7 +182,6 @@ class RequestLeaseholdersUpdateView(CustomUserMixin, View):
 
     @transaction.atomic
     def post(self, *args, **kwargs):
-        # Get formset post data.
         leaseholder_update_formset = ConfirmLeaseholderUpdateFormSet(
             self.request.POST,
             prefix='leaseholder_update',
@@ -230,6 +229,7 @@ class RequestLeaseholdersUpdateView(CustomUserMixin, View):
                             ],
                         )
 
+                        # Create email content.
                         body = render_to_string(
                             'buildings/administrative/data_update/update_email.html', {
                                 'title': subject,
