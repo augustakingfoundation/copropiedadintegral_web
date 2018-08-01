@@ -198,8 +198,12 @@ class UnitFormView(CustomUserMixin, TemplateView):
 
         # Create Owner instances.
         process_unit_formset(owner_formset, unit)
-        # Create Leaseholder instances.
-        process_unit_formset(leaseholder_formset, unit)
+
+        # Process leaseholders formset only if
+        # owners are not residents of the unit.
+        if not unit.owner_set.filter(is_resident=True):
+            # Create Leaseholder instances.
+            process_unit_formset(leaseholder_formset, unit)
 
         messages.success(
             self.request,
@@ -336,8 +340,12 @@ class UnitUpdateView(CustomUserMixin, TemplateView):
         unit = form.save()
         # Update, delete or create new Owner instances for this unit.
         process_unit_formset(owner_formset, unit)
-        # Update, delete or create new Leaseholder instances for this unit.
-        process_unit_formset(leaseholder_formset, unit)
+
+        # Process leaseholders formset only if
+        # owners are not residents of the unit.
+        if not unit.owner_set.filter(is_resident=True):
+            # Update, delete or create new Leaseholder instances for this unit.
+            process_unit_formset(leaseholder_formset, unit)
 
         messages.success(
             self.request,

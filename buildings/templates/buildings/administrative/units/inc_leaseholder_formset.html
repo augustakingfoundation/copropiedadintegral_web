@@ -1,5 +1,7 @@
 {% load static widget_tweaks formset_tags i18n %}
 
+<div id="disabled_leaseholers_formset" style="display: none;">{% trans "No puede agregar arrendatarios si los propietarios residen en la unidad." %}</div>
+
 <div id="leaseholder_formset" data-formset-prefix="{{ leaseholder_formset.prefix }}" class="ci_UnitFormFormset">
   {% if leaseholder_formset.non_form_errors %}
   <div class="alert alert-warning" role="alert">{{ leaseholder_formset.non_form_errors }}</div>

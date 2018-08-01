@@ -307,6 +307,15 @@ class Unit(models.Model):
 
         return has_email
 
+    @property
+    def leaseholder_has_email(self):
+        has_email = False
+        for leaseholder in self.leaseholder_set.all():
+            if leaseholder.email:
+                has_email = True
+
+        return has_email
+
     def get_absolute_url(self):
         return reverse(
             'buildings:unit_detail', args=[self.building.id, self.id]
@@ -350,7 +359,24 @@ class UnitDataUpdate(models.Model):
         verbose_name=_('clave actualizar propietarios'),
     )
 
-    activated_at = models.DateTimeField(
+    owners_update_activated_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    enable_leaseholders_update = models.BooleanField(
+        verbose_name=_('habilitar actualización de arrendatarios'),
+        default=False,
+    )
+
+    leaseholders_update_key = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        verbose_name=_('clave actualizar arrendatarios'),
+    )
+
+    leaseholders_update_activated_at = models.DateTimeField(
         null=True,
         blank=True,
     )
@@ -358,6 +384,11 @@ class UnitDataUpdate(models.Model):
     @property
     def owners_data_key(self):
         hashids = Hashids(salt=self.owners_update_key, min_length=50)
+        return hashids.encode(self.id)
+
+    @property
+    def leaseholders_data_key(self):
+        hashids = Hashids(salt=self.leaseholders_update_key, min_length=50)
         return hashids.encode(self.id)
 
     def __str__(self):
@@ -464,6 +495,11 @@ class Owner(models.Model):
 
     is_main = models.BooleanField(
         verbose_name=_('propietario principal'),
+        default=False,
+    )
+
+    is_resident = models.BooleanField(
+        verbose_name=_('es residente'),
         default=False,
     )
 

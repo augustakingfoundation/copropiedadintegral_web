@@ -35,7 +35,9 @@ from buildings.views.roles import MembershipDeleteView
 from buildings.views.roles import MembershipTransferView
 from buildings.views.data_update import DataUpdateView
 from buildings.views.data_update import RequestOwnersUpdateView
+from buildings.views.data_update import RequestLeaseholdersUpdateView
 from buildings.views.data_update import OwnersUpdateForm
+from buildings.views.data_update import LeaseholdersUpdateForm
 
 
 urlpatterns = [
@@ -323,11 +325,26 @@ urlpatterns = [
         name='request_owners_update_view',
     ),
 
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/actualizacion-de-datos/arrendatarios/solicitar/$',
+        RequestLeaseholdersUpdateView.as_view(),
+        name='request_leaseholders_update_view',
+    ),
+
     # pk = Unit update object id.
     # verify_key = Encrypted key to verify update owners form.
     url(
         r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/propietarios/formulario/$',
         OwnersUpdateForm.as_view(),
         name='owners_update_form',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update leaseholders form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/arrendatarios/formulario/$',
+        LeaseholdersUpdateForm.as_view(),
+        name='leaseholders_update_form',
     ),
 ]

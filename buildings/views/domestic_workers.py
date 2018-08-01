@@ -30,7 +30,6 @@ class DomesticWorkerFormView(CustomUserMixin, CreateView):
         )
 
     def get_object(self, queryset=None):
-        # Get unit object.
         return get_object_or_404(
             Unit,
             building_id=self.kwargs['b_pk'],
@@ -48,7 +47,6 @@ class DomesticWorkerFormView(CustomUserMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Get unit instance.
         unit = self.get_object()
         # Create domestic worker object.
         domestic_worker = form.save(commit=False)
@@ -78,7 +76,6 @@ class DomesticWorkerUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get domestic worker object.
         return get_object_or_404(
             DomesticWorker,
             unit_id=self.kwargs['u_pk'],
@@ -132,7 +129,6 @@ class DomesticWorkerDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get domestic worker object.
         return get_object_or_404(
             DomesticWorker,
             unit_id=self.kwargs['u_pk'],

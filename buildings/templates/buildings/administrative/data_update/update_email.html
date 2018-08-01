@@ -5,7 +5,11 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
+{% if owners_update %}
 <h1>{% trans "Actualización de datos de propietarios." %}</h1>
+{% elif leaseholders_update %}
+<h1>{% trans "Actualización de datos de arrendatarios." %}</h1>
+{% endif %}
 
 <p>{% trans "Cordial saludo." %}</p>
 

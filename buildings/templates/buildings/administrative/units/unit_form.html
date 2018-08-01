@@ -87,11 +87,11 @@ $(function() {
       }
     });
 
-
-    // Action to change delete checkbox value on owner and leaseholder form.
-    $('.ci_UnitFormFormset').on('click', '.jsDeleteFormsetButton', function () {
-      // Find checkbox input to delete current form in owners and leaseholders formset.
-      $(this).parent().find('.ci-delete-formset-input').click();
+    // Add active class to 'is_resident' button is related field is checked on formset.
+    $('.ci_UnitFormFormset .ci-resident-formset-input').each(function(idx, element) {
+      if (element.checked) {
+        $(element).parent().find('.jsResidentFormsetButton').addClass('btn-info').removeClass('btn-outline-info');
+      }
     });
 
     // Action to change main owner and leaseholder checkboxes value.
@@ -120,6 +120,49 @@ $(function() {
       set_main_input.click()
       // Add active class (btn-info) to the main button in the current formset.
       main_button.addClass('btn-info').removeClass('btn-outline-info');
+    });
+
+    // Action to change is_resident field in owner formset.
+    $('.ci_UnitFormFormset').on('click', '.jsResidentFormsetButton', function () {
+      // Get clicked button.
+      var main_button = $(this);
+      // Get checkbox input in the cliked button form.
+      var set_resident_input = $(this).parent().find('.ci-resident-formset-input');
+
+      // 'is_resident' owner input action. Click the checkbox to change the field value.
+      set_resident_input.click();
+
+      if (set_resident_input.is(':checked')) {
+        // Add active class to indicate that the owner is resident of the unit.
+        main_button.addClass('btn-info').removeClass('btn-outline-info');
+
+        // Hide leaseholders formset. If the owner is resident of the unit, the user can't add leaseholders.
+        $("#leaseholder_formset").hide();
+        $("#disabled_leaseholers_formset").show();
+
+      } else {
+        // Remove active class to indicate that the owner is not resident of the unit.
+        main_button.removeClass('btn-info').addClass('btn-outline-info');
+
+        // Show leaseholders formset. If the owners are not residents of the unit, the user can add leaseholder.
+        var resident_owners = 0
+        $('.ci_UnitFormFormset .ci-resident-formset-input').each(function(idx, element) {
+          if (element.checked) {
+            resident_owners = resident_owners + 1;
+          }
+        });
+
+        if (resident_owners === 0) {
+          $("#leaseholder_formset").show();
+          $("#disabled_leaseholers_formset").hide();
+        }
+      }
+    });
+
+    // Action to change delete checkbox value on owner and leaseholder form.
+    $('.ci_UnitFormFormset').on('click', '.jsDeleteFormsetButton', function () {
+      // Find checkbox input to delete current form in owners and leaseholders formset.
+      $(this).parent().find('.ci-delete-formset-input').click();
     });
 });
 </script>

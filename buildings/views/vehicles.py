@@ -47,7 +47,6 @@ class VehicleFormView(CustomUserMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        # Get unit instance.
         unit = self.get_object()
         # Create vehicle object.
         vehicle = form.save(commit=False)
@@ -77,7 +76,6 @@ class VehicleUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             Vehicle,
             unit_id=self.kwargs['u_pk'],
@@ -131,7 +129,6 @@ class VehicleDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             Vehicle,
             unit_id=self.kwargs['u_pk'],

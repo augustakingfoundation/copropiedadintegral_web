@@ -16,11 +16,14 @@ from django.views.generic import View
 
 from app.mixins import CustomUserMixin
 from buildings.forms import ConfirmOwnerUpdateFormSet
+from buildings.forms import ConfirmLeaseholderUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
+from buildings.forms import LeaseholderUpdateFormSet
 from buildings.models import Building
 from buildings.models import Unit
 from buildings.models import UnitDataUpdate
 from buildings.models import Owner
+from buildings.models import Leaseholder
 from buildings.permissions import BuildingPermissions
 from app.tasks import send_email
 
@@ -52,6 +55,13 @@ class DataUpdateView(CustomUserMixin, TemplateView):
 
         context['confirm_owner_update_formset'] = ConfirmOwnerUpdateFormSet(
             prefix='owner_update',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
+        )
+
+        context['confirm_leaseholder_update_formset'] = ConfirmLeaseholderUpdateFormSet(
+            prefix='leaseholder_update',
             queryset=UnitDataUpdate.objects.filter(
                 unit__building=self.get_object(),
             ),
@@ -98,7 +108,7 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
                 if update and unit_data_object.unit.owner_has_email:
                     # Owners update form must be available.
                     unit_data_object.enable_owners_update = True
-                    unit_data_object.activated_at = timezone.now()
+                    unit_data_object.owners_update_activated_at = timezone.now()
 
                     # Generate random string to add security to the
                     # owners update link.
@@ -127,8 +137,9 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
                         )
 
                         body = render_to_string(
-                            'buildings/administrative/data_update/owners_update_email.html', {
+                            'buildings/administrative/data_update/update_email.html', {
                                 'title': subject,
+                                'owners_update': True,
                                 'unit_data_object': unit_data_object,
                                 'update_url': update_url,
                                 'base_url': settings.BASE_URL,
@@ -153,6 +164,100 @@ class RequestOwnersUpdateView(CustomUserMixin, View):
         )
 
 
+class RequestLeaseholdersUpdateView(CustomUserMixin, View):
+    """
+    View to manage the post request of the leaseholders update formset.
+    """
+    def test_func(self):
+        return BuildingPermissions.can_edit_building(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Building,
+            pk=self.kwargs['pk'],
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        leaseholder_update_formset = ConfirmLeaseholderUpdateFormSet(
+            self.request.POST,
+            prefix='leaseholder_update',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
+        )
+
+        for form in leaseholder_update_formset:
+            if form.is_valid():
+                unit_data_object = form.save(commit=False)
+
+                # Get update request value. If True, an email
+                # will be sent to the unit registered leaseholders.
+                update = form.cleaned_data['update']
+
+                if update and unit_data_object.unit.leaseholder_has_email:
+                    # Leaseholder update form must be available.
+                    unit_data_object.enable_leaseholders_update = True
+                    unit_data_object.leaseholders_update_activated_at = timezone.now()
+
+                    # Generate random string to add security to the
+                    # leaseholders update link.
+                    key = get_random_string(length=30)
+                    # This key is used to decrypt the generated url
+                    # to activate the update leaseholders data form.
+                    unit_data_object.leaseholders_update_key = key
+                    unit_data_object.save()
+
+                    unit = unit_data_object.unit
+
+                    # Filter leaseholders by email value. Only send
+                    # email if leaseholders have a registered email.
+                    for leaseholder in unit.leaseholder_set.exclude(
+                        email__isnull=True,
+                    ).exclude(email__exact=''):
+                        # Send email.
+                        subject = _('Actualizacón de datos de arrendatarios')
+
+                        update_url = reverse(
+                            'buildings:leaseholders_update_form',
+                            args=[
+                                unit_data_object.id,
+                                unit_data_object.leaseholders_data_key,
+                            ],
+                        )
+
+                        # Create email content.
+                        body = render_to_string(
+                            'buildings/administrative/data_update/update_email.html', {
+                                'title': subject,
+                                'leaseholders_update': True,
+                                'unit_data_object': unit_data_object,
+                                'update_url': update_url,
+                                'base_url': settings.BASE_URL,
+                            },
+                        )
+
+                        send_email(
+                            subject=subject,
+                            body=body,
+                            mail_to=[leaseholder.email],
+                        )
+
+        messages.success(
+            self.request,
+            _('Se ha solicitado la actualización de datos a'
+              ' los arrendatarios con correo electrónico registrado.')
+        )
+
+        return redirect(
+            'buildings:data_update_view',
+            self.get_object().id,
+        )
+
+
 class OwnersUpdateForm(TemplateView):
     """
     Owners update form. This form will be available only if
@@ -162,13 +267,11 @@ class OwnersUpdateForm(TemplateView):
     template_name = 'buildings/administrative/data_update/owners_update_form.html'
 
     def get_object(self, queryset=None):
-        # Get unit object.
         unit = get_object_or_404(
             Unit,
             pk=self.kwargs['pk'],
         )
 
-        # Get data update object from the unit object instance.
         data_update = unit.unitdataupdate
 
         # Used hashids library to decrypt the url verify key.
@@ -192,7 +295,6 @@ class OwnersUpdateForm(TemplateView):
         return context
 
     def get(self, *args, **kwargs):
-        # Owners formset.
         owner_update_formset = OwnerUpdateFormSet(
             queryset=Owner.objects.filter(
                 unit=self.get_object().unit,
@@ -206,7 +308,6 @@ class OwnersUpdateForm(TemplateView):
     @transaction.atomic
     def post(self, *args, **kwargs):
         unit_data_object = self.get_object()
-        # Emergency contacts formset.
         owner_update_formset = OwnerUpdateFormSet(
             self.request.POST,
             queryset=Owner.objects.filter(
@@ -214,7 +315,6 @@ class OwnersUpdateForm(TemplateView):
             ),
         )
 
-        # Resident and emergency contact form validation.
         if not owner_update_formset.is_valid():
             return self.render_to_response(
                 self.get_context_data(
@@ -229,6 +329,93 @@ class OwnersUpdateForm(TemplateView):
         for form in owner_update_formset:
             if form.is_valid():
                 # Update owner object.
+                form.save()
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar sus datos.')
+        )
+
+        return redirect('home')
+
+
+class LeaseholdersUpdateForm(TemplateView):
+    """
+    Leaseholders update form. This form will be available only if
+    administrators have enabled the update post by requesting
+    leaseholders data update.
+    """
+    template_name = 'buildings/administrative/data_update/leaseholders_update_form.html'
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.leaseholders_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_leaseholders_update=True,
+            pk=verify_key[0],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit_data'] = self.get_object()
+        return context
+
+    def get(self, *args, **kwargs):
+        leaseholder_update_formset = LeaseholderUpdateFormSet(
+            queryset=Leaseholder.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(
+                leaseholder_update_formset=leaseholder_update_formset,
+            )
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        unit_data_object = self.get_object()
+        leaseholder_update_formset = LeaseholderUpdateFormSet(
+            self.request.POST,
+            queryset=Leaseholder.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        if not leaseholder_update_formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(
+                    leaseholder_update_formset=leaseholder_update_formset,
+                )
+            )
+
+        # Disable update leaseholders data formset.
+        unit_data_object.enable_leaseholders_update = False
+        unit_data_object.save()
+
+        for form in leaseholder_update_formset:
+            if form.is_valid():
+                # Update leaseholder object.
                 form.save()
 
         messages.success(

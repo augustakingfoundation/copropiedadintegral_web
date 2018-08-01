@@ -78,10 +78,9 @@ class MembershipFormView(CustomUserMixin, CreateView):
         )
 
     def get_form_kwargs(self):
-        # Get building object.
         building = self.get_object()
 
-        # Get authenticated membership
+        # Get authenticated user membership
         membership = BuildingMembership.objects.get(
             user=self.request.user,
             building=building,
@@ -160,7 +159,6 @@ class MembershipUpdateView(CustomUserMixin, UpdateView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             BuildingMembership,
             building_id=self.kwargs['b_pk'],
@@ -169,7 +167,7 @@ class MembershipUpdateView(CustomUserMixin, UpdateView):
 
     def get_form_kwargs(self):
         building = self.get_object().building
-        # Get authenticated membership
+        # Get authenticated user membership
         membership = BuildingMembership.objects.get(
             user=self.request.user,
             building=building,
@@ -246,7 +244,6 @@ class MembershipDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             BuildingMembership,
             building_id=self.kwargs['b_pk'],
@@ -308,7 +305,6 @@ class MembershipTransferView(CustomUserMixin, FormView):
         )
 
     def get_object(self, queryset=None):
-        # Get vehicle object.
         return get_object_or_404(
             BuildingMembership,
             building_id=self.kwargs['b_pk'],
@@ -328,9 +324,7 @@ class MembershipTransferView(CustomUserMixin, FormView):
         return context
 
     def get_administrators_queryset(self):
-        # Get membership object.
         membership = self.get_object()
-        # Get building object.
         building = membership.building
 
         return BuildingMembership.objects.filter(
@@ -350,7 +344,6 @@ class MembershipTransferView(CustomUserMixin, FormView):
     def form_valid(self, form):
         # Get user to transfer membership.
         user_to_membership = form.cleaned_data.get('user_to')
-        # Get building.
         building = self.get_object().building
         # Assign new user as main administrator.
         building.created_by = user_to_membership.user

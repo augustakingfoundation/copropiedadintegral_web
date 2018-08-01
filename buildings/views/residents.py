@@ -217,7 +217,6 @@ class ResidentDeleteView(CustomUserMixin, DeleteView):
         )
 
     def get_object(self, queryset=None):
-        # Get pet object.
         return get_object_or_404(
             Resident,
             unit_id=self.kwargs['u_pk'],

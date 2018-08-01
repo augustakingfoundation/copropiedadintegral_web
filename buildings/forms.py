@@ -115,6 +115,7 @@ class OwnerForm(forms.ModelForm):
             'phone_number',
             'correspondence_address',
             'email',
+            'is_resident',
             'is_main',
         )
 
@@ -678,6 +679,33 @@ ConfirmOwnerUpdateFormSet = modelformset_factory(
 )
 
 
+class ConfirmLeaseholderUpdateForm(forms.ModelForm):
+    """Form used to confirm if unit leaseholders must be
+    considered for data update.
+    """
+    update = forms.BooleanField(
+        required=False,
+        initial=True,
+    )
+
+    class Meta:
+        model = Leaseholder
+        fields = (
+            'unit',
+            'update',
+        )
+
+
+ConfirmLeaseholderUpdateFormSet = modelformset_factory(
+    UnitDataUpdate,
+    form=ConfirmLeaseholderUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
 class OwnerUpdateForm(forms.ModelForm):
     """
     Unit owner update form. It's used to define the
@@ -697,6 +725,31 @@ class OwnerUpdateForm(forms.ModelForm):
 OwnerUpdateFormSet = modelformset_factory(
     Owner,
     form=OwnerUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
+class LeaseholderUpdateForm(forms.ModelForm):
+    """
+    Unit leaseholder update form. It's used to define the
+    LeaseholderUpdateFormSet structure, available for update
+    leaseholders data directly from a non-authenticated user.
+    """
+    class Meta:
+        model = Leaseholder
+        fields = (
+            'mobile_phone',
+            'phone_number',
+            'email',
+        )
+
+
+LeaseholderUpdateFormSet = modelformset_factory(
+    Leaseholder,
+    form=LeaseholderUpdateForm,
     extra=0,
     min_num=0,
     validate_min=False,
