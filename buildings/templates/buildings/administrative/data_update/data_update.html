@@ -133,10 +133,48 @@
       <form method="post" action="{% url 'buildings:request_residents_update_view' building.id %}">
           {% csrf_token %}
 
+          {{ confirm_resident_update_formset.management_form }}
+
+          {% if confirm_resident_update_formset|length %}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Unidad" %}</th>
+                  <th scope="col">{% trans "Solicitar actualización" %}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for resident_form_update in confirm_resident_update_formset %}
+                {% render_field resident_form_update.id %}
+                <tr>
+                  <td>
+                    {{ resident_form_update.instance }}
+                    <div class="d-none">{% render_field resident_form_update.unit %}</div>
+                  </td>
+
+                  <td>
+                    {% if resident_form_update.instance.enable_leaseholders_update %}
+                    <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
+                    {% elif not resident_form_update.instance.unit.leaseholder_set.all %}
+                    <p>{% trans 'No hay residentes registrados en la unidad.' %}</p>
+                    {% elif not resident_form_update.instance.unit.leaseholder_has_email %}
+                    <p>{% trans 'Los residentes no tienen una cuenta de correo electrónico registrada.' %}</p>
+                    {% else %}
+                    {% render_field resident_form_update.update %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Solicitar actualización" %}</button>
-          
-          
+          {% else %}
+          {% trans "No hay unidades registradas." %}
+          {% endif %}
       </form>
     </div>
   </div>

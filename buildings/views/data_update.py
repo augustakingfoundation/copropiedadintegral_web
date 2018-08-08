@@ -17,6 +17,7 @@ from django.views.generic import View
 from app.mixins import CustomUserMixin
 from buildings.forms import ConfirmOwnerUpdateFormSet
 from buildings.forms import ConfirmLeaseholderUpdateFormSet
+from buildings.forms import ConfirmResidentUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import LeaseholderUpdateFormSet
 from buildings.models import Building
@@ -62,6 +63,14 @@ class DataUpdateView(CustomUserMixin, TemplateView):
 
         context['confirm_leaseholder_update_formset'] = ConfirmLeaseholderUpdateFormSet(
             prefix='leaseholder_update',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
+        )
+
+
+        context['confirm_resident_update_formset'] = ConfirmResidentUpdateFormSet(
+            prefix='resident_update',
             queryset=UnitDataUpdate.objects.filter(
                 unit__building=self.get_object(),
             ),
@@ -276,6 +285,70 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
 
     @transaction.atomic
     def post(self, *args, **kwargs):
+        resident_update_formset = ConfirmResidentUpdateFormSet(
+            self.request.POST,
+            prefix='resident_update',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
+        )
+
+        # for form in resident_update_formset:
+        #     if form.is_valid():
+        #         unit_data_object = form.save(commit=False)
+
+        #         # Get update request value. If True, an email
+        #         # will be sent to the unit registered leaseholders.
+        #         update = form.cleaned_data['update']
+
+        #         if update and unit_data_object.unit.leaseholder_has_email:
+        #             # Leaseholder update form must be available.
+        #             unit_data_object.enable_leaseholders_update = True
+        #             unit_data_object.leaseholders_update_activated_at = timezone.now()
+
+        #             # Generate random string to add security to the
+        #             # leaseholders update link.
+        #             key = get_random_string(length=30)
+        #             # This key is used to decrypt the generated url
+        #             # to activate the update leaseholders data form.
+        #             unit_data_object.leaseholders_update_key = key
+        #             unit_data_object.save()
+
+        #             unit = unit_data_object.unit
+
+        #             # Filter leaseholders by email value. Only send
+        #             # email if leaseholders have a registered email.
+        #             for leaseholder in unit.leaseholder_set.exclude(
+        #                 email__isnull=True,
+        #             ).exclude(email__exact=''):
+        #                 # Send email.
+        #                 subject = _('Actualizacón de datos de arrendatarios')
+
+        #                 update_url = reverse(
+        #                     'buildings:leaseholders_update_form',
+        #                     args=[
+        #                         unit_data_object.id,
+        #                         unit_data_object.leaseholders_data_key,
+        #                     ],
+        #                 )
+
+        #                 # Create email content.
+        #                 body = render_to_string(
+        #                     'buildings/administrative/data_update/update_email.html', {
+        #                         'title': subject,
+        #                         'leaseholders_update': True,
+        #                         'unit_data_object': unit_data_object,
+        #                         'update_url': update_url,
+        #                         'base_url': settings.BASE_URL,
+        #                     },
+        #                 )
+
+                        # send_email(
+                        #     subject=subject,
+                        #     body=body,
+                        #     mail_to=[leaseholder.email],
+                        # )
+
         messages.success(
             self.request,
             _('Se ha solicitado la actualización de datos a'

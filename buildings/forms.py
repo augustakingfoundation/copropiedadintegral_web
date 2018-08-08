@@ -706,6 +706,33 @@ ConfirmLeaseholderUpdateFormSet = modelformset_factory(
 )
 
 
+class ConfirmResidentUpdateForm(forms.ModelForm):
+    """Form used to confirm if unit residents must be
+    considered for data update.
+    """
+    update = forms.BooleanField(
+        required=False,
+        initial=True,
+    )
+
+    class Meta:
+        model = UnitDataUpdate
+        fields = (
+            'unit',
+            'update',
+        )
+
+
+ConfirmResidentUpdateFormSet = modelformset_factory(
+    UnitDataUpdate,
+    form=ConfirmResidentUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
 class OwnerUpdateForm(forms.ModelForm):
     """
     Unit owner update form. It's used to define the
