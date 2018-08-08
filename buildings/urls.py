@@ -36,6 +36,7 @@ from buildings.views.roles import MembershipTransferView
 from buildings.views.data_update import DataUpdateView
 from buildings.views.data_update import RequestOwnersUpdateView
 from buildings.views.data_update import RequestLeaseholdersUpdateView
+from buildings.views.data_update import RequestResidentsUpdateView
 from buildings.views.data_update import OwnersUpdateForm
 from buildings.views.data_update import LeaseholdersUpdateForm
 
@@ -330,6 +331,13 @@ urlpatterns = [
         r'^(?P<pk>\d+)/actualizacion-de-datos/arrendatarios/solicitar/$',
         RequestLeaseholdersUpdateView.as_view(),
         name='request_leaseholders_update_view',
+    ),
+
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/actualizacion-de-datos/residentes/solicitar/$',
+        RequestResidentsUpdateView.as_view(),
+        name='request_residents_update_view',
     ),
 
     # pk = Unit update object id.

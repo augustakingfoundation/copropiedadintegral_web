@@ -258,6 +258,36 @@ class RequestLeaseholdersUpdateView(CustomUserMixin, View):
         )
 
 
+class RequestResidentsUpdateView(CustomUserMixin, View):
+    """
+    View to manage the post request of the residents  update formset.
+    """
+    def test_func(self):
+        return BuildingPermissions.can_edit_building(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Building,
+            pk=self.kwargs['pk'],
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        messages.success(
+            self.request,
+            _('Se ha solicitado la actualización de datos a'
+              ' los residentes con correo electrónico registrado.')
+        )
+
+        return redirect(
+            'buildings:data_update_view',
+            self.get_object().id,
+        )
+
+
 class OwnersUpdateForm(TemplateView):
     """
     Owners update form. This form will be available only if
