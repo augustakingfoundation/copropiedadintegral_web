@@ -293,61 +293,78 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
             ),
         )
 
-        # for form in resident_update_formset:
-        #     if form.is_valid():
-        #         unit_data_object = form.save(commit=False)
+        for form in resident_update_formset:
+            if form.is_valid():
+                unit_data_object = form.save(commit=False)
 
-        #         # Get update request value. If True, an email
-        #         # will be sent to the unit registered leaseholders.
-        #         update = form.cleaned_data['update']
+                # Get update request value. If True, an email
+                # will be sent to the unit registered residents.
+                update = form.cleaned_data['update']
 
-        #         if update and unit_data_object.unit.leaseholder_has_email:
-        #             # Leaseholder update form must be available.
-        #             unit_data_object.enable_leaseholders_update = True
-        #             unit_data_object.leaseholders_update_activated_at = timezone.now()
+                if update and unit_data_object.unit.residents_have_email:
+                    # Leaseholder update form must be available.
+                    unit_data_object.enable_residents_update = True
+                    unit_data_object.residents_update_activated_at = timezone.now()
 
-        #             # Generate random string to add security to the
-        #             # leaseholders update link.
-        #             key = get_random_string(length=30)
-        #             # This key is used to decrypt the generated url
-        #             # to activate the update leaseholders data form.
-        #             unit_data_object.leaseholders_update_key = key
-        #             unit_data_object.save()
+                    # Generate random string to add security to the
+                    # residents update link.
+                    key = get_random_string(length=30)
+                    # This key is used to decrypt the generated url
+                    # to activate the update residents data form.
+                    unit_data_object.residents_update_key = key
+                    unit_data_object.save()
 
-        #             unit = unit_data_object.unit
+                    unit = unit_data_object.unit
 
-        #             # Filter leaseholders by email value. Only send
-        #             # email if leaseholders have a registered email.
-        #             for leaseholder in unit.leaseholder_set.exclude(
-        #                 email__isnull=True,
-        #             ).exclude(email__exact=''):
-        #                 # Send email.
-        #                 subject = _('Actualizacón de datos de arrendatarios')
+                    # Create email content.
+                    subject = _('Actualizacón de datos de residentes')
 
-        #                 update_url = reverse(
-        #                     'buildings:leaseholders_update_form',
-        #                     args=[
-        #                         unit_data_object.id,
-        #                         unit_data_object.leaseholders_data_key,
-        #                     ],
-        #                 )
+                    update_url = reverse(
+                        'buildings:residents_update_form',
+                        args=[
+                            unit_data_object.id,
+                            unit_data_object.residents_data_key,
+                        ],
+                    )
 
-        #                 # Create email content.
-        #                 body = render_to_string(
-        #                     'buildings/administrative/data_update/update_email.html', {
-        #                         'title': subject,
-        #                         'leaseholders_update': True,
-        #                         'unit_data_object': unit_data_object,
-        #                         'update_url': update_url,
-        #                         'base_url': settings.BASE_URL,
-        #                     },
-        #                 )
+                    # Create email content.
+                    body = render_to_string(
+                        'buildings/administrative/data_update/update_email.html', {
+                            'title': subject,
+                            'leaseholders_update': True,
+                            'unit_data_object': unit_data_object,
+                            'update_url': update_url,
+                            'base_url': settings.BASE_URL,
+                        },
+                    )
 
-                        # send_email(
-                        #     subject=subject,
-                        #     body=body,
-                        #     mail_to=[leaseholder.email],
-                        # )
+                    # Filter residents by email value. Only send
+                    # email if residents have a registered email.
+                    # First, we are seeking for owners that are
+                    # residents of the unit.
+                    for resident_owner in unit.owner_set.filter(
+                        is_resident=True,
+                        email__isnull=False,
+                    ).exclude(email__exact=''):
+                        # Send email.
+                        send_email(
+                            subject=subject,
+                            body=body,
+                            mail_to=[resident_owner.email],
+                        )
+
+                    # Filter leaseholders by email value. Only send
+                    # email if residents have a registered email.
+                    # We're seeking for leaseholders in this forloop.
+                    for leaseholder in unit.leaseholder_set.filter(
+                        email__isnull=False,
+                    ).exclude(email__exact=''):
+                        # Send email.
+                        send_email(
+                            subject=subject,
+                            body=body,
+                            mail_to=[leaseholder.email],
+                        )
 
         messages.success(
             self.request,
@@ -520,6 +537,67 @@ class LeaseholdersUpdateForm(TemplateView):
             if form.is_valid():
                 # Update leaseholder object.
                 form.save()
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar sus datos.')
+        )
+
+        return redirect('home')
+
+
+class ResidentsUpdateForm(TemplateView):
+    """
+    Leaseholders update form. This form will be available only if
+    administrators have enabled the update post by requesting
+    leaseholders data update.
+    """
+    template_name = 'buildings/administrative/data_update/residents_update_form.html'
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['unit_data'] = self.get_object()
+        return context
+
+    def get(self, *args, **kwargs):
+        residents_update_formset = None
+
+        return self.render_to_response(
+            self.get_context_data(
+                residents_update_formset=residents_update_formset,
+            )
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        unit_data_object = self.get_object()
 
         messages.success(
             self.request,

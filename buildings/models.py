@@ -436,6 +436,11 @@ class UnitDataUpdate(models.Model):
         hashids = Hashids(salt=self.leaseholders_update_key, min_length=50)
         return hashids.encode(self.id)
 
+    @property
+    def residents_data_key(self):
+        hashids = Hashids(salt=self.residents_update_key, min_length=50)
+        return hashids.encode(self.id)
+
     def __str__(self):
         if self.unit.block:
             return 'Bloque {0} - Unidad {1}'.format(
