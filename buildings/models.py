@@ -316,6 +316,34 @@ class Unit(models.Model):
 
         return has_email
 
+    @property
+    def has_residents(self):
+        # Property to check if there are registered residents.
+        if (
+            not self.owner_set.filter(is_resident=True) and not
+            self.leaseholder_set.count()
+        ):
+            return False
+
+        return True
+
+    @property
+    def residents_have_email(self):
+        # Property to check if registered residents have a
+        # registered email address.
+        if (
+            self.owner_set.filter(
+                is_resident=True,
+                email__isnull=False,
+            ) or
+            self.leaseholder_set.filter(
+                email__isnull=False,
+            )
+        ):
+            return True
+
+        return False
+
     def get_absolute_url(self):
         return reverse(
             'buildings:unit_detail', args=[self.building.id, self.id]
@@ -377,6 +405,23 @@ class UnitDataUpdate(models.Model):
     )
 
     leaseholders_update_activated_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    enable_residents_update = models.BooleanField(
+        verbose_name=_('habilitar actualización de residentes'),
+        default=False,
+    )
+
+    residents_update_key = models.CharField(
+        max_length=30,
+        null=True,
+        blank=True,
+        verbose_name=_('clave actualizar residentes'),
+    )
+
+    residents_update_activated_at = models.DateTimeField(
         null=True,
         blank=True,
     )

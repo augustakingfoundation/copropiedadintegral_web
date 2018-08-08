@@ -155,11 +155,11 @@
                   </td>
 
                   <td>
-                    {% if resident_form_update.instance.enable_leaseholders_update %}
+                    {% if resident_form_update.instance.enable_residents_update %}
                     <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
-                    {% elif not resident_form_update.instance.unit.leaseholder_set.all %}
+                    {% elif not resident_form_update.instance.unit.has_residents  %}
                     <p>{% trans 'No hay residentes registrados en la unidad.' %}</p>
-                    {% elif not resident_form_update.instance.unit.leaseholder_has_email %}
+                    {% elif not resident_form_update.instance.unit.residents_have_email %}
                     <p>{% trans 'Los residentes no tienen una cuenta de correo electrónico registrada.' %}</p>
                     {% else %}
                     {% render_field resident_form_update.update %}
