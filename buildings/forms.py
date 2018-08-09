@@ -506,7 +506,7 @@ EmergencyContactFormSet = modelformset_factory(
     form=EmergencyContactForm,
     extra=0,
     max_num=3,
-    min_num=1,
+    min_num=0,
     validate_min=False,
     can_delete=True,
 )
@@ -777,6 +777,31 @@ class LeaseholderUpdateForm(forms.ModelForm):
 LeaseholderUpdateFormSet = modelformset_factory(
     Leaseholder,
     form=LeaseholderUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
+class ResidentUpdateForm(forms.ModelForm):
+    """
+    Unit residents update form. It's used to define the
+    ResidentUpdateFormSet structure, available for update
+    residents data directly from a non-authenticated user.
+    """
+    class Meta:
+        model = Resident
+        fields = (
+            'document_type',
+            'document_number',
+            'mobile_phone',
+        )
+
+
+ResidentUpdateFormSet = modelformset_factory(
+    Resident,
+    form=ResidentUpdateForm,
     extra=0,
     min_num=0,
     validate_min=False,

@@ -20,10 +20,12 @@ from buildings.forms import ConfirmLeaseholderUpdateFormSet
 from buildings.forms import ConfirmResidentUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import LeaseholderUpdateFormSet
+from buildings.forms import ResidentUpdateFormSet
 from buildings.models import Building
 from buildings.models import Unit
 from buildings.models import UnitDataUpdate
 from buildings.models import Owner
+from buildings.models import Resident
 from buildings.models import Leaseholder
 from buildings.permissions import BuildingPermissions
 from app.tasks import send_email
@@ -587,7 +589,11 @@ class ResidentsUpdateForm(TemplateView):
         return context
 
     def get(self, *args, **kwargs):
-        residents_update_formset = None
+        residents_update_formset = ResidentUpdateFormSet(
+            queryset=Resident.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
 
         return self.render_to_response(
             self.get_context_data(
@@ -598,6 +604,29 @@ class ResidentsUpdateForm(TemplateView):
     @transaction.atomic
     def post(self, *args, **kwargs):
         unit_data_object = self.get_object()
+
+        residents_update_formset = ResidentUpdateFormSet(
+            self.request.POST,
+            queryset=Resident.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        if not residents_update_formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(
+                    residents_update_formset=residents_update_formset,
+                )
+            )
+
+        # Disable update residents data formset.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
+
+        for form in residents_update_formset:
+            if form.is_valid():
+                # Update resident object.
+                form.save()
 
         messages.success(
             self.request,
