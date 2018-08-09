@@ -11,8 +11,6 @@
       <div class="jumbotron">
         <h2>Copropiedad Integral</h2>
         <hr>
-        <p>{% trans 'Actualización de datos de residentes.' %}</p>
-        <hr>
         <dl class="row">
             <dt class="col-sm-3">{% trans "Copropiedad:" %}</dt>
             <dd class="col-sm-9">{{ unit_data.unit.building.name }}</dd>
@@ -20,9 +18,12 @@
             <dt class="col-sm-3">{% trans "Unidad" %}</dt>
             <dd class="col-sm-9">{{ unit_data }}</dd>
         </dl>
+
+        <hr>
+        <p>{% trans 'Actualización de datos de residentes.' %}</p>
         <hr>
 
-      <form method="post">
+        <form method="post">
           {% csrf_token %}
 
           {{ residents_update_formset.management_form }}
@@ -31,7 +32,7 @@
               <thead>
                 <tr>
                   <th scope="col">{% trans "Residente" %}</th>
-                  <th scope="col">{% trans "Información de contacto" %}</th>
+                  <th scope="col">{% trans "Información" %}</th>
                 </tr>
               </thead>
 
@@ -44,6 +45,16 @@
                   </td>
 
                   <td>
+                    <div class="form-group">
+                      {% render_field resident_form_update.first_name.label %}
+                      {% render_field resident_form_update.first_name class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field resident_form_update.last_name.label %}
+                      {% render_field resident_form_update.last_name class+="form-control" %}
+                    </div>
+
                     <div class="form-group">
                       {% render_field resident_form_update.birthdate.label %}
                       {% render_field resident_form_update.birthdate class+="form-control" %}
@@ -70,10 +81,70 @@
             </table>
           </div>
 
-          <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+        </form>
+
+        <hr>
+        <p>{% trans 'Actualización de datos de visitantes autorizados.' %}</p>
+        <hr>
+
+        <form method="post">
+          {% csrf_token %}
+
+          {{ visitors_update_formset.management_form }}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Visitante autorizado" %}</th>
+                  <th scope="col">{% trans "Información de contacto" %}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for visitor_form_update in visitors_update_formset %}
+                {% render_field visitor_form_update.id %}
+                <tr>
+                  <td>
+                    <strong>{{ visitor_form_update.instance.first_name }} {{ visitor_form_update.instance.last_name }}</strong>
+                  </td>
+
+                  <td>
+                    <div class="form-group">
+                      {% render_field visitor_form_update.first_name.label %}
+                      {% render_field visitor_form_update.first_name class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field visitor_form_update.last_name.label %}
+                      {% render_field visitor_form_update.last_name class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field visitor_form_update.document_type.label %}
+                      {% render_field visitor_form_update.document_type class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field visitor_form_update.document_number.label %}
+                      {% render_field visitor_form_update.document_number class+="form-control" %}
+                    </div>
+
+                    <div class="form-group">
+                      {% render_field visitor_form_update.relationship.label %}
+                      {% render_field visitor_form_update.relationship class+="form-control" %}
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
-      </form>
+        </form>
+
+        <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
       </div>
     </div>
   </div>

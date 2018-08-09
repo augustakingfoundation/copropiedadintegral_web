@@ -414,6 +414,16 @@ class UnitDataUpdate(models.Model):
         default=False,
     )
 
+    residents_update = models.BooleanField(
+        verbose_name=_('información de residentes actualizada'),
+        default=False,
+    )
+
+    visitors_update = models.BooleanField(
+        verbose_name=_('información de visitantes autorizados actualizada'),
+        default=False,
+    )
+
     residents_update_key = models.CharField(
         max_length=30,
         null=True,

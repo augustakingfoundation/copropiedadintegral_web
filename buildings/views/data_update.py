@@ -21,12 +21,14 @@ from buildings.forms import ConfirmResidentUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import LeaseholderUpdateFormSet
 from buildings.forms import ResidentUpdateFormSet
+from buildings.forms import VisitorUpdateFormSet
 from buildings.models import Building
 from buildings.models import Unit
 from buildings.models import UnitDataUpdate
 from buildings.models import Owner
 from buildings.models import Resident
 from buildings.models import Leaseholder
+from buildings.models import Visitor
 from buildings.permissions import BuildingPermissions
 from app.tasks import send_email
 
@@ -307,6 +309,10 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
                     # Leaseholder update form must be available.
                     unit_data_object.enable_residents_update = True
                     unit_data_object.residents_update_activated_at = timezone.now()
+
+                    # Activate each item for update.
+                    unit_data_object.residents_update = True
+                    unit_data_object.visitors_update = True
 
                     # Generate random string to add security to the
                     # residents update link.
@@ -590,7 +596,15 @@ class ResidentsUpdateForm(TemplateView):
 
     def get(self, *args, **kwargs):
         residents_update_formset = ResidentUpdateFormSet(
+            prefix='residents',
             queryset=Resident.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        visitors_update_formset = VisitorUpdateFormSet(
+            prefix='visitors',
+            queryset=Visitor.objects.filter(
                 unit=self.get_object().unit,
             ),
         )
@@ -598,6 +612,7 @@ class ResidentsUpdateForm(TemplateView):
         return self.render_to_response(
             self.get_context_data(
                 residents_update_formset=residents_update_formset,
+                visitors_update_formset=visitors_update_formset,
             )
         )
 
@@ -607,6 +622,7 @@ class ResidentsUpdateForm(TemplateView):
 
         residents_update_formset = ResidentUpdateFormSet(
             self.request.POST,
+            prefix='residents',
             queryset=Resident.objects.filter(
                 unit=unit_data_object.unit,
             ),
@@ -620,7 +636,7 @@ class ResidentsUpdateForm(TemplateView):
             )
 
         # Disable update residents data formset.
-        unit_data_object.enable_residents_update = False
+        unit_data_object.residents_update = False
         unit_data_object.save()
 
         for form in residents_update_formset:
@@ -630,7 +646,7 @@ class ResidentsUpdateForm(TemplateView):
 
         messages.success(
             self.request,
-            _('Gracias por actualizar sus datos.')
+            _('Gracias por actualizar los datos.')
         )
 
         return redirect('home')

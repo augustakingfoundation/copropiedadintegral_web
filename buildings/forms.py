@@ -784,24 +784,18 @@ LeaseholderUpdateFormSet = modelformset_factory(
 )
 
 
-class ResidentUpdateForm(forms.ModelForm):
-    """
-    Unit residents update form. It's used to define the
-    ResidentUpdateFormSet structure, available for update
-    residents data directly from a non-authenticated user.
-    """
-    class Meta:
-        model = Resident
-        fields = (
-            'document_type',
-            'document_number',
-            'mobile_phone',
-        )
-
-
 ResidentUpdateFormSet = modelformset_factory(
     Resident,
-    form=ResidentUpdateForm,
+    form=ResidentForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+VisitorUpdateFormSet = modelformset_factory(
+    Visitor,
+    form=VisitorForm,
     extra=0,
     min_num=0,
     validate_min=False,
