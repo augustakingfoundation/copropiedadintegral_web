@@ -702,15 +702,12 @@ class ResidentsUpdatePost(View):
             ),
         )
 
-        # Disable the visitors update form.
-        unit_data_object.visitors_update = False
+        # Disable the residents update form
+        unit_data_object.residents_update = False
         unit_data_object.save()
 
         # Update, delete or create new residents instances for this unit.
         process_unit_formset(residents_update_formset, unit_data_object.unit)
-
-        unit_data_object.residents_update = False
-        unit_data_object.save()
 
         messages.success(
             self.request,
@@ -718,15 +715,15 @@ class ResidentsUpdatePost(View):
         )
 
         if unit_data_object.residents_update_enabled:
-            # Remove edit permission.
-            unit_data_object.enable_residents_update = False
-            unit_data_object.save()
-
             return redirect(
                 'buildings:residents_update_form',
                 self.get_object().unit.id,
                 self.kwargs['verify_key'],
             )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
 
         return redirect('home')
 
@@ -787,14 +784,14 @@ class VisitorsUpdatePost(View):
         )
 
         if unit_data_object.residents_update_enabled:
-            # Remove edit permission.
-            unit_data_object.enable_residents_update = False
-            unit_data_object.save()
-
             return redirect(
                 'buildings:residents_update_form',
                 self.get_object().unit.id,
                 self.kwargs['verify_key'],
             )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
 
         return redirect('home')
