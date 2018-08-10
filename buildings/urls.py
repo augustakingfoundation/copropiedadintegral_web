@@ -376,9 +376,9 @@ urlpatterns = [
     ),
 
     # pk = Unit update object id.
-    # verify_key = Encrypted key to verify update residents form.
+    # verify_key = Encrypted key to verify update visitors form.
     url(
-        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/residentes/post/$',
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/visitantes/post/$',
         VisitorsUpdatePost.as_view(),
         name='visitors_update_post',
     ),

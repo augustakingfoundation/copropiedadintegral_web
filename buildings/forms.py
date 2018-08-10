@@ -790,7 +790,7 @@ ResidentUpdateFormSet = modelformset_factory(
     extra=0,
     min_num=0,
     validate_min=False,
-    can_delete=False,
+    can_delete=True,
 )
 
 VisitorUpdateFormSet = modelformset_factory(
@@ -799,7 +799,7 @@ VisitorUpdateFormSet = modelformset_factory(
     extra=0,
     min_num=0,
     validate_min=False,
-    can_delete=False,
+    can_delete=True,
 )
 
 
