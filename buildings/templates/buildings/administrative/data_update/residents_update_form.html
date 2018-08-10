@@ -20,12 +20,11 @@
         </dl>
 
         <hr>
-        <p>{% trans 'Actualización de datos de residentes.' %}</p>
+        <strong>{% trans 'Actualización de datos de residentes.' %}</strong>
         <hr>
 
         <form method="post" action="{% url 'buildings:residents_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
-
 
           <div id="id_residents_formset" data-formset-prefix="{{ residents_update_formset.prefix }}" class="ci_UnitFormFormset">
 
@@ -69,6 +68,7 @@
                   {% render_field resident_form_update.DELETE.label %}
                   {% render_field resident_form_update.DELETE  %}
                 </div>
+                <hr>
               </div>
             {% endfor %}
             </div>
@@ -76,6 +76,7 @@
             <script type="form-template" data-formset-empty-form>
             {% escapescript %}
               <div data-formset-form>
+                <hr>
                 <div class="form-group">
                   {% render_field residents_update_formset.empty_form.first_name.label %}
                   {% render_field residents_update_formset.empty_form.first_name class+="form-control" %}
@@ -110,6 +111,7 @@
                   {% render_field residents_update_formset.empty_form.DELETE.label %}
                   {% render_field residents_update_formset.empty_form.DELETE  %}
                 </div>
+                <hr>
               </div>
             {% endescapescript %}
             </script>
@@ -118,64 +120,95 @@
           </div>
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
-
         </form>
 
         <hr>
-        <p>{% trans 'Actualización de datos de visitantes autorizados.' %}</p>
+        <strong>{% trans 'Actualización de datos de visitantes autorizados.' %}</strong>
         <hr>
 
-        <form id="id_visitors_formset" method="post" action="{% url 'buildings:visitors_update_post' unit_data.unit.id verify_key %}">
+        <form method="post" action="{% url 'buildings:visitors_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
-          {{ visitors_update_formset.management_form }}
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">{% trans "Visitante autorizado" %}</th>
-                  <th scope="col">{% trans "Información de contacto" %}</th>
-                </tr>
-              </thead>
+          <div id="id_visitors_formset" data-formset-prefix="{{ visitors_update_formset.prefix }}" class="ci_UnitFormFormset">
+            {{ visitors_update_formset.management_form }}
+            <div data-formset-body>
+            {% for visitor_form_update in visitors_update_formset %}
+              {% render_field visitor_form_update.id %}
 
-              <tbody>
-              {% for visitor_form_update in visitors_update_formset %}
-                {% render_field visitor_form_update.id %}
-                <tr>
-                  <td>
-                    <strong>{{ visitor_form_update.instance.first_name }} {{ visitor_form_update.instance.last_name }}</strong>
-                  </td>
+              <div data-formset-form>
+                <div class="form-group">
+                  {% render_field visitor_form_update.first_name.label %}
+                  {% render_field visitor_form_update.first_name class+="form-control" %}
+                </div>
 
-                  <td>
-                    <div class="form-group">
-                      {% render_field visitor_form_update.first_name.label %}
-                      {% render_field visitor_form_update.first_name class+="form-control" %}
-                    </div>
+                <div class="form-group">
+                  {% render_field visitor_form_update.last_name.label %}
+                  {% render_field visitor_form_update.last_name class+="form-control" %}
+                </div>
 
-                    <div class="form-group">
-                      {% render_field visitor_form_update.last_name.label %}
-                      {% render_field visitor_form_update.last_name class+="form-control" %}
-                    </div>
+                <div class="form-group">
+                  {% render_field visitor_form_update.document_type.label %}
+                  {% render_field visitor_form_update.document_type class+="form-control" %}
+                </div>
 
-                    <div class="form-group">
-                      {% render_field visitor_form_update.document_type.label %}
-                      {% render_field visitor_form_update.document_type class+="form-control" %}
-                    </div>
+                <div class="form-group">
+                  {% render_field visitor_form_update.document_number.label %}
+                  {% render_field visitor_form_update.document_number class+="form-control" %}
+                </div>
 
-                    <div class="form-group">
-                      {% render_field visitor_form_update.document_number.label %}
-                      {% render_field visitor_form_update.document_number class+="form-control" %}
-                    </div>
+                <div class="form-group">
+                  {% render_field visitor_form_update.relationship.label %}
+                  {% render_field visitor_form_update.relationship class+="form-control" %}
+                </div>
 
-                    <div class="form-group">
-                      {% render_field visitor_form_update.relationship.label %}
-                      {% render_field visitor_form_update.relationship class+="form-control" %}
-                    </div>
-                  </td>
-                </tr>
-              {% endfor %}
-              </tbody>
-            </table>
+                <div class="form-group">
+                  {% render_field visitor_form_update.DELETE.label %}
+                  {% render_field visitor_form_update.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endfor %}
+            </div>
+
+            <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+              <div data-formset-form>
+                <hr>
+                <div class="form-group">
+                  {% render_field visitors_update_formset.empty_form.first_name.label %}
+                  {% render_field visitors_update_formset.empty_form.first_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field visitors_update_formset.empty_form.last_name.label %}
+                  {% render_field visitors_update_formset.empty_form.last_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field visitors_update_formset.empty_form.document_type.label %}
+                  {% render_field visitors_update_formset.empty_form.document_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field visitors_update_formset.empty_form.document_number.label %}
+                  {% render_field visitors_update_formset.empty_form.document_number class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field visitors_update_formset.empty_form.relationship.label %}
+                  {% render_field visitors_update_formset.empty_form.relationship class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field visitors_update_formset.empty_form.DELETE.label %}
+                  {% render_field visitors_update_formset.empty_form.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endescapescript %}
+            </script>
+
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar visitante autorizado" %}</button>
           </div>
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
