@@ -1,36 +1,37 @@
 from hashids import Hashids
 
-from django.utils import timezone
 from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
-from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 from django.views.generic import View
 
 from app.mixins import CustomUserMixin
-from buildings.forms import ConfirmOwnerUpdateFormSet
+from app.tasks import send_email
 from buildings.forms import ConfirmLeaseholderUpdateFormSet
+from buildings.forms import ConfirmOwnerUpdateFormSet
 from buildings.forms import ConfirmResidentUpdateFormSet
-from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import LeaseholderUpdateFormSet
+from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import ResidentUpdateFormSet
 from buildings.forms import VisitorUpdateFormSet
 from buildings.models import Building
-from buildings.models import Unit
-from buildings.models import UnitDataUpdate
+from buildings.models import Leaseholder
 from buildings.models import Owner
 from buildings.models import Resident
-from buildings.models import Leaseholder
+from buildings.models import Unit
+from buildings.models import UnitDataUpdate
 from buildings.models import Visitor
 from buildings.permissions import BuildingPermissions
-from app.tasks import send_email
+from buildings.utils import process_unit_formset
 
 
 class DataUpdateView(CustomUserMixin, TemplateView):
@@ -658,6 +659,8 @@ class ResidentsUpdateForm(TemplateView):
 
 class ResidentsUpdatePost(View):
     """
+    View to manage the post request for update residents
+    information.
     """
 
     def get_object(self, queryset=None):
@@ -699,6 +702,13 @@ class ResidentsUpdatePost(View):
             ),
         )
 
+        # Disable the visitors update form.
+        unit_data_object.visitors_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new residents instances for this unit.
+        process_unit_formset(residents_update_formset, unit_data_object.unit)
+
         unit_data_object.residents_update = False
         unit_data_object.save()
 
@@ -707,11 +717,18 @@ class ResidentsUpdatePost(View):
             _('Gracias por actualizar los datos de los residentes.')
         )
 
-        return redirect(
-            'buildings:residents_update_form',
-            self.get_object().unit.id,
-            self.kwargs['verify_key'],
-        )
+        if unit_data_object.residents_update_enabled:
+            # Remove edit permission.
+            unit_data_object.enable_residents_update = False
+            unit_data_object.save()
+
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        return redirect('home')
 
 
 class VisitorsUpdatePost(View):
@@ -757,16 +774,27 @@ class VisitorsUpdatePost(View):
             ),
         )
 
-        unit_data_object.residents_update = False
+        # Disable the visitors update form.
+        unit_data_object.visitors_update = False
         unit_data_object.save()
+
+        # Update, delete or create new visitors instances for this unit.
+        process_unit_formset(visitors_update_formset, unit_data_object.unit)
 
         messages.success(
             self.request,
-            _('Gracias por actualizar los datos de los visitantes autorizados.')
+            _('Gracias por actualizar los datos sobre visitantes autorizados.')
         )
 
-        return redirect(
-            'buildings:residents_update_form',
-            self.get_object().unit.id,
-            self.kwargs['verify_key'],
-        )
+        if unit_data_object.residents_update_enabled:
+            # Remove edit permission.
+            unit_data_object.enable_residents_update = False
+            unit_data_object.save()
+
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        return redirect('home')

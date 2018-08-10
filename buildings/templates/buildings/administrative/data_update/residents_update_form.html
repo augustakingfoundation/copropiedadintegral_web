@@ -13,7 +13,7 @@
         <hr>
         <dl class="row">
             <dt class="col-sm-3">{% trans "Copropiedad:" %}</dt>
-            <dd class="col-sm-9">{{ unit_data.unit.building.name }}</dd>
+            <dd class="col-sm-9">{{ unit_data.building.name }}</dd>
 
             <dt class="col-sm-3">{% trans "Unidad" %}</dt>
             <dd class="col-sm-9">{{ unit_data }}</dd>
@@ -23,6 +23,7 @@
         <strong>{% trans 'Actualización de datos de residentes.' %}</strong>
         <hr>
 
+        {% if unit_data.residents_update %}
         <form method="post" action="{% url 'buildings:residents_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
@@ -121,11 +122,15 @@
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
         </form>
+        {% else %}
+        <p>{% trans "La información sobre los residentes ya ha sido confirmada." %}</p>
+        {% endif %}
 
         <hr>
         <strong>{% trans 'Actualización de datos de visitantes autorizados.' %}</strong>
         <hr>
 
+        {% if unit_data.visitors_update %}
         <form method="post" action="{% url 'buildings:visitors_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
@@ -213,8 +218,11 @@
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
         </form>
+        {% else %}
+        <p>{% trans "La información sobre los visitantes autorizados ya ha sido confirmada." %}</p>
+        {% endif %}
 
-        <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
+      <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
       </div>
     </div>
   </div>
