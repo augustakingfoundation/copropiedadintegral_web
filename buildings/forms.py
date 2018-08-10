@@ -652,62 +652,8 @@ class MembershipForm(forms.ModelForm):
         return value
 
 
-class ConfirmOwnerUpdateForm(forms.ModelForm):
-    """Form used to confirm if unit owners must be
-    considered for data update.
-    """
-    update = forms.BooleanField(
-        required=False,
-        initial=True,
-    )
-
-    class Meta:
-        model = Owner
-        fields = (
-            'unit',
-            'update',
-        )
-
-
-ConfirmOwnerUpdateFormSet = modelformset_factory(
-    UnitDataUpdate,
-    form=ConfirmOwnerUpdateForm,
-    extra=0,
-    min_num=0,
-    validate_min=False,
-    can_delete=False,
-)
-
-
-class ConfirmLeaseholderUpdateForm(forms.ModelForm):
-    """Form used to confirm if unit leaseholders must be
-    considered for data update.
-    """
-    update = forms.BooleanField(
-        required=False,
-        initial=True,
-    )
-
-    class Meta:
-        model = Leaseholder
-        fields = (
-            'unit',
-            'update',
-        )
-
-
-ConfirmLeaseholderUpdateFormSet = modelformset_factory(
-    UnitDataUpdate,
-    form=ConfirmLeaseholderUpdateForm,
-    extra=0,
-    min_num=0,
-    validate_min=False,
-    can_delete=False,
-)
-
-
-class ConfirmResidentUpdateForm(forms.ModelForm):
-    """Form used to confirm if unit residents must be
+class ConfirmUnitUpdateForm(forms.ModelForm):
+    """Form used to confirm which units must be
     considered for data update.
     """
     update = forms.BooleanField(
@@ -723,9 +669,29 @@ class ConfirmResidentUpdateForm(forms.ModelForm):
         )
 
 
+ConfirmOwnerUpdateFormSet = modelformset_factory(
+    UnitDataUpdate,
+    form=ConfirmUnitUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
+ConfirmLeaseholderUpdateFormSet = modelformset_factory(
+    UnitDataUpdate,
+    form=ConfirmUnitUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
 ConfirmResidentUpdateFormSet = modelformset_factory(
     UnitDataUpdate,
-    form=ConfirmResidentUpdateForm,
+    form=ConfirmUnitUpdateForm,
     extra=0,
     min_num=0,
     validate_min=False,

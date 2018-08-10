@@ -340,7 +340,7 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
                     body = render_to_string(
                         'buildings/administrative/data_update/update_email.html', {
                             'title': subject,
-                            'leaseholders_update': True,
+                            'residents_update': True,
                             'unit_data_object': unit_data_object,
                             'update_url': update_url,
                             'base_url': settings.BASE_URL,
