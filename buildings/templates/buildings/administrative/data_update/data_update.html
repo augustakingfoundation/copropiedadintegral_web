@@ -100,7 +100,7 @@
                     {% if leaseholder_form_update.instance.enable_leaseholders_update %}
                     <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
                     {% elif not leaseholder_form_update.instance.unit.leaseholder_set.all %}
-                    <p>{% trans 'Ho hay arrendatarios registrados en la unidad.' %}</p>
+                    <p>{% trans 'No hay arrendatarios registrados en la unidad.' %}</p>
                     {% elif not leaseholder_form_update.instance.unit.leaseholder_has_email %}
                     <p>{% trans 'Los arrendatarios no tienen una cuenta de correo electrónico registrada.' %}</p>
                     {% else %}
@@ -121,6 +121,61 @@
     </div>
 
     <div class="tab-pane fade" id="nav-residents" role="tabpanel">
+      <div class="alert alert-info" role="alert">
+        {% trans "Se enviará un correo electrónico a los residentes disponibles para solicitar la actualización sobre la propiedad." %}
+
+        <ul>
+          <li>{% trans "Si hay propietarios residentes en la unidad, el correo será enviado a este." %}</li>
+          <li>{% trans "Si hay arrendatarios registrados, el correo se enviará a estos." %}</li>
+
+        </ul>
+    </div>
+      <form method="post" action="{% url 'buildings:request_residents_update_view' building.id %}">
+          {% csrf_token %}
+
+          {{ confirm_resident_update_formset.management_form }}
+
+          {% if confirm_resident_update_formset|length %}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">{% trans "Unidad" %}</th>
+                  <th scope="col">{% trans "Solicitar actualización" %}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              {% for resident_form_update in confirm_resident_update_formset %}
+                {% render_field resident_form_update.id %}
+                <tr>
+                  <td>
+                    {{ resident_form_update.instance }}
+                    <div class="d-none">{% render_field resident_form_update.unit %}</div>
+                  </td>
+
+                  <td>
+                    {% if resident_form_update.instance.enable_residents_update %}
+                    <p>{% trans 'La solicitud de actualización se ha enviado recientemente.' %}</p>
+                    {% elif not resident_form_update.instance.unit.has_residents  %}
+                    <p>{% trans 'No hay residentes registrados en la unidad.' %}</p>
+                    {% elif not resident_form_update.instance.unit.residents_have_email %}
+                    <p>{% trans 'Los residentes no tienen una cuenta de correo electrónico registrada.' %}</p>
+                    {% else %}
+                    {% render_field resident_form_update.update %}
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Solicitar actualización" %}</button>
+          {% else %}
+          {% trans "No hay unidades registradas." %}
+          {% endif %}
+      </form>
     </div>
   </div>
 </div>

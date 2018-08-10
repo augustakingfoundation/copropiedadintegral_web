@@ -1,31 +1,37 @@
 from hashids import Hashids
 
-from django.utils import timezone
 from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
-from django.shortcuts import get_object_or_404
 from django.http import Http404
+from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
+from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext as _
 from django.views.generic import TemplateView
 from django.views.generic import View
 
 from app.mixins import CustomUserMixin
-from buildings.forms import ConfirmOwnerUpdateFormSet
+from app.tasks import send_email
 from buildings.forms import ConfirmLeaseholderUpdateFormSet
-from buildings.forms import OwnerUpdateFormSet
+from buildings.forms import ConfirmOwnerUpdateFormSet
+from buildings.forms import ConfirmResidentUpdateFormSet
 from buildings.forms import LeaseholderUpdateFormSet
+from buildings.forms import OwnerUpdateFormSet
+from buildings.forms import ResidentUpdateFormSet
+from buildings.forms import VisitorUpdateFormSet
 from buildings.models import Building
+from buildings.models import Leaseholder
+from buildings.models import Owner
+from buildings.models import Resident
 from buildings.models import Unit
 from buildings.models import UnitDataUpdate
-from buildings.models import Owner
-from buildings.models import Leaseholder
+from buildings.models import Visitor
 from buildings.permissions import BuildingPermissions
-from app.tasks import send_email
+from buildings.utils import process_unit_formset
 
 
 class DataUpdateView(CustomUserMixin, TemplateView):
@@ -62,6 +68,14 @@ class DataUpdateView(CustomUserMixin, TemplateView):
 
         context['confirm_leaseholder_update_formset'] = ConfirmLeaseholderUpdateFormSet(
             prefix='leaseholder_update',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
+        )
+
+
+        context['confirm_resident_update_formset'] = ConfirmResidentUpdateFormSet(
+            prefix='resident_update',
             queryset=UnitDataUpdate.objects.filter(
                 unit__building=self.get_object(),
             ),
@@ -258,6 +272,121 @@ class RequestLeaseholdersUpdateView(CustomUserMixin, View):
         )
 
 
+class RequestResidentsUpdateView(CustomUserMixin, View):
+    """
+    View to manage the post request of the residents  update formset.
+    """
+    def test_func(self):
+        return BuildingPermissions.can_edit_building(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Building,
+            pk=self.kwargs['pk'],
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        resident_update_formset = ConfirmResidentUpdateFormSet(
+            self.request.POST,
+            prefix='resident_update',
+            queryset=UnitDataUpdate.objects.filter(
+                unit__building=self.get_object(),
+            ),
+        )
+
+        for form in resident_update_formset:
+            if form.is_valid():
+                unit_data_object = form.save(commit=False)
+
+                # Get update request value. If True, an email
+                # will be sent to the unit registered residents.
+                update = form.cleaned_data['update']
+
+                if update and unit_data_object.unit.residents_have_email:
+                    # Leaseholder update form must be available.
+                    unit_data_object.enable_residents_update = True
+                    unit_data_object.residents_update_activated_at = timezone.now()
+
+                    # Activate each item for update.
+                    unit_data_object.residents_update = True
+                    unit_data_object.visitors_update = True
+
+                    # Generate random string to add security to the
+                    # residents update link.
+                    key = get_random_string(length=30)
+                    # This key is used to decrypt the generated url
+                    # to activate the update residents data form.
+                    unit_data_object.residents_update_key = key
+                    unit_data_object.save()
+
+                    unit = unit_data_object.unit
+
+                    # Create email content.
+                    subject = _('Actualizacón de datos de residentes')
+
+                    update_url = reverse(
+                        'buildings:residents_update_form',
+                        args=[
+                            unit_data_object.id,
+                            unit_data_object.residents_data_key,
+                        ],
+                    )
+
+                    # Create email content.
+                    body = render_to_string(
+                        'buildings/administrative/data_update/update_email.html', {
+                            'title': subject,
+                            'residents_update': True,
+                            'unit_data_object': unit_data_object,
+                            'update_url': update_url,
+                            'base_url': settings.BASE_URL,
+                        },
+                    )
+
+                    # Filter residents by email value. Only send
+                    # email if residents have a registered email.
+                    # First, we are seeking for owners that are
+                    # residents of the unit.
+                    for resident_owner in unit.owner_set.filter(
+                        is_resident=True,
+                        email__isnull=False,
+                    ).exclude(email__exact=''):
+                        # Send email.
+                        send_email(
+                            subject=subject,
+                            body=body,
+                            mail_to=[resident_owner.email],
+                        )
+
+                    # Filter leaseholders by email value. Only send
+                    # email if residents have a registered email.
+                    # We're seeking for leaseholders in this forloop.
+                    for leaseholder in unit.leaseholder_set.filter(
+                        email__isnull=False,
+                    ).exclude(email__exact=''):
+                        # Send email.
+                        send_email(
+                            subject=subject,
+                            body=body,
+                            mail_to=[leaseholder.email],
+                        )
+
+        messages.success(
+            self.request,
+            _('Se ha solicitado la actualización de datos a'
+              ' los residentes con correo electrónico registrado.')
+        )
+
+        return redirect(
+            'buildings:data_update_view',
+            self.get_object().id,
+        )
+
+
 class OwnersUpdateForm(TemplateView):
     """
     Owners update form. This form will be available only if
@@ -422,5 +551,247 @@ class LeaseholdersUpdateForm(TemplateView):
             self.request,
             _('Gracias por actualizar sus datos.')
         )
+
+        return redirect('home')
+
+
+class ResidentsUpdateForm(TemplateView):
+    """
+    Leaseholders update form. This form will be available only if
+    administrators have enabled the update post by requesting
+    leaseholders data update.
+    """
+    template_name = 'buildings/administrative/data_update/residents_update_form.html'
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        data_update = self.get_object()
+        context['unit_data'] = data_update
+        context['verify_key'] = self.kwargs['verify_key']
+
+        return context
+
+    def get(self, *args, **kwargs):
+        residents_update_formset = ResidentUpdateFormSet(
+            prefix='residents',
+            queryset=Resident.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        visitors_update_formset = VisitorUpdateFormSet(
+            prefix='visitors',
+            queryset=Visitor.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        return self.render_to_response(
+            self.get_context_data(
+                residents_update_formset=residents_update_formset,
+                visitors_update_formset=visitors_update_formset,
+            )
+        )
+
+    @transaction.atomic
+    def post(self, *args, **kwargs):
+        unit_data_object = self.get_object()
+
+        residents_update_formset = ResidentUpdateFormSet(
+            self.request.POST,
+            prefix='residents',
+            queryset=Resident.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        if not residents_update_formset.is_valid():
+            return self.render_to_response(
+                self.get_context_data(
+                    residents_update_formset=residents_update_formset,
+                )
+            )
+
+        # Disable update residents data formset.
+        unit_data_object.residents_update = False
+        unit_data_object.save()
+
+        for form in residents_update_formset:
+            if form.is_valid():
+                # Update resident object.
+                form.save()
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos.')
+        )
+
+        return redirect('home')
+
+
+class ResidentsUpdatePost(View):
+    """
+    View to manage the post request for update residents
+    information.
+    """
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        residents_update_formset = ResidentUpdateFormSet(
+            self.request.POST,
+            prefix='residents',
+            queryset=Resident.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        # Disable the residents update form
+        unit_data_object.residents_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new residents instances for this unit.
+        process_unit_formset(residents_update_formset, unit_data_object.unit)
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos de los residentes.')
+        )
+
+        if unit_data_object.residents_update_enabled:
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
+
+        return redirect('home')
+
+
+class VisitorsUpdatePost(View):
+    """
+    """
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        visitors_update_formset = VisitorUpdateFormSet(
+            self.request.POST,
+            prefix='visitors',
+            queryset=Visitor.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        # Disable the visitors update form.
+        unit_data_object.visitors_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new visitors instances for this unit.
+        process_unit_formset(visitors_update_formset, unit_data_object.unit)
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos sobre visitantes autorizados.')
+        )
+
+        if unit_data_object.residents_update_enabled:
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
 
         return redirect('home')

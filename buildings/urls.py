@@ -36,8 +36,12 @@ from buildings.views.roles import MembershipTransferView
 from buildings.views.data_update import DataUpdateView
 from buildings.views.data_update import RequestOwnersUpdateView
 from buildings.views.data_update import RequestLeaseholdersUpdateView
+from buildings.views.data_update import RequestResidentsUpdateView
 from buildings.views.data_update import OwnersUpdateForm
 from buildings.views.data_update import LeaseholdersUpdateForm
+from buildings.views.data_update import ResidentsUpdateForm
+from buildings.views.data_update import ResidentsUpdatePost
+from buildings.views.data_update import VisitorsUpdatePost
 
 
 urlpatterns = [
@@ -332,6 +336,13 @@ urlpatterns = [
         name='request_leaseholders_update_view',
     ),
 
+    # pk = Building id.
+    url(
+        r'^(?P<pk>\d+)/actualizacion-de-datos/residentes/solicitar/$',
+        RequestResidentsUpdateView.as_view(),
+        name='request_residents_update_view',
+    ),
+
     # pk = Unit update object id.
     # verify_key = Encrypted key to verify update owners form.
     url(
@@ -346,5 +357,29 @@ urlpatterns = [
         r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/arrendatarios/formulario/$',
         LeaseholdersUpdateForm.as_view(),
         name='leaseholders_update_form',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update residents form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/residentes/formulario/$',
+        ResidentsUpdateForm.as_view(),
+        name='residents_update_form',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update residents form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/residentes/post/$',
+        ResidentsUpdatePost.as_view(),
+        name='residents_update_post',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update visitors form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/visitantes/post/$',
+        VisitorsUpdatePost.as_view(),
+        name='visitors_update_post',
     ),
 ]

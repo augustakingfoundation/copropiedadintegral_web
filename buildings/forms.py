@@ -506,7 +506,7 @@ EmergencyContactFormSet = modelformset_factory(
     form=EmergencyContactForm,
     extra=0,
     max_num=3,
-    min_num=1,
+    min_num=0,
     validate_min=False,
     can_delete=True,
 )
@@ -652,8 +652,8 @@ class MembershipForm(forms.ModelForm):
         return value
 
 
-class ConfirmOwnerUpdateForm(forms.ModelForm):
-    """Form used to confirm if unit owners must be
+class ConfirmUnitUpdateForm(forms.ModelForm):
+    """Form used to confirm which units must be
     considered for data update.
     """
     update = forms.BooleanField(
@@ -662,7 +662,7 @@ class ConfirmOwnerUpdateForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Owner
+        model = UnitDataUpdate
         fields = (
             'unit',
             'update',
@@ -671,7 +671,7 @@ class ConfirmOwnerUpdateForm(forms.ModelForm):
 
 ConfirmOwnerUpdateFormSet = modelformset_factory(
     UnitDataUpdate,
-    form=ConfirmOwnerUpdateForm,
+    form=ConfirmUnitUpdateForm,
     extra=0,
     min_num=0,
     validate_min=False,
@@ -679,26 +679,19 @@ ConfirmOwnerUpdateFormSet = modelformset_factory(
 )
 
 
-class ConfirmLeaseholderUpdateForm(forms.ModelForm):
-    """Form used to confirm if unit leaseholders must be
-    considered for data update.
-    """
-    update = forms.BooleanField(
-        required=False,
-        initial=True,
-    )
-
-    class Meta:
-        model = Leaseholder
-        fields = (
-            'unit',
-            'update',
-        )
-
-
 ConfirmLeaseholderUpdateFormSet = modelformset_factory(
     UnitDataUpdate,
-    form=ConfirmLeaseholderUpdateForm,
+    form=ConfirmUnitUpdateForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=False,
+)
+
+
+ConfirmResidentUpdateFormSet = modelformset_factory(
+    UnitDataUpdate,
+    form=ConfirmUnitUpdateForm,
     extra=0,
     min_num=0,
     validate_min=False,
@@ -754,6 +747,25 @@ LeaseholderUpdateFormSet = modelformset_factory(
     min_num=0,
     validate_min=False,
     can_delete=False,
+)
+
+
+ResidentUpdateFormSet = modelformset_factory(
+    Resident,
+    form=ResidentForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=True,
+)
+
+VisitorUpdateFormSet = modelformset_factory(
+    Visitor,
+    form=VisitorForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=True,
 )
 
 
