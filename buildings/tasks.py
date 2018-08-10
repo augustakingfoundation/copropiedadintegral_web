@@ -38,3 +38,15 @@ def expire_data_update_links():
         unit_data_object.save()
 
         logger.info('Update leaseholders link successfully disabled')
+
+    for unit_data_object in UnitDataUpdate.objects.filter(
+        enable_residents_update=True,
+        residents_update_activated_at__lt=timezone.now() - timedelta(days=30)
+    ):
+        # Disable leaseholders update link.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.residents_update = False
+        unit_data_object.visitors_update = False
+        unit_data_object.save()
+
+        logger.info('Update leaseholders link successfully disabled')
