@@ -40,6 +40,8 @@ from buildings.views.data_update import RequestResidentsUpdateView
 from buildings.views.data_update import OwnersUpdateForm
 from buildings.views.data_update import LeaseholdersUpdateForm
 from buildings.views.data_update import ResidentsUpdateForm
+from buildings.views.data_update import ResidentsUpdatePost
+from buildings.views.data_update import VisitorsUpdatePost
 
 
 urlpatterns = [
@@ -358,10 +360,26 @@ urlpatterns = [
     ),
 
     # pk = Unit update object id.
-    # verify_key = Encrypted key to verify update leaseholders form.
+    # verify_key = Encrypted key to verify update residents form.
     url(
         r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/residentes/formulario/$',
         ResidentsUpdateForm.as_view(),
         name='residents_update_form',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update residents form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/residentes/post/$',
+        ResidentsUpdatePost.as_view(),
+        name='residents_update_post',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update residents form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/residentes/post/$',
+        VisitorsUpdatePost.as_view(),
+        name='visitors_update_post',
     ),
 ]

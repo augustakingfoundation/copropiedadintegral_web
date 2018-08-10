@@ -591,7 +591,11 @@ class ResidentsUpdateForm(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['unit_data'] = self.get_object()
+
+        data_update = self.get_object()
+        context['unit_data'] = data_update
+        context['verify_key'] = self.kwargs['verify_key']
+
         return context
 
     def get(self, *args, **kwargs):
@@ -650,3 +654,119 @@ class ResidentsUpdateForm(TemplateView):
         )
 
         return redirect('home')
+
+
+class ResidentsUpdatePost(View):
+    """
+    """
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        residents_update_formset = ResidentUpdateFormSet(
+            self.request.POST,
+            prefix='residents',
+            queryset=Resident.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        unit_data_object.residents_update = False
+        unit_data_object.save()
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos de los residentes.')
+        )
+
+        return redirect(
+            'buildings:residents_update_form',
+            self.get_object().unit.id,
+            self.kwargs['verify_key'],
+        )
+
+
+class VisitorsUpdatePost(View):
+    """
+    """
+
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        visitors_update_formset = VisitorUpdateFormSet(
+            self.request.POST,
+            prefix='visitors',
+            queryset=Visitor.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        unit_data_object.residents_update = False
+        unit_data_object.save()
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos de los visitantes autorizados.')
+        )
+
+        return redirect(
+            'buildings:residents_update_form',
+            self.get_object().unit.id,
+            self.kwargs['verify_key'],
+        )

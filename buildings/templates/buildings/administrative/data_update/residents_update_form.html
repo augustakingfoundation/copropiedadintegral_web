@@ -23,7 +23,7 @@
         <p>{% trans 'Actualización de datos de residentes.' %}</p>
         <hr>
 
-        <form method="post">
+        <form method="post" action="{% url 'buildings:residents_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
           {{ residents_update_formset.management_form }}
@@ -88,7 +88,7 @@
         <p>{% trans 'Actualización de datos de visitantes autorizados.' %}</p>
         <hr>
 
-        <form method="post">
+        <form method="post" action="{% url 'buildings:visitors_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
           {{ visitors_update_formset.management_form }}
