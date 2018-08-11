@@ -102,4 +102,15 @@ urlpatterns += i18n_patterns(
             namespace='buildings'
         )
     ),
+
+    url(
+        r'^contabilidad/',
+        include(
+            (
+                'accounting.urls',
+                'accounting',
+            ),
+            namespace='accounting'
+        )
+    ),
 )

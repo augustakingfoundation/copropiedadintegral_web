@@ -9,17 +9,14 @@
     <hr>
 
     <ul class="nav nav-pills nav-fill">
-    <li class="nav-item">
-      <a class="nav-link active" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
+      </li>
 
-    {% comment %}
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans "Contabilidad" %}</a>
-    </li>
-    {% endcomment %}
-  </ul>
-
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'accounting:accounting_form' building.id %}">{% trans "Contabilidad" %}</a>
+      </li>
+    </ul>
   <br>
 
   <div class="row">
