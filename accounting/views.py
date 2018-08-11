@@ -1,4 +1,7 @@
 from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
+
+from buildings.models import Building
 
 
 class AccountingFormView(TemplateView):
@@ -10,3 +13,15 @@ class AccountingFormView(TemplateView):
     can be created once.
     """
     template_name = 'accounting_form.html'
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Building,
+            pk=self.kwargs['building_id'],
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object()
+
+        return context

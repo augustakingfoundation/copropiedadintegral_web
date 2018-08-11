@@ -10,7 +10,7 @@
 
     <ul class="nav nav-pills nav-fill">
       <li class="nav-item">
-        <a class="nav-link active" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
+        <a class="nav-link" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
       </li>
 
       <li class="nav-item">
@@ -20,6 +20,7 @@
   <br>
 
   <div class="row">
+    {% block side_menu %}
     <div class="col-sm-12 col-md-2 col-lg-2">
       {% if building.logo %}
       <img class="img-responsive thumbnail" src="{{ building.logo.url }}" alt="{{ building }}" style="width: 160px; height: auto">
@@ -40,11 +41,11 @@
         {% endif %}
       </div>
     </div>
+    {% endblock side_menu %}
 
     <div class="col-sm-12 col-md-10 col-lg-10">
       {% block building_section %}{% endblock %}
     </div>
   </div>
-  
 </section>
 {% endblock %}
