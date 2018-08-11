@@ -10,11 +10,11 @@
 
     <ul class="nav nav-pills nav-fill">
       <li class="nav-item">
-        <a class="nav-link" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
+        <a class="nav-link {% block active_administration %}active{% endblock %}" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'accounting:accounting_form' building.id %}">{% trans "Contabilidad" %}</a>
+        <a class="nav-link {% block active_accounting %}{% endblock %}" href="{% url 'accounting:accounting_form' building.id %}">{% trans "Contabilidad" %}</a>
       </li>
     </ul>
   <br>
