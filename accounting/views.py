@@ -1,10 +1,12 @@
-from django.views.generic import TemplateView
+from django.views.generic import CreateView
 from django.shortcuts import get_object_or_404
 
 from buildings.models import Building
+from accounting.models import Accounting
+from accounting.forms import AccountingForm
 
 
-class AccountingFormView(TemplateView):
+class AccountingFormView(CreateView):
     """
     Account form view. Condominium administrator or
     accountant can create a new accountant assigned to a condo.
@@ -12,6 +14,8 @@ class AccountingFormView(TemplateView):
     model and a condo, so and accounting model for a condo only
     can be created once.
     """
+    model = Accounting
+    form_class = AccountingForm
     template_name = 'accounting_form.html'
 
     def get_object(self, queryset=None):

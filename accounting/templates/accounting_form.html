@@ -1,6 +1,6 @@
 {% extends "layout/building_base.html" %}
 
-{% load i18n %}
+{% load i18n widget_tweaks %}
 
 {% block title %}{% trans "Contabilidad" %} - {{ building }}{% endblock %}
 
@@ -8,3 +8,88 @@
 {% block active_accounting %}active{% endblock %}
 
 {% block side_menu %}{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+
+  <h3>{% trans "Crear modelo de contabilidad para " %} {{ building.name }}</h3>
+  <hr>
+
+  <form method="post">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <div class="form-group">{{ form.non_field_errors }}</div>
+  {% endif %}
+
+    <div class="row">
+      <div class="form-group col-md-6">
+        <p>{{ form.initial_period.label_tag }}</p>
+        {% render_field form.initial_period class+="form-control" %}
+        {{ form.initial_period.errors }}
+      </div>
+
+      <div class="form-group col-md-6">
+        <p>{{ form.economic_activity.label_tag }}</p>
+        {% render_field form.economic_activity class+="form-control" %}
+        {{ form.economic_activity.errors }}
+      </div>
+
+      <div class="form-group col-md-6">
+        <hr>
+        {% render_field form.apply_retention %}
+        {{ form.apply_retention.label_tag }}
+        {{ form.apply_retention.errors }}
+      </div>
+
+      <div class="col-md-6">
+        <hr>
+        <div class="form-group">
+          {% render_field form.is_self_withholding %}
+          {{ form.apply_retention.label_tag }}
+          {{ form.is_self_withholding.errors }}
+        </div>
+
+        <div class="form-group">
+          <p>{{ form.rate.label_tag }}</p>
+          {% render_field form.rate class+="form-control" %}
+          {{ form.rate.errors }}
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <hr>
+        <p>{{ form.nit_dian.label_tag }}</p>
+        {% render_field form.nit_dian class+="form-control" %}
+        {{ form.nit_dian.errors }}
+      </div>
+
+      <div class="form-group col-md-6">
+        <hr>
+        <p>{{ form.local_nit_dian.label_tag }}</p>
+        {% render_field form.local_nit_dian class+="form-control" %}
+        <p class="font-weight-light">
+        {{ form.local_nit_dian.help_text }}
+        </p>
+        {{ form.local_nit_dian.errors }}
+      </div>
+    </div>
+    <hr>
+
+    <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+  </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+$(function() {
+  $('#id_initial_period').datetimepicker({
+      timepicker:false,
+      format:'d/m/Y',
+      scrollInput: false,
+      scrollMonth: false,
+      maxDate: new Date()
+  });
+});
+</script>
+{% endblock %}
