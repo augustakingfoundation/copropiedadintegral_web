@@ -47,6 +47,16 @@ class AccountingFormView(CustomUserMixin, CreateView):
 
         return context
 
+    @transaction.atomic
+    def form_valid(self, form):
+        building = self.get_object()
+
+        accounting = form.save(commit=False)
+        accounting.condo = building
+        accounting.save()
+
+        return super().form_valid(form)
+
 
 class EconomicActivitiesFormView(CustomUserMixin, FormView):
     """
@@ -77,12 +87,18 @@ class EconomicActivitiesFormView(CustomUserMixin, FormView):
     def form_valid(self, form):
         file = form.cleaned_data['excel_file']
 
+        # Read xls file to create economic activities instances.
         book = xlrd.open_workbook(file_contents=file.read())
         first_sheet = book.sheet_by_index(0)
 
         num_rows = first_sheet.nrows
         num_cols = first_sheet.ncols
 
+        # Iterate all rows and columns to get the values.
+        # Excel file must not have headers.
+        # Column one is for economic activities codes.
+        # Column two is for economic activities names.
+        # Column three is for economic activities rates.
         for row_idx in range(0, num_rows):
             code = None
             name = None

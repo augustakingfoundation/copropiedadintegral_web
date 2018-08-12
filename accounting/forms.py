@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
@@ -18,12 +20,6 @@ class AccountingForm(forms.ModelForm):
     """
     Form to create the accounting model of a condominium.
     """
-    coefficient = forms.DecimalField(
-        max_value=0,
-        min_value=100,
-        label=_('coeficiente'),
-    )
-
     rate = forms.ChoiceField(
         label=_('tarifa'),
         choices=RATE_CHOICES,
@@ -41,17 +37,23 @@ class AccountingForm(forms.ModelForm):
             'local_nit_dian',
         )
 
-    def clean_coefficient(self):
-        # Validation to the coefficient field. It must
-        # be a value between 0 and 100.
-        value = self.cleaned_data['coefficient']
+    def clean_nit_dian(self):
+        value = self.cleaned_data['nit_dian']
 
-        if value:
-            if value < 0 or value > 100:
-                raise forms.ValidationError(
-                    _('El coeficiente debe ser un valor '
-                      'entre 0 y 100')
-                )
+        if not re.match(r'^\d{5,15}-\d{1}$', value):
+            raise forms.ValidationError(
+                _('El NIT ingresado no es válido. Ej: 12345678-1'),
+            )
+
+        return value
+
+    def clean_local_nit_dian(self):
+        value = self.cleaned_data['local_nit_dian']
+
+        if not re.match(r'^\d{5,15}-\d{1}$', value):
+            raise forms.ValidationError(
+                _('El NIT ingresado no es válido. Ej: 12345678-1'),
+            )
 
         return value
 
