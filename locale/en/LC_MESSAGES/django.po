@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-10 09:08-0500\n"
+"POT-Creation-Date: 2018-08-12 18:12-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,142 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: accounting/forms.py:24 accounting/models.py:39 accounting/models.py:83
+msgid "tarifa"
+msgstr ""
+
+#: accounting/forms.py:45 accounting/forms.py:55 buildings/forms.py:87
+msgid "El NIT ingresado no es válido. Ej: 12345678-1"
+msgstr "The entered NIT is not valid. Ex: 12345678-1"
+
+#: accounting/forms.py:66
+msgid "archivo de excel"
+msgstr ""
+
+#: accounting/forms.py:67
+msgid "Debe seleccionar un archivo con extensión .xlsx o xls."
+msgstr ""
+
+#: accounting/forms.py:79
+msgid "Solo se aceptan archivos con extensión xlsx, .xls."
+msgstr ""
+
+#: accounting/models.py:11 buildings/models.py:362 buildings/models.py:375
+#: buildings/models.py:579 buildings/models.py:680 buildings/models.py:805
+#: buildings/models.py:864 buildings/models.py:909 buildings/models.py:969
+#: buildings/models.py:1021 buildings/models.py:1077
+msgid "unidad"
+msgstr "unit"
+
+#: accounting/models.py:15 buildings/models.py:203
+msgid "periodo inicial"
+msgstr "initial period"
+
+#: accounting/models.py:21 accounting/models.py:93
+msgid "actividad económica"
+msgstr ""
+
+#: accounting/models.py:26
+msgid "aplica retención a título de impuesto de renta"
+msgstr ""
+
+#: accounting/models.py:31
+msgid "es autorretenedor a título impuesto de renta"
+msgstr ""
+
+#: accounting/models.py:45
+msgid "Nit DIAN"
+msgstr ""
+
+#: accounting/models.py:51
+msgid "Nit DIAN local"
+msgstr ""
+
+#: accounting/models.py:52
+msgid "Secretaría de hacienda distrital SHD"
+msgstr ""
+
+#: accounting/models.py:65
+#, fuzzy
+#| msgid "contador"
+msgid "contabilidad"
+msgstr "accountant"
+
+#: accounting/models.py:66
+#, fuzzy
+#| msgid "unidades"
+msgid "contabilidades"
+msgstr "units"
+
+#: accounting/models.py:72
+msgid "código"
+msgstr ""
+
+#: accounting/models.py:77 buildings/models.py:114 buildings/models.py:487
+#: buildings/models.py:603 buildings/models.py:703 buildings/models.py:757
+#: buildings/models.py:943 buildings/models.py:1003 buildings/models.py:1050
+#: place/models.py:9 place/models.py:34
+msgid "nombre"
+msgstr "name"
+
+#: accounting/models.py:94
+msgid "actividades aconómicas"
+msgstr ""
+
+#: accounting/templates/accounting_form.html:5
+#: accounting/templates/condo_accounting.html:5
+#: app/templates/layout/building_base.html:17
+#, fuzzy
+#| msgid "Contador"
+msgid "Contabilidad"
+msgstr "Accountant"
+
+#: accounting/templates/accounting_form.html:10
+msgid "Crear modelo de contabilidad para "
+msgstr ""
+
+#: accounting/templates/accounting_form.html:71
+#: accounts/templates/accounts/auth/password_reset_confirm.html:36
+#: accounts/templates/accounts/profile_form.html:72
+#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:70
+#: buildings/templates/buildings/administrative/data_update/owners_update_form.html:75
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:123
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:219
+#: buildings/templates/buildings/administrative/domestic_workers/domestic_worker_form.html:50
+#: buildings/templates/buildings/administrative/parking_lots/parkinglot_form.html:32
+#: buildings/templates/buildings/administrative/pets/pet_form.html:49
+#: buildings/templates/buildings/administrative/residents/resident_form.html:136
+#: buildings/templates/buildings/administrative/units/unit_form.html:65
+#: buildings/templates/buildings/administrative/vehicles/vehicle_form.html:42
+#: buildings/templates/buildings/administrative/visitors/visitor_form.html:48
+#: buildings/templates/buildings/building_form.html:96
+msgid "Guardar"
+msgstr "Save"
+
+#: accounting/templates/condo_accounting.html:16
+msgid "Contabilidad de "
+msgstr ""
+
+#: accounting/templates/economic_activities_form.html:5
+msgid "Actividades económicas"
+msgstr ""
+
+#: accounting/templates/economic_activities_form.html:10
+msgid "Actividades económicas regitradas"
+msgstr ""
+
+#: accounting/templates/economic_activities_form.html:31
+msgid "Cargar"
+msgstr ""
+
+#: accounting/templates/inc_accounting_side_menu.html:4
+msgid "Economic activities"
+msgstr ""
+
+#: accounting/views.py:179
+msgid "Actividades económicas actualizadas."
+msgstr ""
 
 #: accounts/data.py:10 buildings/data.py:10
 #: buildings/templates/buildings/administrative/building_detail.html:20
@@ -136,23 +272,6 @@ msgstr "Forgot your password?"
 #: accounts/templates/accounts/auth/password_reset_form.html:33
 msgid "Recuperar contraseña"
 msgstr "Recover password"
-
-#: accounts/templates/accounts/auth/password_reset_confirm.html:36
-#: accounts/templates/accounts/profile_form.html:72
-#: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:70
-#: buildings/templates/buildings/administrative/data_update/owners_update_form.html:75
-#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:123
-#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:219
-#: buildings/templates/buildings/administrative/domestic_workers/domestic_worker_form.html:50
-#: buildings/templates/buildings/administrative/parking_lots/parkinglot_form.html:32
-#: buildings/templates/buildings/administrative/pets/pet_form.html:49
-#: buildings/templates/buildings/administrative/residents/resident_form.html:136
-#: buildings/templates/buildings/administrative/units/unit_form.html:65
-#: buildings/templates/buildings/administrative/vehicles/vehicle_form.html:42
-#: buildings/templates/buildings/administrative/visitors/visitor_form.html:48
-#: buildings/templates/buildings/building_form.html:96
-msgid "Guardar"
-msgstr "Save"
 
 #: accounts/templates/accounts/auth/password_reset_done.html:5
 msgid "Recuperación de contraseña"
@@ -341,11 +460,11 @@ msgstr "Your data has been updated correctly."
 msgid "Invitación para crear cuenta."
 msgstr "Create account."
 
-#: app/settings.py:107
+#: app/settings.py:108
 msgid "English"
 msgstr ""
 
-#: app/settings.py:108
+#: app/settings.py:109
 msgid "Spanish"
 msgstr ""
 
@@ -476,6 +595,31 @@ msgstr "Project in the development phase. Get in touch with us through our"
 msgid "Cerrar sesión"
 msgstr "Log out"
 
+#: app/templates/layout/building_base.html:13
+msgid "Administración"
+msgstr "Administration"
+
+#: app/templates/layout/building_base.html:30
+msgid "General"
+msgstr "General"
+
+#: app/templates/layout/building_base.html:31
+#: buildings/templates/buildings/administrative/units/units_list.html:5
+msgid "Unidades"
+msgstr "Units"
+
+#: app/templates/layout/building_base.html:32
+msgid "Circulares"
+msgstr "Documents"
+
+#: app/templates/layout/building_base.html:33
+msgid "Encuestas"
+msgstr "Polls"
+
+#: app/templates/layout/building_base.html:37
+msgid "Roles"
+msgstr "Roles"
+
 #: app/validators.py:9
 msgid "El archivo debe ser máximo de 4MB"
 msgstr "he file must be a maximum of 4MB"
@@ -534,10 +678,6 @@ msgstr "accounting assistant"
 #: buildings/templates/buildings/administrative/building_detail.html:26
 msgid "Ciudad"
 msgstr "City"
-
-#: buildings/forms.py:87
-msgid "El NIT ingresado no es válido. Ej: 12345678-1"
-msgstr "The entered NIT is not valid. Ex: 12345678-1"
 
 #: buildings/forms.py:98
 msgid "El documento ingresado solo debe contener números"
@@ -611,13 +751,6 @@ msgstr "membership"
 msgid "membresías"
 msgstr "memberships"
 
-#: buildings/models.py:114 buildings/models.py:487 buildings/models.py:603
-#: buildings/models.py:703 buildings/models.py:757 buildings/models.py:943
-#: buildings/models.py:1003 buildings/models.py:1050 place/models.py:9
-#: place/models.py:34
-msgid "nombre"
-msgstr "name"
-
 #: buildings/models.py:125
 #: buildings/templates/buildings/administrative/building_detail.html:23
 msgid "documento/Nit"
@@ -667,10 +800,6 @@ msgstr ""
 "If you wish to enter more than one telephone number, they must be separated "
 "by comma (,)."
 
-#: buildings/models.py:203
-msgid "periodo inicial"
-msgstr "initial period"
-
 #: buildings/models.py:208 buildings/models.py:294
 msgid "registro de actividad"
 msgstr "activity register"
@@ -717,13 +846,6 @@ msgstr "This value must be a percentage between 0 and 100"
 #: buildings/models.py:289
 msgid "observaciones"
 msgstr "observations"
-
-#: buildings/models.py:362 buildings/models.py:375 buildings/models.py:579
-#: buildings/models.py:680 buildings/models.py:805 buildings/models.py:864
-#: buildings/models.py:909 buildings/models.py:969 buildings/models.py:1021
-#: buildings/models.py:1077
-msgid "unidad"
-msgstr "unit"
 
 #: buildings/models.py:363
 msgid "unidades"
@@ -1351,7 +1473,7 @@ msgstr "Edit profile"
 #: buildings/templates/buildings/administrative/units/unit_detail.html:264
 #: buildings/templates/buildings/administrative/units/unit_detail.html:308
 #: buildings/templates/buildings/administrative/units/unit_detail.html:356
-#: buildings/templates/buildings/administrative/units/units_list.html:47
+#: buildings/templates/buildings/administrative/units/units_list.html:48
 msgid "Eliminar"
 msgstr "Delete"
 
@@ -1645,7 +1767,7 @@ msgid "Transferir membersía principal"
 msgstr "Transfer main membership"
 
 #: buildings/templates/buildings/administrative/roles/memberships_list.html:55
-#: buildings/templates/buildings/administrative/units/units_list.html:55
+#: buildings/templates/buildings/administrative/units/units_list.html:57
 msgid "No hay unidades registradas aún."
 msgstr "No units registered yet."
 
@@ -1951,11 +2073,6 @@ msgstr ""
 msgid "Regresar al detalle de la unidad"
 msgstr "No, go back to the unit detail"
 
-#: buildings/templates/buildings/administrative/units/units_list.html:5
-#: buildings/templates/buildings/building_base.html:37
-msgid "Unidades"
-msgstr "Units"
-
 #: buildings/templates/buildings/administrative/units/units_list.html:21
 msgid "Crear unidad"
 msgstr "Create unit"
@@ -2003,26 +2120,6 @@ msgstr "Edit authorized visitor"
 #| msgid "Registrar unidad"
 msgid "Registrar visitante autorizado"
 msgstr "Register unit"
-
-#: buildings/templates/buildings/building_base.html:13
-msgid "Administración"
-msgstr "Administration"
-
-#: buildings/templates/buildings/building_base.html:36
-msgid "General"
-msgstr "General"
-
-#: buildings/templates/buildings/building_base.html:38
-msgid "Circulares"
-msgstr "Documents"
-
-#: buildings/templates/buildings/building_base.html:39
-msgid "Encuestas"
-msgstr "Polls"
-
-#: buildings/templates/buildings/building_base.html:43
-msgid "Roles"
-msgstr "Roles"
 
 #: buildings/templates/buildings/building_form.html:5
 msgid "Crear copropiedad"
@@ -2236,15 +2333,15 @@ msgstr "Your membership has been deleted"
 msgid "Su membresía ha sido transferida exitosamente"
 msgstr "Unit craeted successfully"
 
-#: buildings/views/units.py:210
+#: buildings/views/units.py:215
 msgid "Unidad creada exitosamente."
 msgstr "Unit craeted successfully"
 
-#: buildings/views/units.py:352
+#: buildings/views/units.py:357
 msgid "Unidad actualizada correctamente."
 msgstr "Unit updated correctly."
 
-#: buildings/views/units.py:440
+#: buildings/views/units.py:445
 #, fuzzy
 #| msgid "Unidad creada exitosamente."
 msgid "Unidad eliminado exitosamente."
@@ -2303,9 +2400,6 @@ msgstr "departments"
 
 #~ msgid "asistente administrativo"
 #~ msgstr "administrative assistant"
-
-#~ msgid "contador"
-#~ msgstr "accountant"
 
 #~ msgid "revisor fiscal"
 #~ msgstr "fiscal auditor"

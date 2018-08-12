@@ -34,6 +34,8 @@ class Accounting(models.Model):
     rate = models.DecimalField(
         max_digits=4,
         decimal_places=2,
+        null=True,
+        blank=True,
         verbose_name=_('tarifa'),
     )
 

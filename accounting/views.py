@@ -3,10 +3,13 @@ import xlrd
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext as _
 from django.views.generic import CreateView
 from django.views.generic import FormView
+from django.views.generic import TemplateView
 
 from accounting.forms import AccountingForm
 from accounting.forms import EconomicActivitiesForm
@@ -29,6 +32,62 @@ class AccountingFormView(CustomUserMixin, CreateView):
     form_class = AccountingForm
     template_name = 'accounting_form.html'
 
+    def get_success_url(self):
+        return reverse(
+            'accounting:condo_accounting',
+            args=[self.kwargs['building_id']],
+        )
+
+    def test_func(self):
+        return AccountingPermissions.can_create_accounting(
+            user=self.request.user,
+            building=self.get_object(),
+        )
+
+    def get_object(self, queryset=None):
+        return get_object_or_404(
+            Building,
+            pk=self.kwargs['building_id'],
+        )
+
+    def get(self, request, *args, **kwargs):
+        if hasattr(self.get_object(), 'accounting'):
+            return redirect(
+                'accounting:condo_accounting',
+                self.get_object().id,
+            )
+
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['building'] = self.get_object()
+
+        return context
+
+    @transaction.atomic
+    def form_valid(self, form):
+        building = self.get_object()
+
+        accounting = form.save(commit=False)
+        accounting.condo = building
+
+        apply_retention = form.cleaned_data['apply_retention']
+
+        # If apply_retention is False, rate and
+        # is_self_withholding don't apply.
+        if not apply_retention:
+            accounting.rate = None
+            accounting.is_self_withholding = False
+
+        accounting.save()
+
+        return super().form_valid(form)
+
+
+class CondoAccountingView(CustomUserMixin, TemplateView):
+    template_name = 'condo_accounting.html'
+
     def test_func(self):
         return AccountingPermissions.can_create_accounting(
             user=self.request.user,
@@ -47,23 +106,13 @@ class AccountingFormView(CustomUserMixin, CreateView):
 
         return context
 
-    @transaction.atomic
-    def form_valid(self, form):
-        building = self.get_object()
-
-        accounting = form.save(commit=False)
-        accounting.condo = building
-        accounting.save()
-
-        return super().form_valid(form)
-
 
 class EconomicActivitiesFormView(CustomUserMixin, FormView):
     """
     Economic activities form. This is the way to classify
     the economic activities by productive processes in
     Colombia. Each condo must to select one activity. This view
-    is a form view to upload an excel file with the economic
+    is a form view to upload an excel  with the economic
     activities to create instances og the EconomicActivity
     model. Excel file must contain a column with the code,
     a column with the name and a column with the rate.

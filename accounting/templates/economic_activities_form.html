@@ -11,6 +11,15 @@
     <hr>
 
     <div class="jumbotron">
+      <p>{% trans "Puede actualizar las actividades económicas para Colombia (Código CIIU) mediante la carga de un archivo excel." %}</p>
+
+      <ul>
+        <li>{% trans "El archivo no debe tener encabezados." %}</li>
+        <li>{% trans "La primera columna debe contener los códigos de las actividades." %}</li>
+        <li>{% trans "La segunda columna debe contener los nombres de las actividades." %}</li>
+        <li>{% trans "La tercera columna debe contener las tarifas de las actividades, incluyendo el signo %." %}</li>
+      </ul>
+
       <div class="row">
         <div class="col-md-10 offset-md-1">
           <form method="post" enctype="multipart/form-data">
