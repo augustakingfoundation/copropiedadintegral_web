@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-12 18:12-0500\n"
+"POT-Creation-Date: 2018-08-12 18:39-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: accounting/forms.py:24 accounting/models.py:39 accounting/models.py:83
 msgid "tarifa"
-msgstr ""
+msgstr "rate"
 
 #: accounting/forms.py:45 accounting/forms.py:55 buildings/forms.py:87
 msgid "El NIT ingresado no es válido. Ej: 12345678-1"
@@ -28,15 +28,15 @@ msgstr "The entered NIT is not valid. Ex: 12345678-1"
 
 #: accounting/forms.py:66
 msgid "archivo de excel"
-msgstr ""
+msgstr "excel file"
 
 #: accounting/forms.py:67
 msgid "Debe seleccionar un archivo con extensión .xlsx o xls."
-msgstr ""
+msgstr "You must select a file with extension .xlsx or xls."
 
 #: accounting/forms.py:79
 msgid "Solo se aceptan archivos con extensión xlsx, .xls."
-msgstr ""
+msgstr "Only files with extension xlsx, .xls are accepted."
 
 #: accounting/models.py:11 buildings/models.py:362 buildings/models.py:375
 #: buildings/models.py:579 buildings/models.py:680 buildings/models.py:805
@@ -51,27 +51,27 @@ msgstr "initial period"
 
 #: accounting/models.py:21 accounting/models.py:93
 msgid "actividad económica"
-msgstr ""
+msgstr "economic activity"
 
 #: accounting/models.py:26
 msgid "aplica retención a título de impuesto de renta"
-msgstr ""
+msgstr "applies withholding tax on income tax"
 
 #: accounting/models.py:31
 msgid "es autorretenedor a título impuesto de renta"
-msgstr ""
+msgstr "is self-withholding tax income title"
 
 #: accounting/models.py:45
 msgid "Nit DIAN"
-msgstr ""
+msgstr "Nit DIAN"
 
 #: accounting/models.py:51
 msgid "Nit DIAN local"
-msgstr ""
+msgstr "Nit local DIAN"
 
 #: accounting/models.py:52
 msgid "Secretaría de hacienda distrital SHD"
-msgstr ""
+msgstr "Secretary of the District Treasury"
 
 #: accounting/models.py:65
 #, fuzzy
@@ -87,7 +87,7 @@ msgstr "units"
 
 #: accounting/models.py:72
 msgid "código"
-msgstr ""
+msgstr "code"
 
 #: accounting/models.py:77 buildings/models.py:114 buildings/models.py:487
 #: buildings/models.py:603 buildings/models.py:703 buildings/models.py:757
@@ -98,7 +98,7 @@ msgstr "name"
 
 #: accounting/models.py:94
 msgid "actividades aconómicas"
-msgstr ""
+msgstr "economic activities"
 
 #: accounting/templates/accounting_form.html:5
 #: accounting/templates/condo_accounting.html:5
@@ -106,11 +106,11 @@ msgstr ""
 #, fuzzy
 #| msgid "Contador"
 msgid "Contabilidad"
-msgstr "Accountant"
+msgstr "Accounting"
 
 #: accounting/templates/accounting_form.html:10
 msgid "Crear modelo de contabilidad para "
-msgstr ""
+msgstr "Create accounting model for "
 
 #: accounting/templates/accounting_form.html:71
 #: accounts/templates/accounts/auth/password_reset_confirm.html:36
@@ -135,24 +135,48 @@ msgid "Contabilidad de "
 msgstr ""
 
 #: accounting/templates/economic_activities_form.html:5
+#: app/templates/layout/base.html:52
 msgid "Actividades económicas"
-msgstr ""
+msgstr "Accounting of "
 
 #: accounting/templates/economic_activities_form.html:10
 msgid "Actividades económicas regitradas"
-msgstr ""
+msgstr "Registered economic activities"
 
-#: accounting/templates/economic_activities_form.html:31
+#: accounting/templates/economic_activities_form.html:14
+msgid ""
+"Puede actualizar las actividades económicas para Colombia (Código CIIU) "
+"mediante la carga de un archivo excel."
+msgstr ""
+"You can update the economic activities for Colombia (CIIU code) by "
+""uploading an excel file.
+
+#: accounting/templates/economic_activities_form.html:17
+msgid "El archivo no debe tener encabezados."
+msgstr "The file must not hace headers."
+
+#: accounting/templates/economic_activities_form.html:18
+msgid "La primera columna debe contener los códigos de las actividades."
+msgstr "The first column should contain the activities codes."
+
+#: accounting/templates/economic_activities_form.html:19
+msgid "La segunda columna debe contener los nombres de las actividades."
+msgstr "The second column should contain the activities names."
+
+#: accounting/templates/economic_activities_form.html:20
+#, python-format
+msgid ""
+"La tercera columna debe contener las tarifas de las actividades, incluyendo "
+"el signo %%."
+msgstr "The third column should contain the activities rates."
+
+#: accounting/templates/economic_activities_form.html:40
 msgid "Cargar"
-msgstr ""
-
-#: accounting/templates/inc_accounting_side_menu.html:4
-msgid "Economic activities"
-msgstr ""
+msgstr "Upload"
 
 #: accounting/views.py:179
 msgid "Actividades económicas actualizadas."
-msgstr ""
+msgstr "Economic activities updated."
 
 #: accounts/data.py:10 buildings/data.py:10
 #: buildings/templates/buildings/administrative/building_detail.html:20
@@ -300,7 +324,7 @@ msgid "Su dirección de correo electrónico registrada es:"
 msgstr "Your registered email is:"
 
 #: accounts/templates/accounts/profile_form.html:5
-#: app/templates/layout/base.html:47
+#: app/templates/layout/base.html:48
 msgid "Editar perfil"
 msgstr "Edit profile"
 
@@ -591,7 +615,7 @@ msgid ""
 "de nuestro canal de"
 msgstr "Project in the development phase. Get in touch with us through our"
 
-#: app/templates/layout/base.html:49
+#: app/templates/layout/base.html:56
 msgid "Cerrar sesión"
 msgstr "Log out"
 
