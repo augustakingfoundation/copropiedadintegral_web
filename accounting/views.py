@@ -89,7 +89,7 @@ class CondoAccountingView(CustomUserMixin, TemplateView):
     template_name = 'condo_accounting.html'
 
     def test_func(self):
-        return AccountingPermissions.can_create_accounting(
+        return AccountingPermissions.can_view_accounting_dashboard(
             user=self.request.user,
             building=self.get_object(),
         )
