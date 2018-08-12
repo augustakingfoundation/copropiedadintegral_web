@@ -7,7 +7,9 @@
 {% block active_administration %}{% endblock %}
 {% block active_accounting %}active{% endblock %}
 
-{% block side_menu %}{% endblock %}
+{% block side_menu %}
+{% include "inc_accounting_side_menu.html" %}
+{% endblock %}
 
 {% block building_section %}
 <div class="jumbotron">
