@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
   {% if user.is_superuser %}
-  <a class="nav-link {% if active_economic_activities %}active{% endif %}" href="">{% trans "Economic activities" %}</a>
+  <a class="nav-link" href="{% url 'accounting:economic_activities_form' building.id %}">{% trans "Economic activities" %}</a>
   {% endif %}
 </div>
