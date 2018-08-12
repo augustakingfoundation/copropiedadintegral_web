@@ -66,14 +66,13 @@ class Accounting(models.Model):
 
 
 class EconomicActivity(models.Model):
-    name = models.CharField(
-        max_length=100,
-        verbose_name=_('nombre'),
+    code = models.IntegerField(
+        verbose_name=_('código'),
     )
 
-    code = models.CharField(
-        max_length=10,
-        verbose_name=_('código'),
+    name = models.CharField(
+        max_length=200,
+        verbose_name=_('nombre'),
     )
 
     rate = models.DecimalField(
@@ -84,11 +83,11 @@ class EconomicActivity(models.Model):
 
     def __str__(self):
         return '{0} - {1}'.format(
-            self.name,
             self.code,
+            self.name,
         )
 
     class Meta:
         verbose_name = _('actividad económica')
         verbose_name_plural = _('actividades aconómicas')
-        ordering = ('name',)
+        ordering = ('code',)

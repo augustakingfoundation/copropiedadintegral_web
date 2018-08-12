@@ -1,3 +1,5 @@
+import xlrd
+
 from django.contrib import messages
 from django.db import transaction
 from django.shortcuts import get_object_or_404
@@ -9,6 +11,7 @@ from django.views.generic import FormView
 from accounting.forms import AccountingForm
 from accounting.forms import EconomicActivitiesForm
 from accounting.models import Accounting
+from accounting.models import EconomicActivity
 from accounting.permissions import AccountingPermissions
 from app.mixins import CustomUserMixin
 from buildings.models import Building
@@ -74,8 +77,37 @@ class EconomicActivitiesFormView(CustomUserMixin, FormView):
     def form_valid(self, form):
         file = form.cleaned_data['excel_file']
 
-        print("file")
-        print(file)
+        book = xlrd.open_workbook(file_contents=file.read())
+        first_sheet = book.sheet_by_index(0)
+
+        num_rows = first_sheet.nrows
+        num_cols = first_sheet.ncols
+
+        for row_idx in range(0, num_rows):
+            code = None
+            name = None
+            rate = None
+
+            for col_idx in range(0, num_cols):
+                cell = first_sheet.cell(row_idx, col_idx)
+
+                if col_idx == 0:
+                    code = int(cell.value)
+                elif col_idx == 1:
+                    name = cell.value
+                elif col_idx == 2:
+                    rate = cell.value
+                    rate = float(rate.replace('%', '').replace(',', '.'))
+
+            if code and name and rate:
+                if not EconomicActivity.objects.filter(
+                    code=code,
+                ):
+                    EconomicActivity.objects.create(
+                        code=code,
+                        name=name,
+                        rate=rate,
+                    )
 
         messages.success(
             self.request,
