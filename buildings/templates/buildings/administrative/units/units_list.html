@@ -1,4 +1,4 @@
-{% extends "buildings/building_base.html" %}
+{% extends "layout/building_base.html" %}
 
 {% load i18n %}
 
@@ -44,7 +44,9 @@
           <a href="{{ unit.get_absolute_url }}" class="btn btn-outline-dark">{% trans "Ver información" %}</a>
           {% endif %}
 
+          {% if can_edit_unit %}
           <a href="{% url 'buildings:unit_delete' building.id unit.id %}" class="btn btn-outline-danger">{% trans "Eliminar" %}</a>
+          {% endif %}
         </td>
       </tr>
       {% endfor %}

@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'app',
     'accounts',
     'buildings',
+    'accounting',
     'place',
 ]
 

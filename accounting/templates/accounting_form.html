@@ -1,0 +1,106 @@
+{% extends "layout/base.html" %}
+
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Contabilidad" %} - {{ building }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="jumbotron">
+    <h3>{% trans "Crear modelo de contabilidad para " %} {{ building.name }}</h3>
+    <hr>
+
+    <form method="post">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+      <div class="form-group">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+      <div class="row">
+        <div class="form-group col-md-6">
+          <p>{{ form.initial_period.label_tag }}</p>
+          {% render_field form.initial_period class+="form-control" %}
+          {{ form.initial_period.errors }}
+        </div>
+
+        <div class="form-group col-md-6">
+          <p>{{ form.economic_activity.label_tag }}</p>
+          {% render_field form.economic_activity class+="form-control" %}
+          {{ form.economic_activity.errors }}
+        </div>
+
+        <div class="col-md-12"><hr></div>
+
+        <div class="form-group col-md-6">
+          {{ form.apply_retention.label_tag }}
+          {% render_field form.apply_retention %}
+          {{ form.apply_retention.errors }}
+        </div>
+
+        <div class="col-md-6 jsSelfWithholdingContent" style="display:none;">        
+          <div class="form-group">
+            {{ form.apply_retention.label_tag }}
+            {% render_field form.is_self_withholding %}
+            {{ form.is_self_withholding.errors }}
+          </div>
+
+          <div class="form-group">
+            <p>{{ form.rate.label_tag }}</p>
+            {% render_field form.rate class+="form-control" %}
+            {{ form.rate.errors }}
+          </div>
+        </div>
+
+        <div class="col-md-12"><hr></div>
+
+        <div class="form-group col-md-6">
+          <p>{{ form.nit_dian.label_tag }}</p>
+          {% render_field form.nit_dian class+="form-control" %}
+          {{ form.nit_dian.errors }}
+        </div>
+
+        <div class="form-group col-md-6">
+          <p>{{ form.local_nit_dian.label_tag }}</p>
+          {% render_field form.local_nit_dian class+="form-control" %}
+          <p class="font-weight-light">{{ form.local_nit_dian.help_text }}</p>
+          {{ form.local_nit_dian.errors }}
+        </div>
+      </div>
+      <hr>
+
+      <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+
+function retention_fields_animation(field) {
+  // Animation for retention checkboxes. Rate and local Dian
+  // only apply if the retention checkox is selected.
+  if (field.is(':checked')) {
+    $(".jsSelfWithholdingContent").show();
+  } else {
+    $(".jsSelfWithholdingContent").hide();
+  }  
+}
+
+$(function() {
+  $('#id_initial_period').datetimepicker({
+      timepicker:false,
+      format:'d/m/Y',
+      scrollInput: false,
+      scrollMonth: false,
+      maxDate: new Date()
+  });
+
+  // Retention fields animation.
+  retention_fields_animation($("#id_apply_retention"));
+  $("#id_apply_retention").on("change", function() {
+    retention_fields_animation($(this));
+  });
+});
+</script>
+{% endblock %}

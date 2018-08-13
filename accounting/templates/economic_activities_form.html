@@ -1,0 +1,47 @@
+{% extends "layout/base.html" %}
+
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Actividades económicas" %} - {{ building }}{% endblock %}
+
+{% block content %}
+<section class="buildingForm">
+  <div class="container">
+    <h3>{% trans "Actividades económicas regitradas" %}</h3>
+    <hr>
+
+    <div class="jumbotron">
+      <p>{% trans "Puede actualizar las actividades económicas para Colombia (Código CIIU) mediante la carga de un archivo excel." %}</p>
+
+      <ul>
+        <li>{% trans "El archivo no debe tener encabezados." %}</li>
+        <li>{% trans "La primera columna debe contener los códigos de las actividades." %}</li>
+        <li>{% trans "La segunda columna debe contener los nombres de las actividades." %}</li>
+        <li>{% trans "La tercera columna debe contener las tarifas de las actividades, incluyendo el signo %." %}</li>
+      </ul>
+
+      <div class="row">
+        <div class="col-md-10 offset-md-1">
+          <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+            <div class="form-group">{{ form.non_field_errors }}</div>
+          {% endif %}
+
+            <div class="row">
+              <div class="form-group col-md-6">
+                <p>{{ form.excel_file.label_tag }}</p>
+                {% render_field form.excel_file class+="form-control" %}
+                {{ form.excel_file.errors }}
+                <p class="font-weight-light">{{ form.excel_file.help_text }}</p>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-info">{% trans "Cargar" %}</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

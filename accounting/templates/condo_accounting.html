@@ -1,0 +1,20 @@
+{% extends "layout/building_base.html" %}
+
+{% load i18n widget_tweaks %}
+
+{% block title %}{% trans "Contabilidad" %} - {{ building }}{% endblock %}
+
+{% block active_administration %}{% endblock %}
+{% block active_accounting %}active{% endblock %}
+
+{% block side_menu %}
+{% include "inc_accounting_side_menu.html" %}
+{% endblock %}
+
+{% block building_section %}
+<div class="jumbotron">
+  <h3>{% trans "Contabilidad de " %} {{ building.name }}</h3>
+  <hr>
+
+</div>
+{% endblock %}

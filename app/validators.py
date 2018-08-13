@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 
 class FileSizeValidator(BaseValidator):
     """
-    Validate a file size. Size must be given in Kb.
+    Validate file size. Size must be given in Kb.
     """
     message = _('El archivo debe ser máximo de 4MB')
     code = 'file_size'

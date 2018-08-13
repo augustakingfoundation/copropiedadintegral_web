@@ -7,6 +7,7 @@ huey==1.6.1
 hashids==1.2.0
 Pillow==5.1.0
 boto3==1.4.6
+xlrd==1.1.0
 
 # Apps
 django-extensions==2.0.7

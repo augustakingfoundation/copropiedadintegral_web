@@ -9,28 +9,23 @@
     <hr>
 
     <ul class="nav nav-pills nav-fill">
-    <li class="nav-item">
-      <a class="nav-link active" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
-    </li>
+      <li class="nav-item">
+        <a class="nav-link {% block active_administration %}active{% endblock %}" href="{{ building.get_absolute_url }}">{% trans "Administración" %}</a>
+      </li>
 
-    {% comment %}
-    <li class="nav-item">
-      <a class="nav-link" href="#">{% trans "Contabilidad" %}</a>
-    </li>
-    {% endcomment %}
-  </ul>
-
+      <li class="nav-item">
+        <a class="nav-link {% block active_accounting %}{% endblock %}" href="{% url 'accounting:accounting_form' building.id %}">{% trans "Contabilidad" %}</a>
+      </li>
+    </ul>
   <br>
 
   <div class="row">
     <div class="col-sm-12 col-md-2 col-lg-2">
       {% if building.logo %}
       <img class="img-responsive thumbnail" src="{{ building.logo.url }}" alt="{{ building }}" style="width: 160px; height: auto">
-
-      <br>
-      <br>
       {% endif %}
 
+      {% block side_menu %}
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
         <a class="nav-link {% if active_general %}active{% endif %}" href="{{ building.get_absolute_url }}">{% trans "General" %}</a>
         <a class="nav-link {% if active_units %}active{% endif %}" href="{% url 'buildings:units_list' building.id %}">{% trans "Unidades" %}</a>
@@ -42,12 +37,12 @@
         <a class="nav-link {% if active_roles %}active{% endif %}" href="{% url 'buildings:memberships_list' building.id %}">{% trans "Roles" %}</a>
         {% endif %}
       </div>
+      {% endblock side_menu %}
     </div>
 
     <div class="col-sm-12 col-md-10 col-lg-10">
       {% block building_section %}{% endblock %}
     </div>
   </div>
-  
 </section>
 {% endblock %}
