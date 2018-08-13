@@ -149,7 +149,7 @@ msgid ""
 "mediante la carga de un archivo excel."
 msgstr ""
 "You can update the economic activities for Colombia (CIIU code) by "
-""uploading an excel file.
+"uploading an excel file."
 
 #: accounting/templates/economic_activities_form.html:17
 msgid "El archivo no debe tener encabezados."
