@@ -768,6 +768,15 @@ VisitorUpdateFormSet = modelformset_factory(
     can_delete=True,
 )
 
+VehicleUpdateFormSet = modelformset_factory(
+    Vehicle,
+    form=VehicleForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=True,
+)
+
 
 class membershipTransferForm(forms.Form):
     """

@@ -27,7 +27,7 @@
         <form method="post" action="{% url 'buildings:residents_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
-          <div id="id_residents_formset" data-formset-prefix="{{ residents_update_formset.prefix }}" class="ci_UnitFormFormset">
+          <div id="id_residents_formset" data-formset-prefix="{{ residents_update_formset.prefix }}">
 
             {{ residents_update_formset.management_form }}
             <div data-formset-body>
@@ -134,7 +134,7 @@
         <form method="post" action="{% url 'buildings:visitors_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
-          <div id="id_visitors_formset" data-formset-prefix="{{ visitors_update_formset.prefix }}" class="ci_UnitFormFormset">
+          <div id="id_visitors_formset" data-formset-prefix="{{ visitors_update_formset.prefix }}">
             {{ visitors_update_formset.management_form }}
             <div data-formset-body>
             {% for visitor_form_update in visitors_update_formset %}
@@ -222,6 +222,87 @@
         <p>{% trans "La información sobre los visitantes autorizados ya ha sido confirmada." %}</p>
         {% endif %}
 
+        <hr>
+        <strong>{% trans 'Actualización de datos de vehículos registrados.' %}</strong>
+        <hr>
+
+        {% if unit_data.visitors_update %}
+        <form method="post" action="{% url 'buildings:vehicles_update_post' unit_data.unit.id verify_key %}">
+          {% csrf_token %}
+
+          <div id="id_vehicles_formset" data-formset-prefix="{{ vehicles_update_formset.prefix }}">
+            {{ vehicles_update_formset.management_form }}
+            <div data-formset-body>
+            {% for vehicle_form_update in vehicles_update_formset %}
+              {% render_field vehicle_form_update.id %}
+
+              <div data-formset-form>
+                <div class="form-group">
+                  {% render_field vehicle_form_update.brand.label %}
+                  {% render_field vehicle_form_update.brand class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.vehicle_type.label %}
+                  {% render_field vehicle_form_update.vehicle_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.license_plate.label %}
+                  {% render_field vehicle_form_update.license_plate class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.color.label %}
+                  {% render_field vehicle_form_update.color class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.DELETE.label %}
+                  {% render_field vehicle_form_update.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endfor %}
+            </div>
+
+            <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+              <div data-formset-form>
+                <hr>
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.brand.label %}
+                  {% render_field vehicles_update_formset.empty_form.brand class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.vehicle_type.label %}
+                  {% render_field vehicles_update_formset.empty_form.vehicle_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.license_plate.label %}
+                  {% render_field vehicles_update_formset.empty_form.license_plate class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.color.label %}
+                  {% render_field vehicles_update_formset.empty_form.color class+="form-control" %}
+                </div>
+                <hr>
+              </div>
+            {% endescapescript %}
+            </script>
+
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar vehículo" %}</button>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+        </form>
+        {% else %}
+        <p>{% trans "La información sobre los vehículos registrados ya ha sido confirmada." %}</p>
+        {% endif %}
+
       <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
       </div>
     </div>
@@ -239,6 +320,10 @@ $(function() {
     });
 
     $('#id_visitors_formset').formset({
+        animateForms: true
+    });
+
+    $('#id_vehicles_formset').formset({
         animateForms: true
     });
 });

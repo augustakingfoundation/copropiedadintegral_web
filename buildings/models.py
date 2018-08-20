@@ -424,6 +424,11 @@ class UnitDataUpdate(models.Model):
         default=False,
     )
 
+    vehicles_update = models.BooleanField(
+        verbose_name=_('información de vehículos actualizada'),
+        default=False,
+    )
+
     residents_update_key = models.CharField(
         max_length=30,
         null=True,
@@ -455,7 +460,8 @@ class UnitDataUpdate(models.Model):
     def residents_update_enabled(self):
         if (
             self.residents_update or
-            self.visitors_update
+            self.visitors_update or
+            self.vehicles_update
         ):
             return True
 

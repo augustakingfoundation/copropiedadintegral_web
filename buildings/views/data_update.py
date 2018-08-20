@@ -23,6 +23,7 @@ from buildings.forms import LeaseholderUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import ResidentUpdateFormSet
 from buildings.forms import VisitorUpdateFormSet
+from buildings.forms import VehicleUpdateFormSet
 from buildings.models import Building
 from buildings.models import Leaseholder
 from buildings.models import Owner
@@ -30,6 +31,7 @@ from buildings.models import Resident
 from buildings.models import Unit
 from buildings.models import UnitDataUpdate
 from buildings.models import Visitor
+from buildings.models import Vehicle
 from buildings.permissions import BuildingPermissions
 from buildings.utils import process_unit_formset
 
@@ -314,6 +316,7 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
                     # Activate each item for update.
                     unit_data_object.residents_update = True
                     unit_data_object.visitors_update = True
+                    unit_data_object.vehicles_update = True
 
                     # Generate random string to add security to the
                     # residents update link.
@@ -614,10 +617,18 @@ class ResidentsUpdateForm(TemplateView):
             ),
         )
 
+        vehicles_update_formset = VehicleUpdateFormSet(
+            prefix='vehicles',
+            queryset=Vehicle.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
         return self.render_to_response(
             self.get_context_data(
                 residents_update_formset=residents_update_formset,
                 visitors_update_formset=visitors_update_formset,
+                vehicles_update_formset=vehicles_update_formset,
             )
         )
 
@@ -730,8 +741,9 @@ class ResidentsUpdatePost(View):
 
 class VisitorsUpdatePost(View):
     """
+    View to manage the post request for update authorized
+    visitors information.
     """
-
     def get_object(self, queryset=None):
         unit = get_object_or_404(
             Unit,
@@ -781,6 +793,76 @@ class VisitorsUpdatePost(View):
         messages.success(
             self.request,
             _('Gracias por actualizar los datos sobre visitantes autorizados.')
+        )
+
+        if unit_data_object.residents_update_enabled:
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
+
+        return redirect('home')
+
+
+class VehiclesUpdatePost(View):
+    """
+    View to manage the post request for update
+    vehicles information.
+    """
+    def get_object(self, queryset=None):
+        unit = get_object_or_404(
+            Unit,
+            pk=self.kwargs['pk'],
+        )
+
+        data_update = unit.unitdataupdate
+
+        # Using hashids library to decrypt the url verify key.
+        hashids = Hashids(
+            salt=data_update.residents_update_key,
+            min_length=50,
+        )
+
+        verify_key = hashids.decode(self.kwargs['verify_key'])
+
+        # If the decrypted verify key is different to the data update
+        # id, the link is corrupt.
+        if data_update.id != verify_key[0]:
+            raise Http404
+
+        return get_object_or_404(
+            UnitDataUpdate,
+            enable_residents_update=True,
+            pk=verify_key[0],
+        )
+
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        vehicles_update_formset = VehicleUpdateFormSet(
+            self.request.POST,
+            prefix='vehicles',
+            queryset=Vehicle.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        # Disable the vehicles update form.
+        unit_data_object.vehicles_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new vehicles instances for this unit.
+        process_unit_formset(vehicles_update_formset, unit_data_object.unit)
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos sobre vehículos registrados.')
         )
 
         if unit_data_object.residents_update_enabled:
