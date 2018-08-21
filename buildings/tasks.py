@@ -47,6 +47,9 @@ def expire_data_update_links():
         unit_data_object.enable_residents_update = False
         unit_data_object.residents_update = False
         unit_data_object.visitors_update = False
+        unit_data_object.vehicles_update = False
+        unit_data_object.domestic_workers_update = False
+        unit_data_object.pets_update = False
         unit_data_object.save()
 
         logger.info('Update leaseholders link successfully disabled')
