@@ -226,7 +226,7 @@
         <strong>{% trans 'Actualización de datos de vehículos registrados.' %}</strong>
         <hr>
 
-        {% if unit_data.visitors_update %}
+        {% if unit_data.vehicles_update %}
         <form method="post" action="{% url 'buildings:vehicles_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
@@ -307,7 +307,7 @@
         <strong>{% trans 'Actualización de datos de trabajadores domésticos.' %}</strong>
         <hr>
 
-        {% if unit_data.visitors_update %}
+        {% if unit_data.domestic_workers_update %}
         <form method="post" action="{% url 'buildings:domestic_workers_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
@@ -398,7 +398,7 @@
         <strong>{% trans 'Actualización de datos de mascotas.' %}</strong>
         <hr>
 
-        {% if unit_data.visitors_update %}
+        {% if unit_data.pets_update %}
         <form method="post" action="{% url 'buildings:pets_update_post' unit_data.unit.id verify_key %}" enctype="multipart/form-data">
           {% csrf_token %}
 

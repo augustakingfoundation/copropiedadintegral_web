@@ -322,6 +322,7 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
                     unit_data_object.visitors_update = True
                     unit_data_object.vehicles_update = True
                     unit_data_object.domestic_workers_update = True
+                    unit_data_object.pets_update = True
 
                     # Generate random string to add security to the
                     # residents update link.
