@@ -778,6 +778,16 @@ VehicleUpdateFormSet = modelformset_factory(
 )
 
 
+DomesticWorkerUpdateFormSet = modelformset_factory(
+    DomesticWorker,
+    form=DomesticWorkerForm,
+    extra=0,
+    min_num=0,
+    validate_min=False,
+    can_delete=True,
+)
+
+
 class membershipTransferForm(forms.Form):
     """
     Transfer membership form. Only main administrators can

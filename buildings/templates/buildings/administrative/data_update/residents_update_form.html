@@ -303,6 +303,97 @@
         <p>{% trans "La información sobre los vehículos registrados ya ha sido confirmada." %}</p>
         {% endif %}
 
+        <hr>
+        <strong>{% trans 'Actualización de datos de trabajadores domésticos.' %}</strong>
+        <hr>
+
+        {% if unit_data.visitors_update %}
+        <form method="post" action="{% url 'buildings:domestic_workers_update_post' unit_data.unit.id verify_key %}">
+          {% csrf_token %}
+
+          <div id="id_domestic_workers_formset" data-formset-prefix="{{ domestic_workers_update_formset.prefix }}">
+            {{ domestic_workers_update_formset.management_form }}
+            <div data-formset-body>
+            {% for domestic_worker_form_update in domestic_workers_update_formset %}
+              {% render_field domestic_worker_form_update.id %}
+
+              <div data-formset-form>
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.first_name.label %}
+                  {% render_field domestic_worker_form_update.first_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.last_name.label %}
+                  {% render_field domestic_worker_form_update.last_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.document_type.label %}
+                  {% render_field domestic_worker_form_update.document_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.document_number.label %}
+                  {% render_field domestic_worker_form_update.document_number class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.schedule.label %}
+                  {% render_field domestic_worker_form_update.schedule class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.DELETE.label %}
+                  {% render_field domestic_worker_form_update.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endfor %}
+            </div>
+
+            <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+              <div data-formset-form>
+                <hr>
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.first_name.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.first_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.last_name.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.last_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.document_type.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.document_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.document_number.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.document_number class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.schedule.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.schedule class+="form-control" %}
+                </div>
+                <hr>
+              </div>
+            {% endescapescript %}
+            </script>
+
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar trabajador doméstico" %}</button>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+        </form>
+        {% else %}
+        <p>{% trans "La información sobre los trabajadores domésticos ya ha sido confirmada." %}</p>
+        {% endif %}
+
       <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
       </div>
     </div>
@@ -324,6 +415,10 @@ $(function() {
     });
 
     $('#id_vehicles_formset').formset({
+        animateForms: true
+    });
+
+    $('#id_domestic_workers_formset').formset({
         animateForms: true
     });
 });
