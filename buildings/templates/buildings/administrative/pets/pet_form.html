@@ -9,7 +9,7 @@
   <!-- Common header for all templates inside the unit administration module -->
   {% include "buildings/administrative/units/unit_header.html" %}
 
-  <form method="post"  enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data">
   <h3>{% if pet_update %}{% trans "Editar mascota" %} {{ object }}{% else %}{% trans "Registrar mascota" %}{% endif %}</h3>
 
   {% csrf_token %}

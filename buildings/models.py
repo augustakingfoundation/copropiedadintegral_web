@@ -434,6 +434,11 @@ class UnitDataUpdate(models.Model):
         default=False,
     )
 
+    pets_update = models.BooleanField(
+        verbose_name=_('edición de mascotas habilitada'),
+        default=False,
+    )
+
     residents_update_key = models.CharField(
         max_length=30,
         null=True,
@@ -467,7 +472,8 @@ class UnitDataUpdate(models.Model):
             self.residents_update or
             self.visitors_update or
             self.vehicles_update or
-            self.domestic_workers_update
+            self.domestic_workers_update or
+            self.pets_update
         ):
             return True
 
