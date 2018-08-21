@@ -432,6 +432,11 @@
                 <div class="form-group">
                   {% render_field pet_form_update.picture.label %}
                   {% render_field pet_form_update.picture class+="form-control" %}
+
+                  {% if pet_form_update.instance.picture %}
+                    <p>{% trans 'Fotografía actual:' %}</p>
+                    <img class="img-responsive thumbnail" src="{{ pet_form_update.instance.picture.url }}" alt="{{ picture }}" style="width: 300px; height: auto">
+                  {% endif %}
                 </div>
 
                 <div class="form-group">
@@ -476,13 +481,13 @@
             {% endescapescript %}
             </script>
 
-            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar trabajador doméstico" %}</button>
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar mascota" %}</button>
           </div>
 
           <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
         </form>
         {% else %}
-        <p>{% trans "La información sobre los trabajadores domésticos ya ha sido confirmada." %}</p>
+        <p>{% trans "La información sobre las mascotas ya ha sido confirmada." %}</p>
         {% endif %}
 
       <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
@@ -510,6 +515,10 @@ $(function() {
     });
 
     $('#id_domestic_workers_formset').formset({
+        animateForms: true
+    });
+
+    $('#id_pets_formset').formset({
         animateForms: true
     });
 });
