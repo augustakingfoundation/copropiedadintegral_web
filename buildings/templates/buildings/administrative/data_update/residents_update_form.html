@@ -289,6 +289,11 @@
                   {% render_field vehicles_update_formset.empty_form.color.label %}
                   {% render_field vehicles_update_formset.empty_form.color class+="form-control" %}
                 </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.DELETE.label %}
+                  {% render_field vehicles_update_formset.empty_form.DELETE  %}
+                </div>
                 <hr>
               </div>
             {% endescapescript %}
@@ -379,6 +384,11 @@
                 <div class="form-group">
                   {% render_field domestic_workers_update_formset.empty_form.schedule.label %}
                   {% render_field domestic_workers_update_formset.empty_form.schedule class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.DELETE.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.DELETE  %}
                 </div>
                 <hr>
               </div>
@@ -475,6 +485,11 @@
                 <div class="form-group">
                   {% render_field pets_update_formset.empty_form.picture.label %}
                   {% render_field pets_update_formset.empty_form.picture class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pets_update_formset.empty_form.DELETE.label %}
+                  {% render_field pets_update_formset.empty_form.DELETE  %}
                 </div>
                 <hr>
               </div>
