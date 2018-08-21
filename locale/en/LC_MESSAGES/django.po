@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-12 18:39-0500\n"
+"POT-Creation-Date: 2018-08-20 23:02-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,9 +39,9 @@ msgid "Solo se aceptan archivos con extensión xlsx, .xls."
 msgstr "Only files with extension xlsx, .xls are accepted."
 
 #: accounting/models.py:11 buildings/models.py:362 buildings/models.py:375
-#: buildings/models.py:579 buildings/models.py:680 buildings/models.py:805
-#: buildings/models.py:864 buildings/models.py:909 buildings/models.py:969
-#: buildings/models.py:1021 buildings/models.py:1077
+#: buildings/models.py:597 buildings/models.py:698 buildings/models.py:823
+#: buildings/models.py:882 buildings/models.py:927 buildings/models.py:987
+#: buildings/models.py:1039 buildings/models.py:1095
 msgid "unidad"
 msgstr "unit"
 
@@ -89,9 +89,9 @@ msgstr "units"
 msgid "código"
 msgstr "code"
 
-#: accounting/models.py:77 buildings/models.py:114 buildings/models.py:487
-#: buildings/models.py:603 buildings/models.py:703 buildings/models.py:757
-#: buildings/models.py:943 buildings/models.py:1003 buildings/models.py:1050
+#: accounting/models.py:77 buildings/models.py:114 buildings/models.py:505
+#: buildings/models.py:621 buildings/models.py:721 buildings/models.py:775
+#: buildings/models.py:961 buildings/models.py:1021 buildings/models.py:1068
 #: place/models.py:9 place/models.py:34
 msgid "nombre"
 msgstr "name"
@@ -119,6 +119,9 @@ msgstr "Create accounting model for "
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:75
 #: buildings/templates/buildings/administrative/data_update/residents_update_form.html:123
 #: buildings/templates/buildings/administrative/data_update/residents_update_form.html:219
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:300
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:391
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:482
 #: buildings/templates/buildings/administrative/domestic_workers/domestic_worker_form.html:50
 #: buildings/templates/buildings/administrative/parking_lots/parkinglot_form.html:32
 #: buildings/templates/buildings/administrative/pets/pet_form.html:49
@@ -132,12 +135,12 @@ msgstr "Save"
 
 #: accounting/templates/condo_accounting.html:16
 msgid "Contabilidad de "
-msgstr ""
+msgstr "Accounting of "
 
 #: accounting/templates/economic_activities_form.html:5
 #: app/templates/layout/base.html:52
 msgid "Actividades económicas"
-msgstr "Accounting of "
+msgstr "Economic activities "
 
 #: accounting/templates/economic_activities_form.html:10
 msgid "Actividades económicas regitradas"
@@ -148,8 +151,8 @@ msgid ""
 "Puede actualizar las actividades económicas para Colombia (Código CIIU) "
 "mediante la carga de un archivo excel."
 msgstr ""
-"You can update the economic activities for Colombia (CIIU code) by "
-"uploading an excel file."
+"You can update the economic activities for Colombia (CIIU code) by uploading "
+"an excel file."
 
 #: accounting/templates/economic_activities_form.html:17
 msgid "El archivo no debe tener encabezados."
@@ -221,14 +224,14 @@ msgstr "An email address is required"
 msgid "nombres"
 msgstr "name"
 
-#: accounts/models.py:56 buildings/models.py:492 buildings/models.py:608
-#: buildings/models.py:708 buildings/models.py:762 buildings/models.py:948
-#: buildings/models.py:1055
+#: accounts/models.py:56 buildings/models.py:510 buildings/models.py:626
+#: buildings/models.py:726 buildings/models.py:780 buildings/models.py:966
+#: buildings/models.py:1073
 msgid "apellidos"
 msgstr "last name"
 
 #: accounts/models.py:65 buildings/forms.py:521 buildings/models.py:150
-#: buildings/models.py:563 buildings/models.py:669
+#: buildings/models.py:581 buildings/models.py:687
 msgid "correo electrónico"
 msgstr "email"
 
@@ -757,9 +760,9 @@ msgstr "Only can exists one active fiscal reviewer membership."
 msgid "copropiedad"
 msgstr "condo"
 
-#: buildings/models.py:47 buildings/models.py:119 buildings/models.py:497
-#: buildings/models.py:613 buildings/models.py:771 buildings/models.py:953
-#: buildings/models.py:1060
+#: buildings/models.py:47 buildings/models.py:119 buildings/models.py:515
+#: buildings/models.py:631 buildings/models.py:789 buildings/models.py:971
+#: buildings/models.py:1078
 msgid "tipo de documento"
 msgstr "document type"
 
@@ -788,13 +791,13 @@ msgstr "city"
 msgid "dirección"
 msgstr "address"
 
-#: buildings/models.py:155 buildings/models.py:507 buildings/models.py:623
-#: buildings/models.py:713 buildings/models.py:781
+#: buildings/models.py:155 buildings/models.py:525 buildings/models.py:641
+#: buildings/models.py:731 buildings/models.py:799
 msgid "número celular"
 msgstr "mobile phone"
 
-#: buildings/models.py:158 buildings/models.py:510 buildings/models.py:626
-#: buildings/models.py:714 buildings/models.py:784
+#: buildings/models.py:158 buildings/models.py:528 buildings/models.py:644
+#: buildings/models.py:732 buildings/models.py:802
 msgid ""
 "Si desea ingresar más de un número celular, estos deben ir separados por "
 "coma (,)."
@@ -802,9 +805,9 @@ msgstr ""
 "If you want to enter more than one cell number, they must be separated by "
 "comma (,)."
 
-#: buildings/models.py:164 buildings/models.py:187 buildings/models.py:516
-#: buildings/models.py:538 buildings/models.py:631 buildings/models.py:653
-#: buildings/models.py:719 buildings/models.py:789
+#: buildings/models.py:164 buildings/models.py:187 buildings/models.py:534
+#: buildings/models.py:556 buildings/models.py:649 buildings/models.py:671
+#: buildings/models.py:737 buildings/models.py:807
 msgid ""
 "El dato no es válido, sólo debe ingresar números. Si desea ingresar más de "
 "un número celular, estos deben estar separados por coma (,)."
@@ -812,11 +815,11 @@ msgstr ""
 "The data is not valid, you only have to enter numbers. If you want to enter "
 "more than a mobile phone number, these must be separated by a comma (,)."
 
-#: buildings/models.py:179 buildings/models.py:531 buildings/models.py:646
+#: buildings/models.py:179 buildings/models.py:549 buildings/models.py:664
 msgid "número telefónico"
 msgstr "phone number"
 
-#: buildings/models.py:180 buildings/models.py:647
+#: buildings/models.py:180 buildings/models.py:665
 msgid ""
 "Si desea ingresar más de un número telefónico,estos deben ir separados por "
 "coma (,)."
@@ -906,35 +909,49 @@ msgstr "Enable owners data update"
 #: buildings/models.py:418
 #, fuzzy
 #| msgid "Información de actualización unidad"
-msgid "información de residentes actualizada"
+msgid "edición de residentes habilitada"
 msgstr "Unit update info"
 
 #: buildings/models.py:423
 #, fuzzy
 #| msgid "No hay unidades registradas aún."
-msgid "información de visitantes autorizados actualizada"
+msgid "edición de visitantes habilitada"
 msgstr "No units registered yet."
 
-#: buildings/models.py:431
+#: buildings/models.py:428
+msgid "edición de vehículos habilitada"
+msgstr "vehicles edition enabled"
+
+#: buildings/models.py:433
+#, fuzzy
+#| msgid "No hay unidades registradas aún."
+msgid "edición de trabajadores domésticos habilitada"
+msgstr "No units registered yet."
+
+#: buildings/models.py:438
+msgid "edición de mascotas habilitada"
+msgstr "pets edition enabled"
+
+#: buildings/models.py:446
 #, fuzzy
 #| msgid "habilitar actualización de propietarios"
 msgid "clave actualizar residentes"
 msgstr "Enable owners data update"
 
-#: buildings/models.py:474
+#: buildings/models.py:492
 msgid "Información de actualización unidad"
 msgstr "Unit update info"
 
-#: buildings/models.py:475
+#: buildings/models.py:493
 msgid "Información de actualización unidades"
 msgstr "Units update info"
 
-#: buildings/models.py:502 buildings/models.py:618 buildings/models.py:776
-#: buildings/models.py:958 buildings/models.py:1065
+#: buildings/models.py:520 buildings/models.py:636 buildings/models.py:794
+#: buildings/models.py:976 buildings/models.py:1083
 msgid "número de documento"
 msgstr "document number"
 
-#: buildings/models.py:532
+#: buildings/models.py:550
 msgid ""
 "Si desea ingresar más de un número telefónico, estos deben ir separados por "
 "coma (,)."
@@ -942,172 +959,172 @@ msgstr ""
 "If you wish to enter more than one telephone number, these must be separated "
 "by comma (,)."
 
-#: buildings/models.py:555
+#: buildings/models.py:573
 msgid "dirección de correspondencia"
 msgstr "Correspondence Address"
 
-#: buildings/models.py:556
+#: buildings/models.py:574
 msgid ""
 "Dirección alternativa para enviar correspondencia al propietario de la unidad"
 msgstr "Alternative address to send correspondence to the unit owner"
 
-#: buildings/models.py:567
+#: buildings/models.py:585
 #, fuzzy
 #| msgid "propietario"
 msgid "propietario principal"
 msgstr "owner"
 
-#: buildings/models.py:572
+#: buildings/models.py:590
 #, fuzzy
 #| msgid "Coeficiente"
 msgid "es residente"
 msgstr "Coefficient"
 
-#: buildings/models.py:590
+#: buildings/models.py:608
 msgid "propietario"
 msgstr "owner"
 
-#: buildings/models.py:591
+#: buildings/models.py:609
 msgid "propietarios"
 msgstr "owners"
 
-#: buildings/models.py:673
+#: buildings/models.py:691
 #, fuzzy
 #| msgid "arrendatario"
 msgid "arrendatario principal"
 msgstr "leaseholder"
 
-#: buildings/models.py:691
+#: buildings/models.py:709
 msgid "arrendatario"
 msgstr "leaseholder"
 
-#: buildings/models.py:692
+#: buildings/models.py:710
 msgid "arrendatarios"
 msgstr "leaseholders"
 
-#: buildings/models.py:735 buildings/models.py:840
+#: buildings/models.py:753 buildings/models.py:858
 #, fuzzy
 #| msgid "Coeficiente"
 msgid "residente"
 msgstr "Coefficient"
 
-#: buildings/models.py:745
+#: buildings/models.py:763
 msgid "contacto de emergencia"
 msgstr "emergency contact"
 
-#: buildings/models.py:746
+#: buildings/models.py:764
 msgid "contactos de emergencia"
 msgstr "emergency contacts"
 
-#: buildings/models.py:766
+#: buildings/models.py:784
 #, fuzzy
 #| msgid "Fecha de creación"
 msgid "fecha de nacimiento"
 msgstr "Creation date"
 
-#: buildings/models.py:841
+#: buildings/models.py:859
 #, fuzzy
 #| msgid "parentesco"
 msgid "residentes"
 msgstr "relationship"
 
-#: buildings/models.py:853
+#: buildings/models.py:871
 #, fuzzy
 #| msgid "número celular"
 msgid "número"
 msgstr "mobile phone"
 
-#: buildings/models.py:858
+#: buildings/models.py:876
 #, fuzzy
 #| msgid "tipo de documento"
 msgid "tipo de parqueadero"
 msgstr "document type"
 
-#: buildings/models.py:874
+#: buildings/models.py:892
 msgid "parqueadero"
 msgstr "parking lot"
 
-#: buildings/models.py:875
+#: buildings/models.py:893
 msgid "parqueaderos"
 msgstr "parking lots"
 
-#: buildings/models.py:886
+#: buildings/models.py:904
 msgid "marca"
 msgstr "brand"
 
-#: buildings/models.py:891
+#: buildings/models.py:909
 #, fuzzy
 #| msgid "tipo de documento"
 msgid "tipo de vehículo"
 msgstr "document type"
 
-#: buildings/models.py:898
+#: buildings/models.py:916
 msgid "placa"
 msgstr "license_plate"
 
-#: buildings/models.py:903 buildings/models.py:1008
+#: buildings/models.py:921 buildings/models.py:1026
 msgid "color"
 msgstr "color"
 
-#: buildings/models.py:931
+#: buildings/models.py:949
 msgid "vehículo"
 msgstr "vehicle"
 
-#: buildings/models.py:932
+#: buildings/models.py:950
 msgid "vehículos"
 msgstr "vehicles"
 
-#: buildings/models.py:962
+#: buildings/models.py:980
 msgid "horario"
 msgstr "schedule"
 
-#: buildings/models.py:963
+#: buildings/models.py:981
 msgid "Días y horarios en los que va a trabajar."
 msgstr "What days and time are he/she goind to work?"
 
-#: buildings/models.py:980
+#: buildings/models.py:998
 msgid "trabajador doméstico"
 msgstr "domestic worker"
 
-#: buildings/models.py:981
+#: buildings/models.py:999
 msgid "trabajadores domésticos"
 msgstr "domestic workers"
 
-#: buildings/models.py:992
+#: buildings/models.py:1010
 #, fuzzy
 #| msgid "tipo de documento"
 msgid "tipo de mascota"
 msgstr "document type"
 
-#: buildings/models.py:993
+#: buildings/models.py:1011
 msgid "perro, gato, etc."
 msgstr "dog, cat, etc."
 
-#: buildings/models.py:998
+#: buildings/models.py:1016
 msgid "raza"
 msgstr "breed"
 
-#: buildings/models.py:1038
+#: buildings/models.py:1056
 msgid "mascota"
 msgstr "pet"
 
-#: buildings/models.py:1039
+#: buildings/models.py:1057
 msgid "mascotas"
 msgstr "pets"
 
-#: buildings/models.py:1070
+#: buildings/models.py:1088
 msgid "parentesco"
 msgstr "relationship"
 
-#: buildings/models.py:1071
+#: buildings/models.py:1089
 msgid "Amigo, familiar, etc"
 msgstr "Friend, relative, etc."
 
-#: buildings/models.py:1089
+#: buildings/models.py:1107
 msgid "visitante autorizado"
 msgstr "Authorized visitor"
 
-#: buildings/models.py:1090
+#: buildings/models.py:1108
 msgid "visitantes autorizados"
 msgstr "Authorized visitors"
 
@@ -1298,7 +1315,7 @@ msgstr "Password recovery"
 
 #: buildings/templates/buildings/administrative/data_update/leaseholders_update_form.html:68
 #: buildings/templates/buildings/administrative/data_update/owners_update_form.html:73
-#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:225
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:488
 #, fuzzy
 #| msgid ""
 #| "Este link dejará de estar disponible cuando haya diligenciado este "
@@ -1349,6 +1366,51 @@ msgstr "Register unit"
 #: buildings/templates/buildings/administrative/data_update/residents_update_form.html:222
 msgid "La información sobre los visitantes autorizados ya ha sido confirmada."
 msgstr "The information about authorized visitors has already been confirmed."
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:226
+#, fuzzy
+#| msgid "Datos del propietario"
+msgid "Actualización de datos de vehículos registrados."
+msgstr "Owner data"
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:297
+#, fuzzy
+#| msgid "Registrar unidad"
+msgid "Agregar vehículo"
+msgstr "Register unit"
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:303
+#, fuzzy
+#| msgid ""
+#| "La información sobre los visitantes autorizados ya ha sido confirmada."
+msgid "La información sobre los vehículos registrados ya ha sido confirmada."
+msgstr "The information about authorized visitors has already been confirmed."
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:307
+#, fuzzy
+#| msgid "Datos del propietario"
+msgid "Actualización de datos de trabajadores domésticos."
+msgstr "Owner data"
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:388
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:479
+#, fuzzy
+#| msgid "Registrar trabajador doméstico"
+msgid "Agregar trabajador doméstico"
+msgstr "Register domestic workers"
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:394
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:485
+#, fuzzy
+#| msgid "La información sobre los residentes ya ha sido confirmada."
+msgid "La información sobre los trabajadores domésticos ya ha sido confirmada."
+msgstr "The information about residents has already been confirmed."
+
+#: buildings/templates/buildings/administrative/data_update/residents_update_form.html:398
+#, fuzzy
+#| msgid "Datos del propietario"
+msgid "Actualización de datos de mascotas."
+msgstr "Owner data"
 
 #: buildings/templates/buildings/administrative/data_update/update_email.html:16
 #, fuzzy
@@ -2177,13 +2239,13 @@ msgstr "Condo created successfully."
 msgid "Copropiedad actualizada correctamente."
 msgstr "Condo updated correctly."
 
-#: buildings/views/data_update.py:143
+#: buildings/views/data_update.py:149
 #, fuzzy
 #| msgid "Datos del propietario"
 msgid "Actualizacón de datos de propietarios"
 msgstr "Owner data"
 
-#: buildings/views/data_update.py:171
+#: buildings/views/data_update.py:177
 #, fuzzy
 #| msgid ""
 #| "Hemos enviado suficientes correos de confirmación a su correo electrónico "
@@ -2193,13 +2255,13 @@ msgid ""
 "electrónico registrado."
 msgstr "We have sent enough confirmation emails to your email registered."
 
-#: buildings/views/data_update.py:236
+#: buildings/views/data_update.py:242
 #, fuzzy
 #| msgid "Datos del propietario"
 msgid "Actualizacón de datos de arrendatarios"
 msgstr "Owner data"
 
-#: buildings/views/data_update.py:265
+#: buildings/views/data_update.py:271
 #, fuzzy
 #| msgid ""
 #| "Hemos enviado suficientes correos de confirmación a su correo electrónico "
@@ -2209,13 +2271,13 @@ msgid ""
 "electrónico registrado."
 msgstr "We have sent enough confirmation emails to your email registered."
 
-#: buildings/views/data_update.py:329
+#: buildings/views/data_update.py:337
 #, fuzzy
 #| msgid "Datos del propietario"
 msgid "Actualizacón de datos de residentes"
 msgstr "Owner data"
 
-#: buildings/views/data_update.py:380
+#: buildings/views/data_update.py:388
 #, fuzzy
 #| msgid ""
 #| "Hemos enviado suficientes correos de confirmación a su correo electrónico "
@@ -2225,26 +2287,44 @@ msgid ""
 "electrónico registrado."
 msgstr "We have sent enough confirmation emails to your email registered."
 
-#: buildings/views/data_update.py:465 buildings/views/data_update.py:552
+#: buildings/views/data_update.py:473 buildings/views/data_update.py:560
 msgid "Gracias por actualizar sus datos."
 msgstr "Thanks for updating your data."
 
-#: buildings/views/data_update.py:654
+#: buildings/views/data_update.py:686
 #, fuzzy
 #| msgid "Gracias por actualizar sus datos."
 msgid "Gracias por actualizar los datos."
 msgstr "Thanks for updating your data."
 
-#: buildings/views/data_update.py:714
+#: buildings/views/data_update.py:752
 #, fuzzy
 #| msgid "Gracias por actualizar sus datos."
 msgid "Gracias por actualizar los datos de los residentes."
 msgstr "Thanks for updating your data."
 
-#: buildings/views/data_update.py:783
+#: buildings/views/data_update.py:795
 #, fuzzy
 #| msgid "Gracias por actualizar sus datos."
 msgid "Gracias por actualizar los datos sobre visitantes autorizados."
+msgstr "Thanks for updating your data."
+
+#: buildings/views/data_update.py:838
+#, fuzzy
+#| msgid "Gracias por actualizar sus datos."
+msgid "Gracias por actualizar los datos sobre vehículos registrados."
+msgstr "Thanks for updating your data."
+
+#: buildings/views/data_update.py:885
+#, fuzzy
+#| msgid "Gracias por actualizar sus datos."
+msgid "Gracias por actualizar los datos sobre trabajadores domésticos."
+msgstr "Thanks for updating your data."
+
+#: buildings/views/data_update.py:932
+#, fuzzy
+#| msgid "Gracias por actualizar sus datos."
+msgid "Gracias por actualizar los datos sobre las mascotas."
 msgstr "Thanks for updating your data."
 
 #: buildings/views/domestic_workers.py:58

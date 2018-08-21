@@ -415,12 +415,27 @@ class UnitDataUpdate(models.Model):
     )
 
     residents_update = models.BooleanField(
-        verbose_name=_('información de residentes actualizada'),
+        verbose_name=_('edición de residentes habilitada'),
         default=False,
     )
 
     visitors_update = models.BooleanField(
-        verbose_name=_('información de visitantes autorizados actualizada'),
+        verbose_name=_('edición de visitantes habilitada'),
+        default=False,
+    )
+
+    vehicles_update = models.BooleanField(
+        verbose_name=_('edición de vehículos habilitada'),
+        default=False,
+    )
+
+    domestic_workers_update = models.BooleanField(
+        verbose_name=_('edición de trabajadores domésticos habilitada'),
+        default=False,
+    )
+
+    pets_update = models.BooleanField(
+        verbose_name=_('edición de mascotas habilitada'),
         default=False,
     )
 
@@ -455,7 +470,10 @@ class UnitDataUpdate(models.Model):
     def residents_update_enabled(self):
         if (
             self.residents_update or
-            self.visitors_update
+            self.visitors_update or
+            self.vehicles_update or
+            self.domestic_workers_update or
+            self.pets_update
         ):
             return True
 

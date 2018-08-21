@@ -42,6 +42,9 @@ from buildings.views.data_update import LeaseholdersUpdateForm
 from buildings.views.data_update import ResidentsUpdateForm
 from buildings.views.data_update import ResidentsUpdatePost
 from buildings.views.data_update import VisitorsUpdatePost
+from buildings.views.data_update import VehiclesUpdatePost
+from buildings.views.data_update import DomesticWorkersUpdatePost
+from buildings.views.data_update import PetsUpdatePost
 
 
 urlpatterns = [
@@ -381,5 +384,29 @@ urlpatterns = [
         r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/visitantes/post/$',
         VisitorsUpdatePost.as_view(),
         name='visitors_update_post',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update vehicles form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/vehiculos/post/$',
+        VehiclesUpdatePost.as_view(),
+        name='vehicles_update_post',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update domestic workers form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/trabajadores-domesticos/post/$',
+        DomesticWorkersUpdatePost.as_view(),
+        name='domestic_workers_update_post',
+    ),
+
+    # pk = Unit update object id.
+    # verify_key = Encrypted key to verify update domestic workers form.
+    url(
+        r'^(?P<pk>\d+)/(?P<verify_key>[0-9a-zA-Z]{50})/actualizacion-de-datos/mascotas/post/$',
+        PetsUpdatePost.as_view(),
+        name='pets_update_post',
     ),
 ]

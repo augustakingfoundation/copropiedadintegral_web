@@ -23,6 +23,9 @@ from buildings.forms import LeaseholderUpdateFormSet
 from buildings.forms import OwnerUpdateFormSet
 from buildings.forms import ResidentUpdateFormSet
 from buildings.forms import VisitorUpdateFormSet
+from buildings.forms import VehicleUpdateFormSet
+from buildings.forms import DomesticWorkerUpdateFormSet
+from buildings.forms import PetUpdateFormSet
 from buildings.models import Building
 from buildings.models import Leaseholder
 from buildings.models import Owner
@@ -30,6 +33,9 @@ from buildings.models import Resident
 from buildings.models import Unit
 from buildings.models import UnitDataUpdate
 from buildings.models import Visitor
+from buildings.models import Vehicle
+from buildings.models import DomesticWorker
+from buildings.models import Pet
 from buildings.permissions import BuildingPermissions
 from buildings.utils import process_unit_formset
 
@@ -314,6 +320,9 @@ class RequestResidentsUpdateView(CustomUserMixin, View):
                     # Activate each item for update.
                     unit_data_object.residents_update = True
                     unit_data_object.visitors_update = True
+                    unit_data_object.vehicles_update = True
+                    unit_data_object.domestic_workers_update = True
+                    unit_data_object.pets_update = True
 
                     # Generate random string to add security to the
                     # residents update link.
@@ -614,10 +623,34 @@ class ResidentsUpdateForm(TemplateView):
             ),
         )
 
+        vehicles_update_formset = VehicleUpdateFormSet(
+            prefix='vehicles',
+            queryset=Vehicle.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        domestic_workers_update_formset = DomesticWorkerUpdateFormSet(
+            prefix='domestic_workers',
+            queryset=DomesticWorker.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
+        pets_update_formset = PetUpdateFormSet(
+            prefix='pets',
+            queryset=Pet.objects.filter(
+                unit=self.get_object().unit,
+            ),
+        )
+
         return self.render_to_response(
             self.get_context_data(
                 residents_update_formset=residents_update_formset,
                 visitors_update_formset=visitors_update_formset,
+                vehicles_update_formset=vehicles_update_formset,
+                domestic_workers_update_formset=domestic_workers_update_formset,
+                pets_update_formset=pets_update_formset,
             )
         )
 
@@ -657,12 +690,12 @@ class ResidentsUpdateForm(TemplateView):
         return redirect('home')
 
 
-class ResidentsUpdatePost(View):
+class ItemUpdatePost(View):
     """
-    View to manage the post request for update residents
-    information.
+    Base view to manage all post request in the unit
+    data update form. Post views for each item
+    is inherited from here.
     """
-
     def get_object(self, queryset=None):
         unit = get_object_or_404(
             Unit,
@@ -690,6 +723,12 @@ class ResidentsUpdatePost(View):
             pk=verify_key[0],
         )
 
+
+class ResidentsUpdatePost(ItemUpdatePost):
+    """
+    View to manage the post request for update residents
+    information.
+    """
     @transaction.atomic
     def post(self, request, **kwargs):
         unit_data_object = self.get_object()
@@ -728,37 +767,11 @@ class ResidentsUpdatePost(View):
         return redirect('home')
 
 
-class VisitorsUpdatePost(View):
+class VisitorsUpdatePost(ItemUpdatePost):
     """
+    View to manage the post request for update authorized
+    visitors information.
     """
-
-    def get_object(self, queryset=None):
-        unit = get_object_or_404(
-            Unit,
-            pk=self.kwargs['pk'],
-        )
-
-        data_update = unit.unitdataupdate
-
-        # Using hashids library to decrypt the url verify key.
-        hashids = Hashids(
-            salt=data_update.residents_update_key,
-            min_length=50,
-        )
-
-        verify_key = hashids.decode(self.kwargs['verify_key'])
-
-        # If the decrypted verify key is different to the data update
-        # id, the link is corrupt.
-        if data_update.id != verify_key[0]:
-            raise Http404
-
-        return get_object_or_404(
-            UnitDataUpdate,
-            enable_residents_update=True,
-            pk=verify_key[0],
-        )
-
     @transaction.atomic
     def post(self, request, **kwargs):
         unit_data_object = self.get_object()
@@ -781,6 +794,143 @@ class VisitorsUpdatePost(View):
         messages.success(
             self.request,
             _('Gracias por actualizar los datos sobre visitantes autorizados.')
+        )
+
+        if unit_data_object.residents_update_enabled:
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
+
+        return redirect('home')
+
+
+class VehiclesUpdatePost(ItemUpdatePost):
+    """
+    View to manage the post request for update
+    vehicles information.
+    """
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        vehicles_update_formset = VehicleUpdateFormSet(
+            self.request.POST,
+            prefix='vehicles',
+            queryset=Vehicle.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        # Disable the vehicles update form.
+        unit_data_object.vehicles_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new vehicles instances for this unit.
+        process_unit_formset(vehicles_update_formset, unit_data_object.unit)
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos sobre vehículos registrados.')
+        )
+
+        if unit_data_object.residents_update_enabled:
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
+
+        return redirect('home')
+
+
+class DomesticWorkersUpdatePost(ItemUpdatePost):
+    """
+    View to manage the post request for update
+    domestic workers information.
+    """
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        domestic_workers_update_formset = DomesticWorkerUpdateFormSet(
+            self.request.POST,
+            prefix='domestic_workers',
+            queryset=DomesticWorker.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        # Disable the domestic workers update form.
+        unit_data_object.domestic_workers_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new domestic workers
+        # instances for this unit.
+        process_unit_formset(
+            domestic_workers_update_formset,
+            unit_data_object.unit,
+        )
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos sobre trabajadores domésticos.')
+        )
+
+        if unit_data_object.residents_update_enabled:
+            return redirect(
+                'buildings:residents_update_form',
+                self.get_object().unit.id,
+                self.kwargs['verify_key'],
+            )
+
+        # Remove edit permission.
+        unit_data_object.enable_residents_update = False
+        unit_data_object.save()
+
+        return redirect('home')
+
+
+class PetsUpdatePost(ItemUpdatePost):
+    """
+    View to manage the post request for update
+    pets information.
+    """
+    @transaction.atomic
+    def post(self, request, **kwargs):
+        unit_data_object = self.get_object()
+
+        pets_update_formset = PetUpdateFormSet(
+            self.request.POST,
+            prefix='pets',
+            queryset=Pet.objects.filter(
+                unit=unit_data_object.unit,
+            ),
+        )
+
+        # Disable the domestic workers update form.
+        unit_data_object.pets_update = False
+        unit_data_object.save()
+
+        # Update, delete or create new pets
+        # instances for this unit.
+        process_unit_formset(
+            pets_update_formset,
+            unit_data_object.unit,
+        )
+
+        messages.success(
+            self.request,
+            _('Gracias por actualizar los datos sobre las mascotas.')
         )
 
         if unit_data_object.residents_update_enabled:

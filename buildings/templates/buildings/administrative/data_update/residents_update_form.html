@@ -27,7 +27,7 @@
         <form method="post" action="{% url 'buildings:residents_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
-          <div id="id_residents_formset" data-formset-prefix="{{ residents_update_formset.prefix }}" class="ci_UnitFormFormset">
+          <div id="id_residents_formset" data-formset-prefix="{{ residents_update_formset.prefix }}">
 
             {{ residents_update_formset.management_form }}
             <div data-formset-body>
@@ -134,7 +134,7 @@
         <form method="post" action="{% url 'buildings:visitors_update_post' unit_data.unit.id verify_key %}">
           {% csrf_token %}
 
-          <div id="id_visitors_formset" data-formset-prefix="{{ visitors_update_formset.prefix }}" class="ci_UnitFormFormset">
+          <div id="id_visitors_formset" data-formset-prefix="{{ visitors_update_formset.prefix }}">
             {{ visitors_update_formset.management_form }}
             <div data-formset-body>
             {% for visitor_form_update in visitors_update_formset %}
@@ -222,6 +222,274 @@
         <p>{% trans "La información sobre los visitantes autorizados ya ha sido confirmada." %}</p>
         {% endif %}
 
+        <hr>
+        <strong>{% trans 'Actualización de datos de vehículos registrados.' %}</strong>
+        <hr>
+
+        {% if unit_data.vehicles_update %}
+        <form method="post" action="{% url 'buildings:vehicles_update_post' unit_data.unit.id verify_key %}">
+          {% csrf_token %}
+
+          <div id="id_vehicles_formset" data-formset-prefix="{{ vehicles_update_formset.prefix }}">
+            {{ vehicles_update_formset.management_form }}
+            <div data-formset-body>
+            {% for vehicle_form_update in vehicles_update_formset %}
+              {% render_field vehicle_form_update.id %}
+
+              <div data-formset-form>
+                <div class="form-group">
+                  {% render_field vehicle_form_update.brand.label %}
+                  {% render_field vehicle_form_update.brand class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.vehicle_type.label %}
+                  {% render_field vehicle_form_update.vehicle_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.license_plate.label %}
+                  {% render_field vehicle_form_update.license_plate class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.color.label %}
+                  {% render_field vehicle_form_update.color class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicle_form_update.DELETE.label %}
+                  {% render_field vehicle_form_update.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endfor %}
+            </div>
+
+            <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+              <div data-formset-form>
+                <hr>
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.brand.label %}
+                  {% render_field vehicles_update_formset.empty_form.brand class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.vehicle_type.label %}
+                  {% render_field vehicles_update_formset.empty_form.vehicle_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.license_plate.label %}
+                  {% render_field vehicles_update_formset.empty_form.license_plate class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field vehicles_update_formset.empty_form.color.label %}
+                  {% render_field vehicles_update_formset.empty_form.color class+="form-control" %}
+                </div>
+                <hr>
+              </div>
+            {% endescapescript %}
+            </script>
+
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar vehículo" %}</button>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+        </form>
+        {% else %}
+        <p>{% trans "La información sobre los vehículos registrados ya ha sido confirmada." %}</p>
+        {% endif %}
+
+        <hr>
+        <strong>{% trans 'Actualización de datos de trabajadores domésticos.' %}</strong>
+        <hr>
+
+        {% if unit_data.domestic_workers_update %}
+        <form method="post" action="{% url 'buildings:domestic_workers_update_post' unit_data.unit.id verify_key %}">
+          {% csrf_token %}
+
+          <div id="id_domestic_workers_formset" data-formset-prefix="{{ domestic_workers_update_formset.prefix }}">
+            {{ domestic_workers_update_formset.management_form }}
+            <div data-formset-body>
+            {% for domestic_worker_form_update in domestic_workers_update_formset %}
+              {% render_field domestic_worker_form_update.id %}
+
+              <div data-formset-form>
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.first_name.label %}
+                  {% render_field domestic_worker_form_update.first_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.last_name.label %}
+                  {% render_field domestic_worker_form_update.last_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.document_type.label %}
+                  {% render_field domestic_worker_form_update.document_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.document_number.label %}
+                  {% render_field domestic_worker_form_update.document_number class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.schedule.label %}
+                  {% render_field domestic_worker_form_update.schedule class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_worker_form_update.DELETE.label %}
+                  {% render_field domestic_worker_form_update.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endfor %}
+            </div>
+
+            <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+              <div data-formset-form>
+                <hr>
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.first_name.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.first_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.last_name.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.last_name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.document_type.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.document_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.document_number.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.document_number class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field domestic_workers_update_formset.empty_form.schedule.label %}
+                  {% render_field domestic_workers_update_formset.empty_form.schedule class+="form-control" %}
+                </div>
+                <hr>
+              </div>
+            {% endescapescript %}
+            </script>
+
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar trabajador doméstico" %}</button>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+        </form>
+        {% else %}
+        <p>{% trans "La información sobre los trabajadores domésticos ya ha sido confirmada." %}</p>
+        {% endif %}
+
+        <hr>
+        <strong>{% trans 'Actualización de datos de mascotas.' %}</strong>
+        <hr>
+
+        {% if unit_data.pets_update %}
+        <form method="post" action="{% url 'buildings:pets_update_post' unit_data.unit.id verify_key %}" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div id="id_pets_formset" data-formset-prefix="{{ pets_update_formset.prefix }}">
+            {{ pets_update_formset.management_form }}
+            <div data-formset-body>
+            {% for pet_form_update in pets_update_formset %}
+              {% render_field pet_form_update.id %}
+
+              <div data-formset-form>
+                <div class="form-group">
+                  {% render_field pet_form_update.pet_type.label %}
+                  {% render_field pet_form_update.pet_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pet_form_update.breed.label %}
+                  {% render_field pet_form_update.breed class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pet_form_update.name.label %}
+                  {% render_field pet_form_update.name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pet_form_update.color.label %}
+                  {% render_field pet_form_update.color class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pet_form_update.picture.label %}
+                  {% render_field pet_form_update.picture class+="form-control" %}
+
+                  {% if pet_form_update.instance.picture %}
+                    <p>{% trans 'Fotografía actual:' %}</p>
+                    <img class="img-responsive thumbnail" src="{{ pet_form_update.instance.picture.url }}" alt="{{ picture }}" style="width: 300px; height: auto">
+                  {% endif %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pet_form_update.DELETE.label %}
+                  {% render_field pet_form_update.DELETE  %}
+                </div>
+                <hr>
+              </div>
+            {% endfor %}
+            </div>
+
+            <script type="form-template" data-formset-empty-form>
+            {% escapescript %}
+              <div data-formset-form>
+                <hr>
+                <div class="form-group">
+                  {% render_field pets_update_formset.empty_form.pet_type.label %}
+                  {% render_field pets_update_formset.empty_form.pet_type class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pets_update_formset.empty_form.breed.label %}
+                  {% render_field pets_update_formset.empty_form.breed class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pets_update_formset.empty_form.name.label %}
+                  {% render_field pets_update_formset.empty_form.name class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pets_update_formset.empty_form.color.label %}
+                  {% render_field pets_update_formset.empty_form.color class+="form-control" %}
+                </div>
+
+                <div class="form-group">
+                  {% render_field pets_update_formset.empty_form.picture.label %}
+                  {% render_field pets_update_formset.empty_form.picture class+="form-control" %}
+                </div>
+                <hr>
+              </div>
+            {% endescapescript %}
+            </script>
+
+            <button class="btn btn-outline-success float-right" type="button" data-formset-add>{% trans "Agregar mascota" %}</button>
+          </div>
+
+          <button type="submit" class="btn btn-outline-info btn-block">{% trans "Guardar" %}</button>
+        </form>
+        {% else %}
+        <p>{% trans "La información sobre las mascotas ya ha sido confirmada." %}</p>
+        {% endif %}
+
       <p>{% trans 'Este link dejará de estar disponible cuando haya diligenciado este formulario o 30 días después de recibir el correo de solicitud de actualización de datos.' %}</p>
       </div>
     </div>
@@ -239,6 +507,18 @@ $(function() {
     });
 
     $('#id_visitors_formset').formset({
+        animateForms: true
+    });
+
+    $('#id_vehicles_formset').formset({
+        animateForms: true
+    });
+
+    $('#id_domestic_workers_formset').formset({
+        animateForms: true
+    });
+
+    $('#id_pets_formset').formset({
         animateForms: true
     });
 });
