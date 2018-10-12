@@ -19,7 +19,7 @@ urlpatterns = [
     ),
 
     url(
-        r'^mierda/(?P<building_id>\d+)/$',
+        r'^contabilidad/(?P<building_id>\d+)/$',
         CondoAccountingView.as_view(),
         name='condo_accounting',
     ),
